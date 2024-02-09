@@ -1,0 +1,53 @@
+import { Divider, Grid, List, ListItemButton } from "@mui/material";
+import { Box } from "@mui/system";
+import { useSideBarHook } from "../../hooks/sideBar.hook";
+import { SentenceRoutes } from "../../../../6.shared";
+import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
+import { IQuantity, useSentenceStore } from "../../../../5.entities";
+export const SentenceSideBar = () => {
+  const { activeSection } = useSideBarHook();
+  const sentenceStore = useSentenceStore();
+  const navigate = useNavigate();
+  const routes = useMemo(
+    () =>
+      Object.keys(SentenceRoutes).filter(
+        (_, i) => i !== 0 && i !== Object.keys(SentenceRoutes).length - 1
+      ),
+    []
+  );
+  return (
+    <Box
+      width={240}
+      borderRight="1px solid #3c3b3b"
+      height="calc(100vh - 64px)"
+      sx={{ bgcolor: "background.default", color: "text.primary" }}
+    >
+      <Divider />
+      <List component="nav">
+        {routes.map((route) => (
+          <ListItemButton
+            key={route}
+            sx={{ px: 3 }}
+            selected={activeSection(route)}
+            onClick={() => {
+              navigate(route + "/1");
+            }}
+          >
+            <Grid container>
+              <Grid item xs={4} display="flex" justifyContent="start">
+                {route}
+              </Grid>
+              <Grid item xs={4} display="flex" justifyContent="end">
+                -
+              </Grid>
+              <Grid item xs={4} display="flex" justifyContent="end">
+                {sentenceStore.quantity[route as keyof IQuantity]}
+              </Grid>
+            </Grid>
+          </ListItemButton>
+        ))}
+      </List>
+    </Box>
+  );
+};
