@@ -6,11 +6,11 @@ export enum SentenceRoutes {
   wrong = "/admin/sentence/wrong/:offset",
   done = "/admin/sentence/done/:offset",
   mock = "/admin/sentence/mock/:offset",
-  item = "/admin/sentence/:id",
 }
+export const ProperNounsRoute = "/admin/proper_nouns/:offset";
 
 export enum UsersRoutes {
-  main = "/admin/users",
+  main = "/admin/users/:offset",
 }
 
 export enum GlobalVariablesRoutes {

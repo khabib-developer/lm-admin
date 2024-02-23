@@ -2,6 +2,7 @@ import {
   ChatRoutes,
   GlobalVariablesRoutes,
   PaymentRoutes,
+  ProperNounsRoute,
   SentenceRoutes,
   TermsRoute,
   UsersRoutes,
@@ -9,11 +10,15 @@ import {
 
 export const navItems = [
   {
-    url: SentenceRoutes.main,
+    url: SentenceRoutes.new.replace(":offset", "1"),
     name: "Sentence",
   },
   {
-    url: UsersRoutes.main,
+    url: ProperNounsRoute.replace(":offset", "1"),
+    name: "Proper Nouns",
+  },
+  {
+    url: UsersRoutes.main.replace(":offset", "1"),
     name: "Users",
   },
   {

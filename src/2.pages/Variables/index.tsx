@@ -1,3 +1,10 @@
+import { Box } from "@mui/material";
+import { GlobalVariablesComponent } from "../../5.entities";
+
 export const GlobalVariables = () => {
-  return <div>Global variables</div>;
+  return (
+    <Box>
+      <GlobalVariablesComponent />
+    </Box>
+  );
 };

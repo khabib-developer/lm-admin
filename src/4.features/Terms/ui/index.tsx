@@ -4,14 +4,25 @@ import "@uiw/react-md-editor/markdown-editor.css";
 // No import is required in the WebPack.
 import "@uiw/react-markdown-preview/markdown.css";
 import { useTermsStore } from "../model/terms.store";
-import { useState } from "react";
+import { Button, Stack } from "@mui/material";
+import { useTermsHook } from "../hooks/terms.hook";
 
 export const TermsCRUD = () => {
   const termsStore = useTermsStore();
-  const [value, setValue] = useState<string>(termsStore.terms);
+  const { updateTerms } = useTermsHook();
+
   return (
     <div data-color-mode="dark">
-      <MDEditor height={500} value={value} onChange={setValue as any} />
+      <MDEditor
+        height={"calc(100vh - 164.5px)"}
+        value={termsStore.terms}
+        onChange={(event) => termsStore.setTerms(event as string)}
+      />
+      <Stack direction="row" pt={1} width="100%" justifyContent="end">
+        <Button onClick={updateTerms} variant="contained">
+          Update
+        </Button>
+      </Stack>
     </div>
   );
 };

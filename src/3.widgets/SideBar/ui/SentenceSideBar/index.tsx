@@ -4,16 +4,17 @@ import { useSideBarHook } from "../../hooks/sideBar.hook";
 import { SentenceRoutes } from "../../../../6.shared";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
-import { IQuantity, useSentenceStore } from "../../../../5.entities";
+import {
+  IQuantity,
+  sentenceStatus,
+  useSentenceStore,
+} from "../../../../5.entities";
 export const SentenceSideBar = () => {
   const { activeSection } = useSideBarHook();
   const sentenceStore = useSentenceStore();
   const navigate = useNavigate();
   const routes = useMemo(
-    () =>
-      Object.keys(SentenceRoutes).filter(
-        (_, i) => i !== 0 && i !== Object.keys(SentenceRoutes).length - 1
-      ),
+    () => Object.keys(SentenceRoutes).filter((_, i) => i !== 0),
     []
   );
   return (
@@ -42,7 +43,13 @@ export const SentenceSideBar = () => {
                 -
               </Grid>
               <Grid item xs={4} display="flex" justifyContent="end">
-                {sentenceStore.quantity[route as keyof IQuantity]}
+                {
+                  sentenceStore.quantity[
+                    sentenceStatus[
+                      route as keyof typeof sentenceStatus
+                    ] as keyof IQuantity
+                  ]
+                }
               </Grid>
             </Grid>
           </ListItemButton>

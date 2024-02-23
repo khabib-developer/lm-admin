@@ -5,3 +5,6 @@ export * from "./ui/createSentence";
 export * from "./ui/exportSentences";
 export * from "./ui/uploadSentence";
 export * from "./hooks/sentence.hook";
+export * from "./ui/sortSentence";
+export * from "./ui/deleteSentence";
+export * from "./ui/SearchSentence";

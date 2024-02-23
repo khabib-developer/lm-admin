@@ -7,12 +7,12 @@ export const useAuthHook = () => {
   const navigate = useNavigate();
 
   const check = useCallback(async () => {
-    const user = await fetchData(`/auth/`, "GET", null, {}, false, false);
+    const user = await fetchData(`/auth/user/`, "GET", null, {}, false, false);
     if (!user) return navigate(AUTH_URL, { replace: true });
     return user;
   }, []);
   const login = useCallback(async () => {
-    const user = await fetchData(`/auth/`, "POST", {
+    const user = await fetchData(`/auth/user/`, "POST", {
       username: "admin",
       password: 12,
     });

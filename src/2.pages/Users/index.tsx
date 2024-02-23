@@ -1,5 +1,5 @@
-import { Box } from "@mui/system";
+import { UsersInformation } from "../../4.features";
 
 export const Users = () => {
-  return <Box>Users</Box>;
+  return <UsersInformation />;
 };

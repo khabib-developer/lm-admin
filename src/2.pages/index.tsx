@@ -3,6 +3,7 @@ import {
   ChatRoutes,
   GlobalVariablesRoutes,
   PaymentRoutes,
+  ProperNounsRoute,
   SentenceRoutes,
   TermsRoute,
   UsersRoutes,
@@ -12,8 +13,9 @@ import { Users } from "./Users";
 import { GlobalVariables } from "./Variables";
 import { Chat } from "./Chat";
 import { Payment } from "./Payment";
-import { SentencePageItem, SentenceTable } from "../4.features";
+import { SentenceTable } from "../4.features";
 import { Terms } from "./Terms";
+import { ProperNounsPage } from "./ProperNouns";
 
 export const Pages = () => {
   return (
@@ -25,8 +27,8 @@ export const Pages = () => {
         <Route path={SentenceRoutes.wrong} element={<SentenceTable />} />
         <Route path={SentenceRoutes.waiting} element={<SentenceTable />} />
         <Route path={SentenceRoutes.mock} element={<SentenceTable />} />
-        <Route path={SentenceRoutes.item} element={<SentencePageItem />} />
       </Route>
+      <Route path={ProperNounsRoute} element={<ProperNounsPage />}></Route>
       <Route path={UsersRoutes.main} element={<Users />}></Route>
       <Route
         path={GlobalVariablesRoutes.main}
@@ -35,7 +37,12 @@ export const Pages = () => {
       <Route path={PaymentRoutes.main} element={<Payment />}></Route>
       <Route path={ChatRoutes.main} element={<Chat />}></Route>
       <Route path={TermsRoute} element={<Terms />}></Route>
-      <Route path="*" element={<Navigate to={SentenceRoutes.new} replace />} />
+      <Route
+        path="*"
+        element={
+          <Navigate to={SentenceRoutes.new.replace(":offset", "1")} replace />
+        }
+      />
     </Routes>
   );
 };

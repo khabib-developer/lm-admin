@@ -1,28 +1,45 @@
+import { IUser } from "../../User/types";
+
 export enum sentenceStatus {
   new = "new",
   processing = "processing",
-  waiting = "waiting",
+  waiting = "done_waiting",
   wrong = "wrong",
   done = "done",
   mock = "mock",
 }
 
+export enum sortSentence {
+  "Created" = "created_at",
+  "actual" = "actual_number",
+  "wrong" = "wrong_number",
+  "Mock" = "cheater_mock_count",
+  "Public" = "cheater_public_count",
+}
+
+export type typeOfSortSentence =
+  (typeof sortSentence)[keyof typeof sortSentence];
+
 export interface ISentence {
   id: number;
+  cheater_mock_count: number;
+  cheater_public_count: number;
   old_value: string;
   new_value: string;
   actual_number: number;
-  status: keyof typeof sentenceStatus;
+  status: (typeof sentenceStatus)[keyof typeof sentenceStatus];
   is_mock: boolean;
   reviewer_time?: Date;
+  on_review: boolean;
   has_proper_noun: boolean;
+  done_waiting_date: Date;
   created_at: Date;
   updated_at: Date;
-  reviewer_by?: number;
+  reviewer_by?: number[];
 }
 
 export interface ICreateDataset {
-  old_value: string;
+  text: string;
   is_mock: boolean;
 }
 
@@ -33,4 +50,15 @@ export interface IQuantity {
   [sentenceStatus.wrong]: number;
   [sentenceStatus.done]: number;
   [sentenceStatus.mock]: number;
+}
+
+export interface IHistory {
+  id: number;
+  sentence: number;
+  user: {
+    id: number;
+    username: string;
+  };
+  user_text: string;
+  created_at: string;
 }

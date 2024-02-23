@@ -10,15 +10,10 @@ export const AuthProvider = ({ children }: TComponent) => {
   const auth = useAuthHook();
   useEffect(() => {
     (async function () {
-      // await auth.login();
+      await auth.login();
       setPermission(await auth.check());
     })();
   }, []);
-  if (permission)
-    return (
-      <Box sx={{ bgcolor: "background.default", height: "calc(100vh-64px)" }}>
-        {children}
-      </Box>
-    );
+  if (permission) return <>{children}</>;
   return <></>;
 };

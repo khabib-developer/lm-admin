@@ -2,7 +2,7 @@ import { Box, ThemeProvider, createTheme } from "@mui/material";
 import { blueGrey, grey, indigo, teal } from "@mui/material/colors";
 import React from "react";
 import { Loading, SnackbarError, SnackbarInfo } from "../../6.shared";
-import { Header } from "../../3.widgets";
+import { Header, Modals } from "../../3.widgets";
 import { RoutersProvider } from "./router.provider";
 export type TComponent = {
   children: React.ReactNode;
@@ -51,6 +51,7 @@ export const UiProvider = ({ children }: TComponent) => {
           color="text.primary"
         >
           {children}
+          <Modals />
         </Box>
       </RoutersProvider>
     </ThemeProvider>

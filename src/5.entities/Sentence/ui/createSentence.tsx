@@ -32,7 +32,7 @@ export const CreateSentence = () => {
   };
 
   const handleSubmit = async () => {
-    if (text.trim() !== "") await hooks.create({ old_value: text, is_mock });
+    if (text.trim() !== "") await hooks.create({ text, is_mock });
     setText("");
     setOpen(false);
   };
@@ -47,8 +47,10 @@ export const CreateSentence = () => {
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle>Create a new sentence</DialogTitle>
-        <DialogContent>
+        <DialogTitle sx={{ bgcolor: "background.default" }}>
+          Create a new sentence
+        </DialogTitle>
+        <DialogContent sx={{ bgcolor: "background.default" }}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <textarea
               value={text}
@@ -63,7 +65,7 @@ export const CreateSentence = () => {
             alignItems="center"
             pt={3}
           >
-            <Typography>Mock?</Typography>
+            <Typography>Mock</Typography>
             <Switch
               checked={is_mock}
               onChange={handleChange}
@@ -71,9 +73,13 @@ export const CreateSentence = () => {
             />
           </Box>
         </DialogContent>
-        <DialogActions sx={{ px: 2 }}>
-          <Button onClick={handleSubmit}>Create</Button>
-          <Button onClick={handleClose}>Close</Button>
+        <DialogActions sx={{ px: 2, bgcolor: "background.default" }}>
+          <Button onClick={handleSubmit} color="info">
+            Create
+          </Button>
+          <Button onClick={handleClose} color="info">
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
