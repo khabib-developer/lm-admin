@@ -28,4 +28,15 @@ export const useAppStore = create<IAppStore>((set) => ({
   setNotifications(notifications) {
     return set({ notifications });
   },
+  deleteMessageNotifications(sender: number) {
+    console.log(sender);
+    return set((state) => {
+      return {
+        notifications: state.notifications.filter(
+          (n) =>
+            !(n.type === MessageTypes.message && +n.value.sender === +sender)
+        ),
+      };
+    });
+  },
 }));

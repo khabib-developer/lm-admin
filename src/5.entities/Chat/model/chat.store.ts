@@ -3,14 +3,18 @@ import { IChatStore } from "./type.store";
 import { IMessage, IUserChat } from "../types";
 
 export const useChatStore = create<IChatStore>((set) => ({
+  permission: false,
+  setPermission: (permission: boolean) => set({ permission }),
   userList: [],
   setUserList: (userList: IUserChat[]) => set({ userList }),
   addMessage: (userId: number, message: IMessage) =>
     set((state) => {
+      const id = userId === 0 && state.userId ? state.userId : userId;
       return {
         userList: state.userList.map((user) => {
-          if (user.id === userId)
+          if (+user.id === +id) {
             return { ...user, messages: [...user.messages, message] };
+          }
           return user;
         }),
       };

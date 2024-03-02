@@ -20,12 +20,26 @@ interface IProps {
   user: IUserChat;
 }
 
+const useDidMountEffect = (func: any, deps: any) => {
+  const didMount = useRef(false);
+  useEffect(() => {
+    if (didMount.current) {
+      return func();
+    } else {
+      didMount.current = true;
+    }
+  }, deps);
+};
+
 export const MessageList = (props: IProps) => {
-  const { scrollOffsets, setScrollOffsets } = useChatStore();
+  const { scrollOffsets, setScrollOffsets, setPermission, permission } =
+    useChatStore();
 
   const wrapper = useRef<null | HTMLDivElement>(null);
 
-  useEffect(() => {
+  const [prevUserId, setPrevUserId] = useState(0);
+
+  useDidMountEffect(() => {
     if (!wrapper.current) return;
 
     const wr = document.getElementById(`wrapper_${props.user.id}`);
@@ -36,19 +50,28 @@ export const MessageList = (props: IProps) => {
       scroll = event.target.scrollTop;
     });
 
+    const timeOutId = setTimeout(() => setPermission(true), 0);
     return () => {
+      clearTimeout(timeOutId);
       setScrollOffsets(props.user.id, scroll);
+      setPrevUserId(props.user.id);
     };
-  }, [props.user]);
+  }, [props.user.id]);
 
   useEffect(() => {
     if (!wrapper.current) return;
-    wrapper.current.scrollTo({
-      top: scrollOffsets[props.user.id]
+
+    const top =
+      prevUserId === props.user.id && prevUserId !== 0
+        ? wrapper.current.scrollHeight
+        : scrollOffsets[props.user.id]
         ? scrollOffsets[props.user.id]
-        : wrapper.current.scrollHeight,
+        : wrapper.current.scrollHeight;
+
+    wrapper.current.scrollTo({
+      top,
     });
-  }, [props.user, scrollOffsets]);
+  }, [props.user, scrollOffsets, prevUserId]);
 
   return (
     <Box
@@ -60,6 +83,7 @@ export const MessageList = (props: IProps) => {
       height="calc(100vh - 224px)"
       ref={wrapper}
       id={`wrapper_${props.user.id}`}
+      sx={{ opacity: Number(permission) }}
     >
       {props.user &&
         props.user.messages

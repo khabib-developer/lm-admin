@@ -1,17 +1,28 @@
-import { Avatar, Box, Grid, ListItemButton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Chip,
+  Grid,
+  ListItemButton,
+  Typography,
+} from "@mui/material";
 import { IUserChat } from "../types";
 import MailIcon from "@mui/icons-material/Mail";
 import { useChatStore } from "../model/chat.store";
 import { useCallback, useMemo } from "react";
 import dateformat from "dateformat";
+import { MessageTypes, useAppStore } from "../../../6.shared";
 
 interface IComponent {
   user: IUserChat;
 }
 
 export const UserItem = (props: IComponent) => {
-  const { userId, setUserId } = useChatStore();
+  const { userId, setUserId, setPermission } = useChatStore();
+
+  const { notifications } = useAppStore();
   const handleClick = () => {
+    setPermission(false);
     setUserId(props.user.id);
   };
   const lastMessage = useMemo(() => {
@@ -21,7 +32,16 @@ export const UserItem = (props: IComponent) => {
       time = dateformat(message.timestamp, "hh:mm");
     let text = message.message;
     return { text, time };
-  }, []);
+  }, [props.user.messages]);
+
+  const unSeenMessageCount = useMemo(
+    () =>
+      notifications.filter(
+        (n) =>
+          n.type === MessageTypes.message && +n.value.sender === +props.user.id
+      ).length,
+    [notifications, props.user]
+  );
   return (
     <ListItemButton
       sx={{ background: props.user.id === userId ? "#303030" : "inherit" }}
@@ -52,12 +72,30 @@ export const UserItem = (props: IComponent) => {
             </Typography>
             <Typography variant="caption">{lastMessage.time}</Typography>
           </Box>
-          <Typography
-            sx={{ maxWidth: "100%", height: "20px", overflow: "hidden" }}
-            variant="body2"
-          >
-            {lastMessage.text}
-          </Typography>
+          <Box display="flex" justifyContent="space-between" pt={1}>
+            <Typography
+              sx={{ maxWidth: "100%", height: "20px", overflow: "hidden" }}
+              variant="body2"
+            >
+              {lastMessage.text}
+            </Typography>
+            {unSeenMessageCount ? (
+              <Box
+                width="18px"
+                height="18px"
+                borderRadius="50%"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                fontSize="10px"
+                sx={{ background: "red" }}
+              >
+                {unSeenMessageCount}
+              </Box>
+            ) : (
+              <></>
+            )}
+          </Box>
         </Grid>
       </Grid>
     </ListItemButton>

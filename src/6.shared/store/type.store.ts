@@ -14,6 +14,6 @@ export interface IAppStore {
   cookie: string;
   setCookie: (cookie: string) => void;
   notifications: INotification[];
-
   setNotifications: (notifications: INotification[]) => void;
+  deleteMessageNotifications: (sender: number) => void;
 }

@@ -12,4 +12,7 @@ export interface IChatStore {
 
   userId: number | null;
   setUserId: (userId: number | null) => void;
+
+  permission: boolean;
+  setPermission: (permission: boolean) => void;
 }

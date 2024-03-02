@@ -8,10 +8,13 @@ import {
   useChatStore,
 } from "../../../5.entities";
 import { useEffect, useMemo } from "react";
+import { useAppStore } from "../../../6.shared";
 
 export const ChatPanel = () => {
   const { userId, userList } = useChatStore();
   const { connect, disconnect, sendMessage } = useChatHook();
+
+  const { deleteMessageNotifications } = useAppStore();
 
   const user = useMemo(
     () => (userId ? userList.find((user) => user.id === userId) : null),
@@ -29,7 +32,11 @@ export const ChatPanel = () => {
 
     connect(username);
 
-    return disconnect;
+    deleteMessageNotifications(userId);
+
+    return () => {
+      disconnect();
+    };
   }, [userId, userList]);
 
   return (
