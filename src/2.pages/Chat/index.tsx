@@ -1,3 +1,5 @@
+import { ChatComponent } from "../../4.features";
+
 export const Chat = () => {
-  return <div>chat</div>;
+  return <ChatComponent />;
 };

@@ -33,8 +33,6 @@ export const TransactionHistory = (props: IComponent) => {
       )
       .sort(sort);
 
-    console.log(tx);
-
     setTransactions(tx);
   }, [searchValue, sortKey, asc, opts]);
 

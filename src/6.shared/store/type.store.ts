@@ -1,4 +1,8 @@
+import { INotification, IUserAdmin } from "../types";
+
 export interface IAppStore {
+  user: null | IUserAdmin;
+  setUser: (user: null | IUserAdmin) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
   error: string | null;
@@ -7,4 +11,9 @@ export interface IAppStore {
   setInfo: (info: string | null) => void;
   modal: boolean;
   setModal: (modal: boolean) => void;
+  cookie: string;
+  setCookie: (cookie: string) => void;
+  notifications: INotification[];
+
+  setNotifications: (notifications: INotification[]) => void;
 }

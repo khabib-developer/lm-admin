@@ -1,15 +1,34 @@
 import { useCallback } from "react";
-import { AUTH_URL, useAxios } from "../../6.shared";
+import { AUTH_URL, useAppStore, useAxios } from "../../6.shared";
 import { useNavigate } from "react-router-dom";
+import { useNotificationHook } from "../../3.widgets";
 
 export const useAuthHook = () => {
   const { fetchData } = useAxios();
   const navigate = useNavigate();
+  const { setCookie, setUser } = useAppStore();
 
+  const { connect } = useNotificationHook();
   const check = useCallback(async () => {
-    const user = await fetchData(`/auth/user/`, "GET", null, {}, false, false);
-    if (!user) return navigate(AUTH_URL, { replace: true });
-    return user;
+    try {
+      const user = await fetchData(
+        `/auth/user/`,
+        "GET",
+        null,
+        {},
+        false,
+        false
+      );
+
+      if (!user) return navigate(AUTH_URL, { replace: true });
+      setUser(user);
+      const cookie = document.cookie.split("=")[1];
+      if (cookie) {
+        setCookie(cookie);
+        connect(cookie);
+        return user;
+      }
+    } catch (error) {}
   }, []);
   const login = useCallback(async () => {
     const user = await fetchData(`/auth/user/`, "POST", {

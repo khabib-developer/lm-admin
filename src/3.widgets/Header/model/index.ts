@@ -1,6 +1,7 @@
 import {
   ChatRoutes,
   GlobalVariablesRoutes,
+  MessageTypes,
   PaymentRoutes,
   ProperNounsRoute,
   SentenceRoutes,
@@ -12,22 +13,27 @@ export const navItems = [
   {
     url: SentenceRoutes.new.replace(":offset", "1"),
     name: "Sentence",
+    notification: MessageTypes.rejected_sentence,
   },
   {
     url: ProperNounsRoute.replace(":offset", "1"),
     name: "Proper Nouns",
+    notification: MessageTypes.proper_nouns,
   },
   {
     url: UsersRoutes.main.replace(":offset", "1"),
     name: "Users",
+    notification: MessageTypes.appeal,
   },
   {
     url: ChatRoutes.main,
     name: "Chat",
+    notification: MessageTypes.message,
   },
   {
-    url: PaymentRoutes.main,
+    url: PaymentRoutes.main.replace(":offset", "1"),
     name: "Payment",
+    notification: MessageTypes.transaction,
   },
   {
     url: GlobalVariablesRoutes.main,

@@ -4,6 +4,7 @@ import React from "react";
 import { Loading, SnackbarError, SnackbarInfo } from "../../6.shared";
 import { Header, Modals } from "../../3.widgets";
 import { RoutersProvider } from "./router.provider";
+import { SnackbarProvider } from "notistack";
 export type TComponent = {
   children: React.ReactNode;
 };
@@ -40,20 +41,22 @@ const theme = createTheme({
 export const UiProvider = ({ children }: TComponent) => {
   return (
     <ThemeProvider theme={theme}>
-      <RoutersProvider>
-        <Header />
-        <Loading />
-        <SnackbarError />
-        <SnackbarInfo />
-        <Box
-          height="calc(100vh - 64px)"
-          bgcolor="background.default"
-          color="text.primary"
-        >
-          {children}
-          <Modals />
-        </Box>
-      </RoutersProvider>
+      <SnackbarProvider maxSnack={10}>
+        <RoutersProvider>
+          <Header />
+          <Loading />
+          <SnackbarError />
+          <SnackbarInfo />
+          <Box
+            height="calc(100vh - 64px)"
+            bgcolor="background.default"
+            color="text.primary"
+          >
+            {children}
+            <Modals />
+          </Box>
+        </RoutersProvider>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 };

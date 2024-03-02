@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuthHook } from "../hooks/auth.hook";
-import { Box } from "@mui/material";
+import { useChatHook } from "../../4.features";
 export type TComponent = {
   children: React.ReactNode;
 };
@@ -8,10 +8,12 @@ export type TComponent = {
 export const AuthProvider = ({ children }: TComponent) => {
   const [permission, setPermission] = useState(false);
   const auth = useAuthHook();
+  const chat = useChatHook();
   useEffect(() => {
     (async function () {
       await auth.login();
       setPermission(await auth.check());
+      await chat.getUsersList();
     })();
   }, []);
   if (permission) return <>{children}</>;

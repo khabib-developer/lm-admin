@@ -17,7 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useSentenceStore } from "../../../5.entities/Sentence/model/sentence.store";
 import { sentenceStatus } from "../../../5.entities/Sentence/types";
 import { HistoryList } from "../../../5.entities/Sentence/ui/historyList";
-import { useVariablesStore } from "../../GlobalVariables";
+import { useVariablesStore } from "../../../5.entities/GlobalVariables";
 import dateFormat from "dateformat";
 import { useSentenceHook } from "../../../5.entities/Sentence/hooks/sentence.hook";
 

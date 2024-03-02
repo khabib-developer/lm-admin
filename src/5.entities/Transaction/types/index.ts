@@ -1,3 +1,5 @@
+import { IUserAdmin } from "../../../6.shared";
+
 export interface ITransaction {
   id: number;
   verify_score: number;
@@ -6,9 +8,9 @@ export interface ITransaction {
   status: keyof typeof transactionStatus;
   description?: string;
   created_at: Date;
-  updeted_at: Date;
-  user: number;
-  receipe: IReceipe;
+  updated_at: Date;
+  user: IUserAdmin;
+  receipt: IReceipe;
 }
 
 interface IReceipe {
@@ -23,6 +25,11 @@ export enum transactionStatus {
 }
 
 export type typeofTransactionStatus = keyof typeof transactionStatus;
+
+export type updateTransactionStatus = Omit<
+  typeofTransactionStatus,
+  transactionStatus.pending
+>;
 
 export enum sortKeys {
   amount = "amount",

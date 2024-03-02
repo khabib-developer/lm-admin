@@ -1,11 +1,12 @@
-import { useCallback } from "react";
-import { AUTH_URL, useAxios } from "../../../6.shared";
+import { useCallback, useMemo } from "react";
+import { AUTH_URL, useAppStore, useAxios } from "../../../6.shared";
 import { useLocation, useNavigate } from "react-router";
 
 export const useHeaderHook = () => {
   const { fetchData } = useAxios();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { notifications } = useAppStore();
   const logout = useCallback(async () => {
     await fetchData(`/auth/logout`, "GET");
     navigate(AUTH_URL, { replace: true });
@@ -16,11 +17,17 @@ export const useHeaderHook = () => {
       return pathname.includes(url)
         ? {
             color: "#cbffdd",
+            paddingBottom: "5px",
           }
-        : {};
+        : { paddingBottom: "5px" };
     },
     [pathname]
   );
 
-  return { logout, currentLocation };
+  const quantityOfNotification = useMemo(
+    () => notifications.length,
+    [notifications]
+  );
+
+  return { logout, currentLocation, quantityOfNotification };
 };

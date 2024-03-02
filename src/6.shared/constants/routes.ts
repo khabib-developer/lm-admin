@@ -18,7 +18,7 @@ export enum GlobalVariablesRoutes {
 }
 
 export enum PaymentRoutes {
-  main = "/admin/payment",
+  main = "/admin/payment/:offset",
 }
 
 export enum ChatRoutes {

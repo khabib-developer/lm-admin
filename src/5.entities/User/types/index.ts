@@ -1,3 +1,4 @@
+import { IUserAdmin } from "../../../6.shared";
 import { ITransaction } from "../../Transaction/types";
 
 export interface IUser {
@@ -18,13 +19,7 @@ export interface IUser {
   public_cheating: number;
 }
 
-export interface IUserItem {
-  id: number;
-  username: string;
-  first_name: string;
-  last_name: string;
-  is_staff: boolean;
-  is_active: boolean;
+export interface IUserItem extends IUserAdmin {
   score: IScore;
   transaction: ITransaction[];
 }
