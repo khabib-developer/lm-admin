@@ -12,8 +12,11 @@ export const useNotificationHook = () => {
 
   const onMessage = useCallback((event: MessageEvent) => {
     const type = JSON.parse(event.data).type;
+
     if (type === MessageTypes.history) {
       const message = JSON.parse(event.data);
+
+      console.log(message);
 
       setNotifications(message.value);
 
@@ -24,10 +27,14 @@ export const useNotificationHook = () => {
 
       //   setNotificationQuantities(notificationQuantity);
     } else if (type !== MessageTypes.chat) {
+      const message = JSON.parse(event.data);
+
       // const message: TNotification<MessageTypes.appeal> = JSON.parse(
       //   event.data
       // );
       // setInfo(message.title);
+
+      console.log(message);
     }
   }, []);
 

@@ -12,8 +12,10 @@ import { Link } from "react-router-dom";
 import { useHeaderHook } from "../hooks/header.hook";
 import { Notification } from "../../Notification";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useAppStore } from "../../../6.shared";
 export const Header = () => {
   const headerHooks = useHeaderHook();
+  const {notifications} = useAppStore()
   return (
     <AppBar position="relative" sx={{ background: "background.paper" }}>
       <Toolbar>
@@ -31,7 +33,7 @@ export const Header = () => {
               to={item.url}
               style={headerHooks.currentLocation(item.url)}
             >
-              <Badge color="error" badgeContent={0}>
+              <Badge color="error" badgeContent={item.notification ? notifications.filter(notification => notification.type === item.notificatoin : 0}>
                 {item.name}
               </Badge>
             </Link>
