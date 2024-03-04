@@ -34,9 +34,7 @@ export const ChatPanel = () => {
 
     deleteMessageNotifications(userId);
 
-    return () => {
-      disconnect();
-    };
+    return disconnect;
   }, [userId, userList]);
 
   return (

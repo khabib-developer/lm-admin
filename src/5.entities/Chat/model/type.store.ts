@@ -4,6 +4,7 @@ export interface IChatStore {
   userList: IUserChat[];
 
   setUserList: (userList: IUserChat[]) => void;
+  pushToUserList: (user: IUserChat) => void;
 
   addMessage: (userId: number, message: IMessage) => void;
 

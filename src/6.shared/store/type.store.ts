@@ -16,4 +16,5 @@ export interface IAppStore {
   notifications: INotification[];
   setNotifications: (notifications: INotification[]) => void;
   deleteMessageNotifications: (sender: number) => void;
+  addNotification: (notification: INotification) => void;
 }

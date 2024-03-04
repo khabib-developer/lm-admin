@@ -13,7 +13,7 @@ export const UserList = () => {
   const [users, setUsers] = useState<IUserChat[]>([]);
 
   useEffect(() => {
-    let usersList = userList;
+    let usersList = [...userList];
     if (search.trim() !== "") {
       const query = search.slice(1);
       usersList = usersList.filter(
@@ -23,7 +23,16 @@ export const UserList = () => {
           user.username.includes(query)
       );
     }
-    setUsers(usersList);
+    setUsers(
+      usersList.sort((prev, curr) => {
+        const prevLastMessage = prev.messages[prev.messages.length - 1];
+        const currLastMessage = curr.messages[curr.messages.length - 1];
+        return (
+          Date.parse(String(currLastMessage.timestamp)) -
+          Date.parse(String(prevLastMessage.timestamp))
+        );
+      })
+    );
   }, [search, userList]);
   return (
     <Box display="flex" flexDirection="column" pt={2}>

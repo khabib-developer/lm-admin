@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { IAppStore } from "./type.store";
-import { IQtyNotification, IUserAdmin, MessageTypes } from "../types";
+import {
+  IQtyNotification,
+  IUserAdmin,
+  MessageTypes,
+  INotification,
+} from "../types";
 
 export const initialNotificationQuantity: IQtyNotification = {
   [MessageTypes.rejected_sentence]: 0,
@@ -29,13 +34,24 @@ export const useAppStore = create<IAppStore>((set) => ({
     return set({ notifications });
   },
   deleteMessageNotifications(sender: number) {
-    console.log(sender);
     return set((state) => {
       return {
         notifications: state.notifications.filter(
           (n) =>
             !(n.type === MessageTypes.message && +n.value.sender === +sender)
         ),
+      };
+    });
+  },
+  addNotification(notification: INotification) {
+    return set((state) => {
+      const notifications = [...state.notifications];
+      if (!notifications.find((n) => notification.id === n.id))
+        notifications.push(notification);
+
+      console.log(notifications);
+      return {
+        notifications,
       };
     });
   },

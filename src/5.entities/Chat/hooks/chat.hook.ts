@@ -20,10 +20,10 @@ export const useChatHook = () => {
       socket.current = new WebSocket(websocketURL);
 
       socket.current.onopen = () => {
-        // console.log("opened");
+        console.log("opened");
       };
       socket.current.onclose = (event) => {
-        // console.log("closed");
+        console.log("closed");
       };
       socket.current.onmessage = (event) => {
         const data = JSON.parse(event.data);

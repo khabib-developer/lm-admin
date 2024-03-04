@@ -16,7 +16,25 @@ export const Notification = () => {
         </Badge>
       </IconButton>
 
-      <Drawer anchor="right" open={open} onClose={handleClose}>
+      <Drawer
+        PaperProps={{
+          sx: {
+            width: "300px",
+            borderTopLeftRadius: 20,
+            borderBottomLeftRadius: 20,
+          },
+        }}
+        SlideProps={{
+          easing: {
+            exit: "ease",
+            enter: "ease",
+          },
+          timeout: 400,
+        }}
+        anchor="right"
+        open={open}
+        onClose={handleClose}
+      >
         <Box
           height="100vh"
           sx={{ bgcolor: "background.default", overflowY: "auto" }}

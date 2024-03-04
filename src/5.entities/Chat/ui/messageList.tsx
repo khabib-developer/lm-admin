@@ -37,6 +37,8 @@ export const MessageList = (props: IProps) => {
 
   const wrapper = useRef<null | HTMLDivElement>(null);
 
+  const bool = useRef(false);
+
   const [prevUserId, setPrevUserId] = useState(0);
 
   useDidMountEffect(() => {
