@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Chip,
   IconButton,
@@ -101,7 +100,11 @@ export const TransactionItem = (props: ITransactionItem) => {
           {props.transaction.user.last_name}
         </Typography>
         {props.transaction.status === transactionStatus.paid && (
-          <a target="_blank" href={`${props.transaction.receipt}`}>
+          <a
+            target="_blank"
+            href={`${props.transaction.receipt}`}
+            rel="noreferrer"
+          >
             <IconButton size="small">
               <DownloadIcon fontSize="small" />
             </IconButton>

@@ -6,3 +6,4 @@ export * from "./model/chat.store";
 export * from "./ui/searchUser";
 export * from "./ui/defaultChat";
 export * from "./hooks/chat.hook";
+export * from "./types/index";

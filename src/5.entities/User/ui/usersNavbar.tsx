@@ -1,12 +1,19 @@
 import { Box, Grid, TextField } from "@mui/material";
-import React from "react";
-
-export const UsersNavbar = () => {
+import React, { Dispatch, SetStateAction } from "react";
+interface IProps {
+  search: string;
+  setSearch: Dispatch<SetStateAction<string>>;
+}
+export const UsersNavbar = (props: IProps) => {
   return (
     <React.Fragment>
       <Box width="100%" display="flex" justifyContent="end" gap={5}>
-        <TextField variant="standard" placeholder="Search by id" />
-        <TextField variant="standard" placeholder="Search by name" />
+        <TextField
+          value={props.search}
+          onChange={(e) => props.setSearch(e.target.value)}
+          variant="standard"
+          placeholder="Search by id"
+        />
       </Box>
       <Grid container px={3} pt={3}>
         <Grid item xs={3} container>

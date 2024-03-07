@@ -1,6 +1,7 @@
 export enum SentenceRoutes {
   main = "/admin/sentence",
   new = "/admin/sentence/new/:offset",
+  has_proper_noun = "/admin/sentence/has_proper_noun/:offset",
   processing = "/admin/sentence/processing/:offset",
   waiting = "/admin/sentence/waiting/:offset",
   wrong = "/admin/sentence/wrong/:offset",

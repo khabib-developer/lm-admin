@@ -1,4 +1,4 @@
-import { INotification, IUserAdmin } from "../types";
+import { INotification, IUserAdmin, requestFunctionType } from "../types";
 
 export interface IAppStore {
   user: null | IUserAdmin;
@@ -16,5 +16,9 @@ export interface IAppStore {
   notifications: INotification[];
   setNotifications: (notifications: INotification[]) => void;
   deleteMessageNotifications: (sender: number) => void;
+  deletNotifications: (
+    list_ids: number[],
+    fetchData: requestFunctionType
+  ) => void;
   addNotification: (notification: INotification) => void;
 }

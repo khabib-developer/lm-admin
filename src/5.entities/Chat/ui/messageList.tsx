@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Typography } from "@mui/material";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import dateformat from "dateformat";
 import { useChatStore } from "../model/chat.store";
 import { MessageItem } from "./messageItem";
 import { IMessage, IUserChat } from "../types";
 import React from "react";
+import { AppealItem } from "../../Appeal";
 
 function isNewDate(currentMessage: IMessage, previosMessage: IMessage | null) {
   if (!previosMessage) {
@@ -18,30 +20,17 @@ function isNewDate(currentMessage: IMessage, previosMessage: IMessage | null) {
 
 interface IProps {
   user: IUserChat;
+  sendMessage(msg: string): void;
 }
-
-const useDidMountEffect = (func: any, deps: any) => {
-  const didMount = useRef(false);
-  useEffect(() => {
-    if (didMount.current) {
-      return func();
-    } else {
-      didMount.current = true;
-    }
-  }, deps);
-};
-
 export const MessageList = (props: IProps) => {
   const { scrollOffsets, setScrollOffsets, setPermission, permission } =
     useChatStore();
 
   const wrapper = useRef<null | HTMLDivElement>(null);
 
-  const bool = useRef(false);
-
   const [prevUserId, setPrevUserId] = useState(0);
 
-  useDidMountEffect(() => {
+  useEffect(() => {
     if (!wrapper.current) return;
 
     const wr = document.getElementById(`wrapper_${props.user.id}`);
@@ -58,7 +47,7 @@ export const MessageList = (props: IProps) => {
       setScrollOffsets(props.user.id, scroll);
       setPrevUserId(props.user.id);
     };
-  }, [props.user.id]);
+  }, [props.user]);
 
   useEffect(() => {
     if (!wrapper.current) return;
@@ -102,7 +91,15 @@ export const MessageList = (props: IProps) => {
                   </Typography>
                 </Box>
               ) : null}
-              <MessageItem key={message.id} message={message} />
+              {message.appeal || message.appeal_answer ? (
+                <AppealItem
+                  sendMessage={props.sendMessage}
+                  key={message.id}
+                  appeal={message}
+                />
+              ) : (
+                <MessageItem key={message.id} message={message} />
+              )}
             </React.Fragment>
           ))}
     </Box>

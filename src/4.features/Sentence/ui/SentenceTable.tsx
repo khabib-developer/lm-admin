@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box } from "@mui/material";
 import {
   IQuantity,
@@ -35,7 +36,8 @@ export const SentenceTable = () => {
           getStatusFromURl as keyof typeof sentenceStatus,
           (Number(offset) - 1) * LIMIT_ITEMS,
           sortBy,
-          sortKeyword
+          sortKeyword,
+          location.search
         ))
       );
     })();

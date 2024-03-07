@@ -3,7 +3,7 @@ import { IProperNounStore } from "./type.store";
 import { IProperNoun } from "../types";
 
 export const useProperNounStore = create<IProperNounStore>((set) => ({
-  properNouns: [{ id: 1, text: "string" }],
+  properNouns: [],
   setProperNouns: (properNouns: IProperNoun[]) => set({ properNouns }),
   deleteProperNoun: (id: number) =>
     set((store) => {

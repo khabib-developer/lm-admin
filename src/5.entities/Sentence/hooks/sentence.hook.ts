@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useMemo } from "react";
 import {
   BASE_URL,
   SentenceRoutes,
+  downloadFile,
   sortType,
   useAppStore,
   useAxios,
@@ -10,6 +12,7 @@ import {
   ICreateDataset,
   IQuantity,
   ISentence,
+  properNounsStatus,
   sentenceStatus,
   sortSentence,
 } from "../types";
@@ -21,8 +24,15 @@ export const useSentenceHook = () => {
   const axios = useAxios();
   const appStore = useAppStore();
   const { pathname } = useLocation();
-  const { setSort, deleteSentence, updateSentence, deleteSentenceId } =
-    useSentenceStore();
+  const {
+    setSort,
+    deleteSentence,
+    updateSentence,
+    deleteSentenceId,
+    setDeleteSentenceId,
+    setQuantity,
+    quantity,
+  } = useSentenceStore();
   const create = useCallback(async (data: ICreateDataset) => {
     const sentence = await axios.fetchData("/sentence/admin/", "POST", data);
     if (sentence) {
@@ -53,17 +63,6 @@ export const useSentenceHook = () => {
           getStatusFromURl as keyof typeof sentenceStatus
         ].replace(":offset", String(1))}`
       );
-    }
-  }, []);
-
-  const exportSentences = useCallback(async () => {
-    const response = await axios.fetchData("/dataset/export", "GET");
-    if (response) {
-      const a = document.createElement("a");
-      a.href = `${BASE_URL}${response}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
     }
   }, []);
 
@@ -123,14 +122,65 @@ export const useSentenceHook = () => {
     }
   }, [deleteSentenceId]);
 
+  const getWordWithoutTags = (word: string) =>
+    word.replace("<u>", "").replace("</u>", "");
+
+  const handleProperNoun = useCallback(
+    async (
+      id: number,
+      sentence_value: string,
+      status: keyof typeof properNounsStatus
+    ) => {
+      const result = await axios.fetchData(
+        `/sentence/admin/${id}/proper_nouns_except_or/`,
+        "POST",
+        {
+          status,
+          sentence_value,
+        }
+      );
+      if (result) {
+        const notification = appStore.notifications.find(
+          (n) => n.value.id === id
+        );
+        const key =
+          status === properNounsStatus.delete
+            ? sentenceStatus.new
+            : status === properNounsStatus.edit
+            ? sentenceStatus.processing
+            : sentenceStatus.waiting;
+        setDeleteSentenceId(id);
+        deleteSentence(sentenceStatus.has_proper_noun);
+
+        setQuantity({
+          ...quantity,
+          [key]: quantity[key] + 1,
+        });
+
+        notification &&
+          appStore.deletNotifications([notification.id], axios.fetchData);
+      }
+    },
+    [quantity, appStore]
+  );
+
+  const handleExport = useCallback(async () => {
+    const response = await axios.fetchData(
+      "/sentence/admin/sentence_done_export_excel/",
+      "GET"
+    );
+    if (response) downloadFile(response.url);
+  }, []);
   return {
     create,
     createBulk,
-    exportSentences,
     getStatusFromURl,
     VisualizeErrors,
     getSentenceHistory,
     updateSentenceItem,
     deleteSentenceItem,
+    getWordWithoutTags,
+    handleProperNoun,
+    handleExport,
   };
 };

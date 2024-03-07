@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid } from "@mui/material";
 import {
   ChatNavbar,
@@ -22,20 +23,21 @@ export const ChatPanel = () => {
   );
 
   useEffect(() => {
-    if (!userId) {
-      return;
-    }
-    const username = userList.find((u) => u.id === userId)?.username;
-    if (!username) {
+    if (!user) {
       return;
     }
 
-    connect(username);
-
-    deleteMessageNotifications(userId);
+    connect(user.username);
 
     return disconnect;
-  }, [userId, userList]);
+  }, [user?.username]);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    deleteMessageNotifications(user.id);
+  }, [user?.id]);
 
   return (
     <Grid item xs={9} sx={{ background: "#303030" }}>
@@ -47,7 +49,7 @@ export const ChatPanel = () => {
           height="100%"
         >
           <ChatNavbar />
-          <MessageList user={user} />
+          <MessageList user={user} sendMessage={sendMessage} />
           <TypeMessage sendMessage={sendMessage} />
         </Box>
       ) : (

@@ -18,3 +18,13 @@ export function formatPhoneNumber(phoneNumberString: string) {
 export function formattedNumber(x: number) {
   return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, " ");
 }
+
+export function downloadFile(url: string): void {
+  const anchor: HTMLAnchorElement = document.createElement("a");
+  anchor.style.display = "none";
+  document.body.appendChild(anchor);
+  anchor.href = url;
+  anchor.setAttribute("download", "");
+  anchor.click();
+  document.body.removeChild(anchor);
+}

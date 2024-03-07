@@ -26,10 +26,10 @@ import DownloadIcon from "@mui/icons-material/Download";
 export const Transactions = () => {
   const [searchValue, setSearchValue] = useState("");
 
-  const [status, setStatus] = useState<string>("all");
+  const [status, setStatus] = useState<string>(transactionStatus.pending);
 
   const [sortKey, setSortKey] = useState<typeOfSortKeys>(sortKeys.created_at);
-  const [asc, setAsc] = useState(true);
+  const [asc, setAsc] = useState(false);
 
   const { getTransactions, downloadPaidTransactions } = usePaymentHook();
 
@@ -51,7 +51,7 @@ export const Transactions = () => {
         asc
       );
     })();
-  }, [offset, searchValue, status, sortKey, asc]);
+  }, [offset, searchValue, status, sortKey, asc, getTransactions]);
 
   return (
     <Paper

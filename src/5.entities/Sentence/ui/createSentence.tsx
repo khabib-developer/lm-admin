@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useSentenceHook } from "../hooks/sentence.hook";
+import { ICreateDataset } from "../types";
 
 export const CreateSentence = () => {
   const [open, setOpen] = useState(false);
@@ -17,6 +18,8 @@ export const CreateSentence = () => {
   const [is_mock, setIsMock] = useState(false);
 
   const [text, setText] = useState("");
+
+  const [correct, setCorrect] = useState("");
 
   const hooks = useSentenceHook();
 
@@ -32,8 +35,13 @@ export const CreateSentence = () => {
   };
 
   const handleSubmit = async () => {
-    if (text.trim() !== "") await hooks.create({ text, is_mock });
+    if (text.trim() !== "" || (is_mock && correct.trim() !== "")) {
+      const data: ICreateDataset = { text, is_mock };
+      if (is_mock) data.correct_text = correct;
+      await hooks.create(data);
+    }
     setText("");
+    setCorrect("");
     setOpen(false);
   };
   return (
@@ -55,9 +63,20 @@ export const CreateSentence = () => {
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
+              placeholder="text"
               className="new__text"
             ></textarea>
           </Box>
+          {is_mock && (
+            <Box sx={{ display: "flex", justifyContent: "center", pt: 2 }}>
+              <textarea
+                value={correct}
+                placeholder="correct version"
+                onChange={(e) => setCorrect(e.target.value)}
+                className="new__text"
+              ></textarea>
+            </Box>
+          )}
           <Box
             display="flex"
             justifyContent="end"

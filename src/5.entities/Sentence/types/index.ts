@@ -1,8 +1,7 @@
-import { IUser } from "../../User/types";
-
 export enum sentenceStatus {
   new = "new",
   processing = "processing",
+  has_proper_noun = "has_proper_noun",
   waiting = "done_waiting",
   wrong = "wrong",
   done = "done",
@@ -41,10 +40,12 @@ export interface ISentence {
 export interface ICreateDataset {
   text: string;
   is_mock: boolean;
+  correct_text?: string;
 }
 
 export interface IQuantity {
   [sentenceStatus.new]: number;
+  [sentenceStatus.has_proper_noun]: number;
   [sentenceStatus.processing]: number;
   [sentenceStatus.waiting]: number;
   [sentenceStatus.wrong]: number;
@@ -61,4 +62,10 @@ export interface IHistory {
   };
   user_text: string;
   created_at: string;
+}
+
+export enum properNounsStatus {
+  edit = "edit",
+  delete = "delete",
+  except = "except",
 }

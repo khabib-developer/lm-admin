@@ -1,3 +1,4 @@
+import { IAppeal } from "../../Appeal";
 import { IUserItem } from "../../User/types";
 
 export interface IUserChat extends Omit<IUserItem, "score" | "transaction"> {
@@ -11,6 +12,8 @@ export interface IMessage {
   message: string;
   seen: boolean;
   timestamp: Date;
+  appeal?: IAppeal;
+  appeal_answer?: IAppeal;
 }
 
 export interface IScrollOffsets {

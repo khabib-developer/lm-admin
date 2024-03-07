@@ -1,15 +1,8 @@
-import {
-  Avatar,
-  Box,
-  Chip,
-  Grid,
-  ListItemButton,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Grid, ListItemButton, Typography } from "@mui/material";
 import { IUserChat } from "../types";
 import MailIcon from "@mui/icons-material/Mail";
 import { useChatStore } from "../model/chat.store";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import dateformat from "dateformat";
 import { MessageTypes, useAppStore } from "../../../6.shared";
 
@@ -30,7 +23,10 @@ export const UserItem = (props: IComponent) => {
     let time = dateformat(message.timestamp, "dd.mm.yyyy");
     if (time === dateformat(new Date(), "dd.mm.yyyy"))
       time = dateformat(message.timestamp, "hh:mm");
-    let text = message.message;
+    let text =
+      message.message.length > 24
+        ? message.message.slice(0, 24) + " ..."
+        : message.message;
     return { text, time };
   }, [props.user.messages]);
 
@@ -38,7 +34,8 @@ export const UserItem = (props: IComponent) => {
     () =>
       notifications.filter(
         (n) =>
-          n.type === MessageTypes.message && +n.value.sender === +props.user.id
+          (n.type === MessageTypes.message || n.type === MessageTypes.appeal) &&
+          +n.value.sender === +props.user.id
       ).length,
     [notifications, props.user]
   );
@@ -74,7 +71,7 @@ export const UserItem = (props: IComponent) => {
           </Box>
           <Box display="flex" justifyContent="space-between" pt={1}>
             <Typography
-              sx={{ maxWidth: "100%", height: "20px", overflow: "hidden" }}
+              sx={{ maxWidth: "80%", height: "20px", overflow: "hidden" }}
               variant="body2"
             >
               {lastMessage.text}

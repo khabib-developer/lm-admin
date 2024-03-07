@@ -1,10 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useState } from "react";
-import { LIMIT_ITEMS, useAxios } from "../../../6.shared";
+import { LIMIT_ITEMS, downloadFile, useAxios } from "../../../6.shared";
 import { typeOfSortKeys, useTransactionStore } from "../../../5.entities";
 
 export const usePaymentHook = () => {
   const { fetchData } = useAxios();
   const { setTransactions } = useTransactionStore();
+
+  const [balance, setBalance] = useState(0);
+  const [spent, setSpent] = useState(0);
 
   const getTransactions = useCallback(
     async (
@@ -47,12 +51,27 @@ export const usePaymentHook = () => {
     []
   );
 
-  const downloadPaidTransactions = useCallback(async () => {
-    await fetchData(
-      `/payments/transaction-admin/paid_transaction_export_execl/`,
-      "GET"
-    );
+  const getBalance = useCallback(async () => {
+    const response = await fetchData(`/auth/admin-global/get_balance/`, "GET");
+    if (response) {
+      setBalance(response.balance);
+      setSpent(response.transactions_amount);
+    }
   }, []);
 
-  return { getTransactions, downloadPaidTransactions };
+  const downloadPaidTransactions = useCallback(async () => {
+    const response = await fetchData(
+      `/payments/transaction-admin/paid_transaction_export_excel/`,
+      "GET"
+    );
+    if (response) downloadFile(response.url);
+  }, []);
+
+  return {
+    getTransactions,
+    downloadPaidTransactions,
+    getBalance,
+    balance,
+    spent,
+  };
 };

@@ -67,3 +67,7 @@ textarea.new__text {
   right: -5px !important;
   top: -2px !important;
 }
+
+.MuiAlert-message {
+  width: -webkit-fill-available;
+}

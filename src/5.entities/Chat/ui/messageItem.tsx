@@ -19,6 +19,7 @@ export const MessageItem = (props: IComponent) => {
     >
       <Paper
         sx={{
+          maxWidth: "40%",
           bgcolor: "background.default",
           px: 2,
           py: 1,

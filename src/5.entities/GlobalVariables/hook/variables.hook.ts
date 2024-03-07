@@ -12,15 +12,13 @@ export const useVariablesHook = () => {
 
   const changeGlobalVariables = useCallback(async () => {
     if (globalVariable) {
-      const result = await fetchData(
+      await fetchData(
         `/auth/admin-global/${globalVariable.id}/`,
         "PUT",
         globalVariable
       );
-
-      console.log(result);
     }
-  }, [globalVariable]);
+  }, [fetchData, globalVariable]);
 
   return { getVariables, changeGlobalVariables };
 };

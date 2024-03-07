@@ -1,7 +1,10 @@
-import { Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { formattedNumber } from "../../../6.shared";
-
-export const Balance = () => {
+interface IProps {
+  balance: number;
+  spent: number;
+}
+export const Balance = (props: IProps) => {
   return (
     <Paper
       sx={{
@@ -9,11 +12,19 @@ export const Balance = () => {
         p: 4,
         borderRadius: 5,
         display: "flex",
-        gap: 1,
+        justifyContent: "space-between",
       }}
     >
-      <Typography variant="h5">Balance: </Typography>
-      <Typography variant="h5">{formattedNumber(1000000)} sum</Typography>
+      <Box display="flex" gap={1}>
+        <Typography variant="h5">Balance: </Typography>
+        <Typography variant="h5">
+          {formattedNumber(props.balance - props.spent)} sum;
+        </Typography>
+      </Box>
+      <Box display="flex" gap={1}>
+        <Typography variant="h5">Spent: </Typography>
+        <Typography variant="h5">{formattedNumber(props.spent)} sum</Typography>
+      </Box>
     </Paper>
   );
 };

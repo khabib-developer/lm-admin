@@ -1,9 +1,10 @@
 import { useCallback } from "react";
 import { useTransactionStore } from "../model/transaction.store";
-import { useAxios } from "../../../6.shared";
+import { MessageTypes, useAppStore, useAxios } from "../../../6.shared";
 
 export const useTransactionHook = () => {
   const trStore = useTransactionStore();
+  const { deletNotifications, notifications } = useAppStore();
   const { fetchData } = useAxios();
   const updateTransaction = useCallback(
     async (id: number, formData: FormData) => {
@@ -12,9 +13,15 @@ export const useTransactionHook = () => {
         "PUT",
         formData
       );
-      if (tr) trStore.updateTransaction(tr);
+      if (tr) {
+        const notification = notifications.find(
+          (n) => n.type === MessageTypes.transaction && n.value.id === id
+        );
+        trStore.updateTransaction(tr);
+        notification && deletNotifications([notification.id], fetchData);
+      }
     },
-    []
+    [notifications]
   );
 
   return { updateTransaction };

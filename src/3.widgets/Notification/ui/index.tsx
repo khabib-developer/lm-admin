@@ -40,7 +40,7 @@ export const Notification = () => {
           sx={{ bgcolor: "background.default", overflowY: "auto" }}
           p={4}
         >
-          <NotificationList />
+          <NotificationList setOpen={setOpen} />
         </Box>
       </Drawer>
     </>

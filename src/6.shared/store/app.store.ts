@@ -5,6 +5,7 @@ import {
   IUserAdmin,
   MessageTypes,
   INotification,
+  requestFunctionType,
 } from "../types";
 
 export const initialNotificationQuantity: IQtyNotification = {
@@ -43,13 +44,29 @@ export const useAppStore = create<IAppStore>((set) => ({
       };
     });
   },
+  deletNotifications: (listIds: number[], fetchData: requestFunctionType) => {
+    fetchData(
+      "/notification/is_seen/",
+      "POST",
+      { id_list: listIds },
+      {},
+      false
+    ).catch((err) => console.log(err));
+    return set((state) => {
+      return {
+        notifications: [
+          ...state.notifications.filter(
+            (n) => !listIds.find((id) => id === n.id)
+          ),
+        ],
+      };
+    });
+  },
   addNotification(notification: INotification) {
     return set((state) => {
       const notifications = [...state.notifications];
       if (!notifications.find((n) => notification.id === n.id))
         notifications.push(notification);
-
-      console.log(notifications);
       return {
         notifications,
       };

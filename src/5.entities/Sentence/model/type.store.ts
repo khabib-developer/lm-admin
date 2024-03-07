@@ -1,4 +1,4 @@
-import { sortType, sortTypeValues } from "../../../6.shared";
+import { sortTypeValues } from "../../../6.shared";
 import { IQuantity, ISentence, typeOfSortSentence } from "../types";
 
 export interface ISentenceStore {

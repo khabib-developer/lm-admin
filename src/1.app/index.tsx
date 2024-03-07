@@ -1,4 +1,3 @@
-import React from "react";
 import { Pages } from "../2.pages";
 import { UiProvider } from "./provider/ui.provider";
 import { AuthProvider } from "./provider/auth.provider";

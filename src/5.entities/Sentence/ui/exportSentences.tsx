@@ -1,5 +1,11 @@
 import { Button } from "@mui/material";
+import { useSentenceHook } from "../hooks/sentence.hook";
 
 export const ExportSentenses = () => {
-  return <Button variant="contained">Export json</Button>;
+  const { handleExport } = useSentenceHook();
+  return (
+    <Button onClick={handleExport} variant="contained">
+      Export{" "}
+    </Button>
+  );
 };

@@ -1,6 +1,7 @@
-import { Box, Input, InputAdornment, TextField } from "@mui/material";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Box, Input, InputAdornment } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useChatStore } from "../model/chat.store";
 
 interface Props {
@@ -10,13 +11,13 @@ interface Props {
 export const TypeMessage = ({ sendMessage }: Props) => {
   const { userId } = useChatStore();
 
-  const [value, setValue] = useState("");
+  const { typedMessage, setTypedMessage } = useChatStore();
 
   const ref = useRef<null | HTMLDivElement>(null);
   const handleSend = () => {
-    if (value.trim() !== "") {
-      sendMessage(value);
-      setValue("");
+    if (typedMessage.trim() !== "") {
+      sendMessage(typedMessage);
+      setTypedMessage("");
     }
   };
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -39,8 +40,8 @@ export const TypeMessage = ({ sendMessage }: Props) => {
         id="input-with-icon-adornment"
         sx={{ width: "100%", py: 0.5 }}
         placeholder="Type a message"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        value={typedMessage}
+        onChange={(e) => setTypedMessage(e.target.value)}
         onKeyUp={handleKeyUp}
         endAdornment={
           <InputAdornment

@@ -8,3 +8,4 @@ export * from "./hooks/sentence.hook";
 export * from "./ui/sortSentence";
 export * from "./ui/deleteSentence";
 export * from "./ui/SearchSentence";
+export * from "./ui/properNouns";

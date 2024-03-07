@@ -2,7 +2,6 @@ import {
   AppBar,
   Badge,
   Box,
-  Button,
   IconButton,
   Toolbar,
   Typography,
@@ -31,15 +30,14 @@ export const Header = () => {
             <Link
               key={item.url}
               to={item.url}
-              style={headerHooks.currentLocation(item.url)}
+              style={headerHooks.currentLocation(item.url.slice(0, 15))}
             >
               <Badge
                 color="error"
                 badgeContent={
                   item.notification
-                    ? notifications.filter(
-                        (notification) =>
-                          notification.type === item.notification
+                    ? notifications.filter((notification) =>
+                        item.notification.includes(notification.type)
                       ).length
                     : 0
                 }

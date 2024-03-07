@@ -1,7 +1,11 @@
 import { Divider, Grid, List, ListItemButton } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSideBarHook } from "../../hooks/sideBar.hook";
-import { SentenceRoutes } from "../../../../6.shared";
+import {
+  MessageTypes,
+  SentenceRoutes,
+  useAppStore,
+} from "../../../../6.shared";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import {
@@ -17,6 +21,12 @@ export const SentenceSideBar = () => {
     () => Object.keys(SentenceRoutes).filter((_, i) => i !== 0),
     []
   );
+  const { notifications } = useAppStore();
+  const properNounQty = useMemo(
+    () =>
+      notifications.filter((n) => n.type === MessageTypes.proper_nouns).length,
+    [notifications]
+  );
   return (
     <Box
       width={240}
@@ -26,34 +36,50 @@ export const SentenceSideBar = () => {
     >
       <Divider />
       <List component="nav">
-        {routes.map((route) => (
-          <ListItemButton
-            key={route}
-            sx={{ px: 3 }}
-            selected={activeSection(route)}
-            onClick={() => {
-              navigate(route + "/1");
-            }}
-          >
-            <Grid container>
-              <Grid item xs={4} display="flex" justifyContent="start">
-                {route}
+        {routes.map((route) => {
+          const qty =
+            sentenceStore.quantity[
+              sentenceStatus[
+                route as keyof typeof sentenceStatus
+              ] as keyof IQuantity
+            ];
+
+          const properNoun = route === sentenceStatus.has_proper_noun;
+          return (
+            <ListItemButton
+              key={route}
+              sx={{ px: 3 }}
+              selected={activeSection(route)}
+              onClick={() => {
+                navigate(route + "/1");
+              }}
+            >
+              <Grid container>
+                <Grid item xs={4} display="flex" justifyContent="start">
+                  {route}
+                </Grid>
+                <Grid item xs={4} display="flex" justifyContent="end">
+                  -
+                </Grid>
+                <Grid item xs={4} display="flex" justifyContent="end">
+                  <Box
+                    sx={{
+                      background:
+                        properNoun && properNounQty !== 0
+                          ? "red"
+                          : "transparent",
+                      width: "19px",
+                      textAlign: "center",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    {properNoun ? properNounQty : qty}
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item xs={4} display="flex" justifyContent="end">
-                -
-              </Grid>
-              <Grid item xs={4} display="flex" justifyContent="end">
-                {
-                  sentenceStore.quantity[
-                    sentenceStatus[
-                      route as keyof typeof sentenceStatus
-                    ] as keyof IQuantity
-                  ]
-                }
-              </Grid>
-            </Grid>
-          </ListItemButton>
-        ))}
+            </ListItemButton>
+          );
+        })}
       </List>
     </Box>
   );

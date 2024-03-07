@@ -1,4 +1,7 @@
 export interface IProperNoun {
   id: number;
-  text: string;
+  created_at: string;
+  ozagi: string;
+  sinf: string;
+  value: string;
 }

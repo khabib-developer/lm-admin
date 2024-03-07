@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, Paper, Typography } from "@mui/material";
+import { Box, IconButton, Paper, Typography } from "@mui/material";
 import { ISentence, sentenceStatus } from "../types";
 import { useSentenceHook } from "../hooks/sentence.hook";
 import PreviewIcon from "@mui/icons-material/Preview";

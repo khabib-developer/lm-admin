@@ -13,22 +13,20 @@ export const navItems = [
   {
     url: SentenceRoutes.new.replace(":offset", "1"),
     name: "Sentence",
-    notification: MessageTypes.rejected_sentence,
+    notification: MessageTypes.rejected_sentence + MessageTypes.proper_nouns,
   },
   {
     url: ProperNounsRoute.replace(":offset", "1"),
     name: "Proper Nouns",
-    notification: MessageTypes.proper_nouns,
   },
   {
     url: UsersRoutes.main.replace(":offset", "1"),
     name: "Users",
-    notification: MessageTypes.appeal,
   },
   {
     url: ChatRoutes.main,
     name: "Chat",
-    notification: MessageTypes.message,
+    notification: MessageTypes.message + MessageTypes.appeal,
   },
   {
     url: PaymentRoutes.main.replace(":offset", "1"),

@@ -1,3 +1,5 @@
+import { AxiosRequestConfig } from "axios";
+
 export enum sortType {
   asc = "+",
   desc = "-",
@@ -9,18 +11,11 @@ export enum MessageTypes {
   chat = "chat",
   history = "history",
   appeal = "appeal",
+  appeal_answer = "appeal_answer",
   transaction = "transaction",
   message = "message",
   rejected_sentence = "rejected_sentence",
   proper_nouns = "proper_nouns",
-}
-
-interface IMessageNotification {
-  datetime: Date;
-  message: string;
-  seen: boolean;
-  type: MessageTypes.chat;
-  user: string;
 }
 
 export interface INotification<Type = any> {
@@ -49,3 +44,13 @@ export interface IUserAdmin {
   is_staff: boolean;
   is_active: boolean;
 }
+
+export type requestFunctionType = (
+  url: string,
+  method: AxiosRequestConfig["method"],
+  body?: object | null,
+  headers?: AxiosRequestConfig["headers"],
+  defaultLoader?: boolean,
+  error?: boolean,
+  withCredentials?: boolean
+) => Promise<any>;

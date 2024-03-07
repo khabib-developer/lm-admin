@@ -10,7 +10,7 @@ export const UsersList = () => {
     [users]
   );
   return (
-    <Box flex={1}>
+    <Box flex={1} height={"calc(100vh - 235px)"} sx={{ overflowY: "auto" }}>
       {usersList.map((user) => (
         <UserItem key={user.id} user={user} />
       ))}

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from "react";
 import { TransitionProps } from "@mui/material/transitions";
 import {
@@ -17,9 +18,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useSentenceStore } from "../../../5.entities/Sentence/model/sentence.store";
 import { sentenceStatus } from "../../../5.entities/Sentence/types";
 import { HistoryList } from "../../../5.entities/Sentence/ui/historyList";
-import { useVariablesStore } from "../../../5.entities/GlobalVariables";
 import dateFormat from "dateformat";
 import { useSentenceHook } from "../../../5.entities/Sentence/hooks/sentence.hook";
+import { PropserNounsSection } from "../../../5.entities";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -44,6 +45,7 @@ export const SentenceModal = () => {
       setText(sentence.new_value);
     }
   }, [sentence]);
+
   const [text, setText] = useState("");
 
   const { getStatusFromURl, updateSentenceItem } = useSentenceHook();
@@ -88,8 +90,11 @@ export const SentenceModal = () => {
           <Grid container>
             <Grid item xs={6} px={3}>
               <textarea
-                readOnly={sentence?.status !== sentenceStatus.new}
-                defaultValue={text}
+                readOnly={
+                  sentence?.status !== sentenceStatus.new ||
+                  sentence.has_proper_noun
+                }
+                value={text}
                 onChange={(e) => setText(e.target.value)}
                 className="new__text"
               ></textarea>
@@ -237,22 +242,37 @@ export const SentenceModal = () => {
               </Box>
             </Grid>
           </Grid>
-          <Box display="flex" justifyContent="end" px={2} pt={2}>
-            {sentence?.status === sentenceStatus.new && (
-              <Button onClick={handleUpdate} variant="contained">
-                Update
-              </Button>
-            )}
-            {(sentence?.status === sentenceStatus.done ||
-              sentence?.status === sentenceStatus.waiting) && (
-              <Button onClick={handleDelete} color="error" variant="contained">
-                DELETE
-              </Button>
-            )}
-          </Box>
-          {sentence && sentence.status !== sentenceStatus.new && (
-            <HistoryList sentenceId={sentence.id} />
+          {sentence && sentence?.has_proper_noun ? (
+            <PropserNounsSection
+              text={text}
+              sentence={sentence}
+              setText={setText}
+            />
+          ) : (
+            <Box display="flex" justifyContent="end" px={2} pt={2}>
+              {sentence?.status === sentenceStatus.new && (
+                <Button onClick={handleUpdate} variant="contained">
+                  Update
+                </Button>
+              )}
+              {(sentence?.status === sentenceStatus.done ||
+                sentence?.status === sentenceStatus.waiting) && (
+                <Button
+                  onClick={handleDelete}
+                  color="error"
+                  variant="contained"
+                >
+                  DELETE
+                </Button>
+              )}
+            </Box>
           )}
+
+          {sentence &&
+            (sentence.status !== sentenceStatus.new ||
+              sentence.has_proper_noun) && (
+              <HistoryList sentenceId={sentence.id} />
+            )}
         </Box>
       </Dialog>
     </React.Fragment>

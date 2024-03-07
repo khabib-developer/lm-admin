@@ -22,6 +22,10 @@ export const Pages = () => {
     <Routes>
       <Route path={SentenceRoutes.main} element={<Sentence />}>
         <Route path={SentenceRoutes.new} element={<SentenceTable />} />
+        <Route
+          path={SentenceRoutes.has_proper_noun}
+          element={<SentenceTable />}
+        />
         <Route path={SentenceRoutes.processing} element={<SentenceTable />} />
         <Route path={SentenceRoutes.done} element={<SentenceTable />} />
         <Route path={SentenceRoutes.wrong} element={<SentenceTable />} />

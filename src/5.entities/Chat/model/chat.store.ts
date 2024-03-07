@@ -7,14 +7,35 @@ export const useChatStore = create<IChatStore>((set) => ({
   setPermission: (permission: boolean) => set({ permission }),
   userList: [],
   setUserList: (userList: IUserChat[]) => set({ userList }),
-  pushToUserList: (user: IUserChat) =>
+
+  typedMessage: "",
+  setTypedMessage: (typedMessage: string) => set({ typedMessage }),
+
+  modifyAppealStatus: (userId: number, messageId: number) =>
     set((state) => {
-      const userList = [...state.userList];
-      if (!userList.find((u) => u.id === user.id)) userList.push(user);
       return {
-        userList,
+        userList: state.userList.map((user) => {
+          if (user.id === userId)
+            return {
+              ...user,
+              messages: user.messages.map((message) => {
+                if (message.id === messageId) {
+                  return {
+                    ...message,
+                    appeal: {
+                      ...message.appeal!,
+                      active: false,
+                    },
+                  };
+                }
+                return message;
+              }),
+            };
+          return user;
+        }),
       };
     }),
+
   addMessage: (userId: number, message: IMessage) =>
     set((state) => {
       const id = userId === 0 && state.userId ? state.userId : userId;

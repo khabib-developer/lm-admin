@@ -39,6 +39,7 @@ export const UserItem = (props: IComponent) => {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
+        fontSize: "small",
       }}
     >
       <Grid container>
@@ -81,6 +82,7 @@ export const UserItem = (props: IComponent) => {
                   borderRadius: 2,
                   color: "#788a82",
                   cursor: "pointer",
+                  fontSize: "small",
                 }}
                 onClick={copy}
               >

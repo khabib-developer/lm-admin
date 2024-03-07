@@ -27,12 +27,15 @@ const paperStyles = {
   borderRadius: 2,
   display: "flex",
   gap: 1,
+  overflow: "hidden",
 };
 
 export const UserInfo = ({ user }: TComponent) => {
   const { setInfo } = useAppStore();
 
-  const { updateScores } = useUsersHook();
+  const { updateScores, changeUserAccess } = useUsersHook();
+
+  const [blocked, setBlocked] = useState(!user.is_active);
 
   const cardNumber = useMemo(
     () =>
@@ -45,18 +48,38 @@ export const UserInfo = ({ user }: TComponent) => {
   const copy = useCallback(() => {
     navigator.clipboard.writeText(cardNumber);
     setInfo("Copied to clipboard");
-  }, [cardNumber]);
+  }, [cardNumber, setInfo]);
 
-  const [verified, setVerified] = useState(String(user.score.verified));
-  const [penalty, setPenalty] = useState(String(user.score.penalty));
+  const [verified, setVerified] = useState(user.score.verified);
+  const [penalty, setPenalty] = useState(user.score.penalty);
   const [mock, setMock] = useState(String(user.score.mock_cheating));
   const [publicCount, setPublic] = useState(String(user.score.public_cheating));
 
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.code === "Enter" || event.code === "NumpadEnter") updateScores();
+    if (event.code === "Enter" || event.code === "NumpadEnter")
+      updateScores(user.score.id, verified, penalty, +mock, +publicCount);
   };
 
-  const handleClick = () => updateScores();
+  const handleClick = () =>
+    updateScores(user.score.id, verified, penalty, +mock, +publicCount);
+
+  const handleChangeScores = (verified: boolean, value: string) => {
+    if (Number.isNaN(value)) return;
+    const secondScore = +user.score.collected - +value;
+    if (verified && secondScore > 0) {
+      setVerified(+value);
+      setPenalty(secondScore);
+    } else if (!verified && secondScore > 0) {
+      setPenalty(+value);
+      setVerified(secondScore);
+    }
+  };
+
+  const handleBlock = () => {
+    changeUserAccess(user.id, !blocked);
+
+    setBlocked((prev) => !prev);
+  };
 
   return (
     <Paper elevation={1} sx={{ bgcolor: "#1b1b1b", p: 4, borderRadius: 5 }}>
@@ -172,24 +195,26 @@ export const UserInfo = ({ user }: TComponent) => {
       <Grid container pt={3}>
         <Grid container item xs={6}>
           <Grid item xs={3} pr={1}>
-            <Paper elevation={0} sx={paperStyles}>
-              <Typography fontSize="small" color="GrayText" variant="body2">
-                Collected:
-              </Typography>
-              <Typography fontSize="small" color="ghostwhite" variant="body2">
-                {user.score.collected}
-              </Typography>
-            </Paper>
+            <Tooltip title={String(user.score.collected)} arrow>
+              <Paper elevation={0} sx={paperStyles}>
+                <Typography fontSize="small" color="GrayText" variant="body2">
+                  Collected:
+                </Typography>
+                <Typography fontSize="small" color="ghostwhite" variant="body2">
+                  {user.score.collected}
+                </Typography>
+              </Paper>
+            </Tooltip>
           </Grid>
           <Grid item xs={3} pr={1}>
-            <Tooltip title="Click on the number to change" arrow>
+            <Tooltip title={`Click on the  ${verified} to change`} arrow>
               <Paper elevation={0} sx={{ ...paperStyles, display: "flex" }}>
                 <Typography fontSize="small" color="GrayText" variant="body2">
                   Verified:
                 </Typography>
                 <input
                   value={verified}
-                  onChange={(e) => setVerified(e.target.value)}
+                  onChange={(e) => handleChangeScores(true, e.target.value)}
                   className="scoreInput"
                   onKeyUp={handleKeyUp}
                 />
@@ -197,14 +222,14 @@ export const UserInfo = ({ user }: TComponent) => {
             </Tooltip>
           </Grid>
           <Grid item xs={3} pr={1}>
-            <Tooltip title="Click on the number to change" arrow>
+            <Tooltip title={`Click on the ${penalty} to change`} arrow>
               <Paper elevation={0} sx={paperStyles}>
                 <Typography fontSize="small" color="GrayText" variant="body2">
                   Penalty:
                 </Typography>
                 <input
                   value={penalty}
-                  onChange={(e) => setPenalty(e.target.value)}
+                  onChange={(e) => handleChangeScores(false, e.target.value)}
                   className="scoreInput"
                   onKeyUp={handleKeyUp}
                 />
@@ -212,20 +237,22 @@ export const UserInfo = ({ user }: TComponent) => {
             </Tooltip>
           </Grid>
           <Grid item xs={3} pr={1}>
-            <Paper elevation={0} sx={paperStyles}>
-              <Typography fontSize="small" color="GrayText" variant="body2">
-                Paid:
-              </Typography>
-              <Typography fontSize="small" color="ghostwhite" variant="body2">
-                {user.score.paid}
-              </Typography>
-            </Paper>
+            <Tooltip arrow title={String(user.score.paid)}>
+              <Paper elevation={0} sx={paperStyles}>
+                <Typography fontSize="small" color="GrayText" variant="body2">
+                  Paid:
+                </Typography>
+                <Typography fontSize="small" color="ghostwhite" variant="body2">
+                  {user.score.paid}
+                </Typography>
+              </Paper>
+            </Tooltip>
           </Grid>
         </Grid>
 
         <Grid container item xs={6}>
           <Grid item xs={3} pr={1}>
-            <Tooltip title="Click on the number to change" arrow>
+            <Tooltip title={`Click on the ${mock} to change`} arrow>
               <Paper elevation={0} sx={paperStyles}>
                 <Typography fontSize="small" color="GrayText" variant="body2">
                   Mock:
@@ -240,7 +267,7 @@ export const UserInfo = ({ user }: TComponent) => {
             </Tooltip>
           </Grid>
           <Grid item xs={3} pr={1}>
-            <Tooltip title="Click on the number to change" arrow>
+            <Tooltip title={`Click on the ${publicCount} to change`} arrow>
               <Paper elevation={0} sx={paperStyles}>
                 <Typography fontSize="small" color="GrayText" variant="body2">
                   Public:
@@ -275,8 +302,9 @@ export const UserInfo = ({ user }: TComponent) => {
                 ...paperStyles,
                 p: 0,
               }}
+              onClick={handleBlock}
             >
-              Block
+              {blocked ? "Unblock" : "Block"}
             </Button>
           </Grid>
         </Grid>
