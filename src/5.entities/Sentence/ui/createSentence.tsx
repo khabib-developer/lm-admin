@@ -21,7 +21,7 @@ export const CreateSentence = () => {
 
   const [correct, setCorrect] = useState("");
 
-  const hooks = useSentenceHook();
+  const hooks: ReturnType<typeof useSentenceHook> = useSentenceHook();
 
   const handleClickOpen = () => {
     setOpen(true);

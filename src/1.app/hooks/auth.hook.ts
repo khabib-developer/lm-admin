@@ -23,7 +23,14 @@ export const useAuthHook = () => {
       if (!user) return navigate(AUTH_URL, { replace: true });
 
       setUser(user);
-      const cookie = document.cookie.split(";")[1].split("=")[1];
+
+      let cookie = "";
+
+      document.cookie.split(";").forEach((item) => {
+        if (item.includes("sessionid")) {
+          cookie = item.split("=")[1];
+        }
+      });
 
       if (cookie) {
         setCookie(cookie);
