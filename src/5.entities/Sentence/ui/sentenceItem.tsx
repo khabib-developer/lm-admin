@@ -1,18 +1,50 @@
-import { Box, IconButton, Paper, Typography } from "@mui/material";
+import { Box, IconButton, Paper, TextField, Typography } from "@mui/material";
 import { ISentence, sentenceStatus } from "../types";
 import { useSentenceHook } from "../hooks/sentence.hook";
 import PreviewIcon from "@mui/icons-material/Preview";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSentenceStore } from "../model/sentence.store";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useAppStore } from "../../../6.shared";
 interface IComponent {
   sentence: ISentence;
 }
 
 export const SentenceItem = (props: IComponent) => {
-  const { VisualizeErrors, getStatusFromURl } = useSentenceHook();
+  const { VisualizeErrors, getStatusFromURl, updateSentenceItem } =
+    useSentenceHook();
   const { setSentenceId, setDeleteSentenceId } = useSentenceStore();
   const handleClick = () => setSentenceId(props.sentence.id);
   const handleDelete = () => setDeleteSentenceId(props.sentence.id);
+
+  const { setInfo } = useAppStore();
+
+  const [actual, setActual] = useState(props.sentence.actual_number);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if (Number.isNaN(Number(value)) || Number(value) < 0) return;
+    setActual(Number(value));
+  };
+
+  useEffect(() => {
+    if (props.sentence) {
+      setActual(props.sentence.actual_number);
+    }
+  }, [props.sentence]);
+
+  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.code === "NumpadEnter" || event.code === "Enter") {
+      updateSentenceItem(
+        props.sentence.id,
+        props.sentence.old_value,
+        props.sentence.new_value,
+        actual
+      );
+      setInfo("Sentence updated");
+    }
+  };
+
   return (
     <Paper
       sx={{
@@ -43,11 +75,22 @@ export const SentenceItem = (props: IComponent) => {
         </Box>
         <Box display="flex" gap={1} alignItems="center">
           Wrong number:{" "}
-          <Typography color="red">{props.sentence.actual_number}</Typography>
+          <Typography color="red">{props.sentence.wrong_number}</Typography>
         </Box>
-        <Typography fontStyle="italic" color="whitesmoke">
-          Actual number: {props.sentence.actual_number}
-        </Typography>
+        <Box display="flex" gap={1} alignItems="center">
+          <Typography fontStyle="italic" color="whitesmoke">
+            Actual number:
+          </Typography>
+          <TextField
+            value={actual}
+            variant="standard"
+            sx={{ width: "20px" }}
+            disabled={props.sentence.status !== sentenceStatus.processing}
+            onKeyUp={handleKeyUp}
+            onChange={handleChange}
+          />
+        </Box>
+
         <IconButton onClick={handleClick}>
           <PreviewIcon color="info" />
         </IconButton>

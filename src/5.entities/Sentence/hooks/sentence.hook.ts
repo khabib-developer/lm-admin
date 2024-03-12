@@ -99,11 +99,16 @@ export const useSentenceHook = () => {
   const getStatusFromURl = useMemo(() => pathname.split("/")[3], [pathname]);
 
   const updateSentenceItem = useCallback(
-    async (sentence_id: number, old_value: string, new_value: string) => {
+    async (
+      sentence_id: number,
+      old_value: string,
+      new_value: string,
+      actual_number: number = 0
+    ) => {
       const result = await axios.fetchData(
         `/sentence/admin/update_new_processing_status/`,
         "POST",
-        { sentence_id, old_value, new_value }
+        { sentence_id, old_value, new_value, actual_number }
       );
 
       if (result) updateSentence(result);

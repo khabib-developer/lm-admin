@@ -10,7 +10,12 @@ import {
 } from "@mui/material";
 import { IUserItem } from "../types";
 import { useCallback, useMemo, useState } from "react";
-import { formatCardNumber, useAppStore } from "../../../6.shared";
+import {
+  formatCardNumber,
+  formatPhoneNumber,
+  formattedNumber,
+  useAppStore,
+} from "../../../6.shared";
 import PersonIcon from "@mui/icons-material/Person";
 import BlockIcon from "@mui/icons-material/Block";
 import dateFormat from "dateformat";
@@ -77,7 +82,6 @@ export const UserInfo = ({ user }: TComponent) => {
 
   const handleBlock = () => {
     changeUserAccess(user.id, !blocked);
-
     setBlocked((prev) => !prev);
   };
 
@@ -139,7 +143,9 @@ export const UserInfo = ({ user }: TComponent) => {
           <Typography color="GrayText" variant="body2">
             Phone number
           </Typography>
-          <Typography>{user.score.phone || "null"}</Typography>
+          <Typography>
+            {formatPhoneNumber(String(user.score.phone)) || "null"}
+          </Typography>
         </Grid>
 
         <Grid
@@ -185,17 +191,23 @@ export const UserInfo = ({ user }: TComponent) => {
           flexDirection="column"
           justifyContent="center"
           gap={1}
+          overflow="hidden"
         >
           <Typography color="GrayText" variant="body2">
             {"About"}
           </Typography>
-          <Typography>{user.score.about || "info"}</Typography>
+          <Tooltip arrow title={user.score.about}>
+            <Typography>{user.score.about || "info"}</Typography>
+          </Tooltip>
         </Grid>
       </Grid>
       <Grid container pt={3}>
         <Grid container item xs={6}>
           <Grid item xs={3} pr={1}>
-            <Tooltip title={String(user.score.collected)} arrow>
+            <Tooltip
+              title={String(formattedNumber(user.score.collected))}
+              arrow
+            >
               <Paper elevation={0} sx={paperStyles}>
                 <Typography fontSize="small" color="GrayText" variant="body2">
                   Collected:
@@ -207,7 +219,10 @@ export const UserInfo = ({ user }: TComponent) => {
             </Tooltip>
           </Grid>
           <Grid item xs={3} pr={1}>
-            <Tooltip title={`Click on the  ${verified} to change`} arrow>
+            <Tooltip
+              title={`Click on the  ${formattedNumber(verified)} to change`}
+              arrow
+            >
               <Paper elevation={0} sx={{ ...paperStyles, display: "flex" }}>
                 <Typography fontSize="small" color="GrayText" variant="body2">
                   Verified:
@@ -222,7 +237,10 @@ export const UserInfo = ({ user }: TComponent) => {
             </Tooltip>
           </Grid>
           <Grid item xs={3} pr={1}>
-            <Tooltip title={`Click on the ${penalty} to change`} arrow>
+            <Tooltip
+              title={`Click on the ${formattedNumber(penalty)} to change`}
+              arrow
+            >
               <Paper elevation={0} sx={paperStyles}>
                 <Typography fontSize="small" color="GrayText" variant="body2">
                   Penalty:
@@ -237,7 +255,7 @@ export const UserInfo = ({ user }: TComponent) => {
             </Tooltip>
           </Grid>
           <Grid item xs={3} pr={1}>
-            <Tooltip arrow title={String(user.score.paid)}>
+            <Tooltip arrow title={String(formattedNumber(user.score.paid))}>
               <Paper elevation={0} sx={paperStyles}>
                 <Typography fontSize="small" color="GrayText" variant="body2">
                   Paid:
@@ -252,7 +270,10 @@ export const UserInfo = ({ user }: TComponent) => {
 
         <Grid container item xs={6}>
           <Grid item xs={3} pr={1}>
-            <Tooltip title={`Click on the ${mock} to change`} arrow>
+            <Tooltip
+              title={`Click on the ${formattedNumber(Number(mock))} to change`}
+              arrow
+            >
               <Paper elevation={0} sx={paperStyles}>
                 <Typography fontSize="small" color="GrayText" variant="body2">
                   Mock:
@@ -267,7 +288,12 @@ export const UserInfo = ({ user }: TComponent) => {
             </Tooltip>
           </Grid>
           <Grid item xs={3} pr={1}>
-            <Tooltip title={`Click on the ${publicCount} to change`} arrow>
+            <Tooltip
+              title={`Click on the ${formattedNumber(
+                Number(publicCount)
+              )} to change`}
+              arrow
+            >
               <Paper elevation={0} sx={paperStyles}>
                 <Typography fontSize="small" color="GrayText" variant="body2">
                   Public:

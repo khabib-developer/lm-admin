@@ -15,6 +15,7 @@ export const UserItem = (props: IComponent) => {
 
   const { notifications } = useAppStore();
   const handleClick = () => {
+    if (userId === props.user.id) return;
     setPermission(false);
     setUserId(props.user.id);
   };

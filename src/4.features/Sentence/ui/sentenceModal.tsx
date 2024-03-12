@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useState } from "react";
+import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { TransitionProps } from "@mui/material/transitions";
 import {
   AppBar,
@@ -25,6 +25,7 @@ import {
   ISentence,
   WrongSentenceSection,
 } from "../../../5.entities";
+import { useAppStore } from "../../../6.shared";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -39,6 +40,8 @@ export const SentenceModal = () => {
   const { sentenceId, setSentenceId, sentences, setDeleteSentenceId } =
     useSentenceStore();
 
+  const { setInfo } = useAppStore();
+
   const sentence: ISentence | undefined = useMemo(
     () => sentences.find((sentence) => sentence.id === sentenceId),
     [sentenceId]
@@ -47,17 +50,42 @@ export const SentenceModal = () => {
   useEffect(() => {
     if (sentence) {
       setText(sentence.new_value);
+      setActualNumber(sentence.actual_number);
     }
   }, [sentence]);
 
   const [text, setText] = useState("");
 
+  const [actual_number, setActualNumber] = useState(0);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if (Number.isNaN(Number(value)) || Number(value) < 0) return;
+    setActualNumber(Number(value));
+  };
+
+  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if ((event.code === "NumpadEnter" || event.code === "Enter") && sentence) {
+      updateSentenceItem(
+        sentence.id,
+        sentence.old_value,
+        sentence.new_value,
+        actual_number
+      );
+      setInfo("Sentence updated");
+    }
+  };
+
   const { getStatusFromURl, updateSentenceItem } = useSentenceHook();
 
   const handleClose = () => setSentenceId(null);
 
-  const handleUpdate = () =>
-    sentence && updateSentenceItem(sentence.id, sentence.old_value, text);
+  const handleUpdate = () => {
+    if (sentence) {
+      updateSentenceItem(sentence.id, sentence.old_value, text);
+      setInfo("Sentence updated");
+    }
+  };
 
   const handleDelete = () => sentence && setDeleteSentenceId(sentence.id);
 
@@ -115,10 +143,11 @@ export const SentenceModal = () => {
               <Box display="flex">
                 <Input
                   id="standard-adornment-amount"
-                  defaultValue={sentence?.actual_number}
-                  onChange={() => {}}
+                  value={actual_number}
+                  onChange={handleChange}
+                  onKeyUp={handleKeyUp}
                   sx={{ flex: 1 }}
-                  readOnly
+                  readOnly={sentence?.status !== sentenceStatus.processing}
                   startAdornment={
                     <InputAdornment
                       position="start"

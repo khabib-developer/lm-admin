@@ -26,6 +26,7 @@ export interface ISentence {
   old_value: string;
   new_value: string;
   actual_number: number;
+  wrong_number: number;
   status: (typeof sentenceStatus)[keyof typeof sentenceStatus];
   is_mock: boolean;
   reviewer_time?: Date;

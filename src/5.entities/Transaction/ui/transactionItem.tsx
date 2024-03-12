@@ -12,6 +12,7 @@ import { useMemo } from "react";
 import { useTransactionStore } from "../model/transaction.store";
 import { useUsersStore } from "../../User";
 import DownloadIcon from "@mui/icons-material/Download";
+import { formattedNumber } from "../../../6.shared";
 
 interface ITransactionItem {
   transaction: ITransaction;
@@ -68,7 +69,7 @@ export const TransactionItem = (props: ITransactionItem) => {
       >
         <Typography fontSize="small">ID: {props.transaction.id}</Typography>
         <Typography fontSize="small">
-          Amount: {props.transaction.amount}
+          Amount: {formattedNumber(props.transaction.amount)}
         </Typography>
       </Stack>
       <Stack
@@ -79,7 +80,7 @@ export const TransactionItem = (props: ITransactionItem) => {
       >
         <Typography fontSize="small">Gift: {props.transaction.gift}</Typography>
         <Typography fontSize="small">
-          Score: {props.transaction.verify_score}
+          Score: {formattedNumber(props.transaction.verify_score)}
         </Typography>
       </Stack>
       <Stack

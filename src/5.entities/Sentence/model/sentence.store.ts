@@ -23,10 +23,12 @@ export const useSentenceStore = create<ISentenceStore>((set) => ({
   setSentences: (sentences: ISentence[]) => set({ sentences }),
   updateSentence: (sentence: ISentence) =>
     set((state) => {
-      const excludedSentences = state.sentences.filter(
-        (s) => s.id !== sentence.id
-      );
-      return { sentences: [...excludedSentences, sentence] };
+      return {
+        sentences: state.sentences.map((s) => {
+          if (s.id === sentence.id) return sentence;
+          return s;
+        }),
+      };
     }),
   deleteSentence: (quantityKey: keyof IQuantity) =>
     set((state) => ({
