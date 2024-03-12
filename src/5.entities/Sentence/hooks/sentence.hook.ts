@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useMemo } from "react";
 import {
-  BASE_URL,
   SentenceRoutes,
   downloadFile,
   sortType,
@@ -171,6 +170,30 @@ export const useSentenceHook = () => {
     );
     if (response) downloadFile(response.url);
   }, []);
+
+  const changeWrongStatus = useCallback(
+    async (id: number, status: string) => {
+      const response = await axios.fetchData(
+        `/sentence/admin/wrong_sentence_process/`,
+        "POST",
+        { sentence_id: id, status }
+      );
+      if (response) {
+        setDeleteSentenceId(id);
+        deleteSentence(sentenceStatus.wrong);
+        if (status === "reject") {
+          setQuantity({
+            ...quantity,
+            [sentenceStatus.wrong]: quantity[sentenceStatus.wrong] - 1,
+            [sentenceStatus.processing]:
+              quantity[sentenceStatus.processing] + 1,
+          });
+        }
+      }
+    },
+    [quantity]
+  );
+
   return {
     create,
     createBulk,
@@ -182,5 +205,6 @@ export const useSentenceHook = () => {
     getWordWithoutTags,
     handleProperNoun,
     handleExport,
+    changeWrongStatus,
   };
 };

@@ -20,7 +20,11 @@ import { sentenceStatus } from "../../../5.entities/Sentence/types";
 import { HistoryList } from "../../../5.entities/Sentence/ui/historyList";
 import dateFormat from "dateformat";
 import { useSentenceHook } from "../../../5.entities/Sentence/hooks/sentence.hook";
-import { PropserNounsSection } from "../../../5.entities";
+import {
+  PropserNounsSection,
+  ISentence,
+  WrongSentenceSection,
+} from "../../../5.entities";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -35,7 +39,7 @@ export const SentenceModal = () => {
   const { sentenceId, setSentenceId, sentences, setDeleteSentenceId } =
     useSentenceStore();
 
-  const sentence = useMemo(
+  const sentence: ISentence | undefined = useMemo(
     () => sentences.find((sentence) => sentence.id === sentenceId),
     [sentenceId]
   );
@@ -248,6 +252,8 @@ export const SentenceModal = () => {
               sentence={sentence}
               setText={setText}
             />
+          ) : sentence && sentence.status === sentenceStatus.wrong ? (
+            <WrongSentenceSection id={sentence.id} />
           ) : (
             <Box display="flex" justifyContent="end" px={2} pt={2}>
               {sentence?.status === sentenceStatus.new && (
