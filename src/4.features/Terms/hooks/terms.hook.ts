@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { useAxios } from "../../../6.shared";
+import { useAppStore, useAxios } from "../../../6.shared";
 import { useTermsStore } from "../model/terms.store";
 
 export const useTermsHook = () => {
   const axios = useAxios();
+  const { setError } = useAppStore();
   const temrsStore = useTermsStore();
   const [id, setId] = useState(1);
   useEffect(() => {
@@ -17,12 +18,14 @@ export const useTermsHook = () => {
   }, []);
 
   const updateTerms = useCallback(async () => {
-    if (id) {
-      const terms = await axios.fetchData(`/auth/admin-terms/${id}/`, "PUT", {
-        text: temrsStore.terms,
-      });
+    if (!id) {
+      setError("Terms is not created yet");
+      return;
     }
-  }, [temrsStore.terms, id]);
+    await axios.fetchData(`/auth/admin-terms/${id}/`, "PUT", {
+      text: temrsStore.terms,
+    });
+  }, [id, axios, temrsStore.terms, setError]);
 
   return { updateTerms };
 };
