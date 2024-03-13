@@ -15,7 +15,8 @@ export interface IGlobalVariables {
   balance: number;
   public_cheating_max: number;
   sentence_blocked_time_minutes: number;
-  similar: number;
+  similar_ratio: number;
+  similar_distance: number;
   created_at: Date;
   updated_at: Date;
 }
@@ -29,6 +30,7 @@ export const globalVariablesKeys = {
   mock_test_count_min: "Mock count min",
   public_cheating_max: "Public cheating",
   sentence_blocked_time_minutes: "Sentence block time (m)",
-  similar: "Similar",
+  similar_ratio: "Similar",
+  similar_distance: "Distance",
   balance: "Balance (sum):",
 };

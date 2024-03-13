@@ -1,4 +1,4 @@
-import MDEditor, { selectWord } from "@uiw/react-md-editor";
+import MDEditor from "@uiw/react-md-editor";
 // No import is required in the WebPack.
 import "@uiw/react-md-editor/markdown-editor.css";
 // No import is required in the WebPack.

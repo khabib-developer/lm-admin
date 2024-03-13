@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Input, InputAdornment } from "@mui/material";
 import { useVariablesStore } from "../model/variables.store";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useVariablesHook } from "../hook/variables.hook";
 import { IGlobalVariables, globalVariablesKeys } from "../model/types.store";
 
