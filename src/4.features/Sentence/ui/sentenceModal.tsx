@@ -305,9 +305,7 @@ export const SentenceModal = () => {
 
           {sentence &&
             (sentence.status !== sentenceStatus.new ||
-              sentence.has_proper_noun) && (
-              <HistoryList sentenceId={sentence.id} />
-            )}
+              sentence.has_proper_noun) && <HistoryList sentence={sentence} />}
         </Box>
       </Dialog>
     </React.Fragment>
