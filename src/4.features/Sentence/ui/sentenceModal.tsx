@@ -129,7 +129,19 @@ export const SentenceModal = () => {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 className="new__text"
+                style={{
+                  height:
+                    sentence?.status === sentenceStatus.mock ? "50px" : "",
+                }}
               ></textarea>
+              {sentence?.status === sentenceStatus.mock && (
+                <textarea
+                  readOnly
+                  defaultValue={sentence.old_value}
+                  className="new__text"
+                  style={{ height: "50px" }}
+                ></textarea>
+              )}
             </Grid>
             <Grid
               item
