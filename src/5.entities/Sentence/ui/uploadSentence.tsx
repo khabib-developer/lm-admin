@@ -1,6 +1,7 @@
 import { Button, styled } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { ChangeEvent } from "react";
+import { useSentenceHook } from "../hooks/sentence.hook";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -15,9 +16,10 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export const UploadSentence = () => {
+  const { createBulk } = useSentenceHook();
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    //   if (file) createBulk(file, offset, status);
+    if (file) createBulk(file);
   };
   return (
     <Button

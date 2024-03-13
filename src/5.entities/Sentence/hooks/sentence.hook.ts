@@ -50,7 +50,7 @@ export const useSentenceHook = () => {
     const formdata = new FormData();
     formdata.append("file", file);
     const respond = await axios.fetchData(
-      "/dataset/bulkCreate",
+      "/sentence/sentence_post_json/",
       "POST",
       formdata
     );
