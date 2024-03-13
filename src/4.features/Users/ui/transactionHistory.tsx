@@ -11,7 +11,7 @@ import {
   TransactionList,
 } from "../../../5.entities";
 import { useCallback, useEffect, useState } from "react";
-import { green, teal } from "@mui/material/colors";
+import { teal } from "@mui/material/colors";
 
 interface IComponent {
   transactions: ITransaction[];
@@ -24,6 +24,24 @@ export const TransactionHistory = (props: IComponent) => {
 
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
 
+  const srch = useCallback(
+    (id: number, value: string) =>
+      value.trim() === "" ? true : String(id).includes(value),
+    []
+  );
+
+  const sort = useCallback(
+    (tr1: ITransaction, tr2: ITransaction) => {
+      return (
+        (asc ? 1 : -1) *
+        (sortKey === sortKeys.amount
+          ? tr1.amount - tr2.amount
+          : tr1.id - tr2.id)
+      );
+    },
+    [sortKey, asc]
+  );
+
   useEffect(() => {
     const tx = props.transactions
       .filter(
@@ -34,25 +52,7 @@ export const TransactionHistory = (props: IComponent) => {
       .sort(sort);
 
     setTransactions(tx);
-  }, [searchValue, sortKey, asc, opts]);
-
-  const srch = useCallback(
-    (id: number, value: string) =>
-      value.trim() === "" ? true : String(id).includes(value),
-    []
-  );
-
-  const sort = useCallback(
-    (tr1: ITransaction, tr2: ITransaction) => {
-      return asc
-        ? 1
-        : -1 *
-            (sortKey === sortKeys.amount
-              ? tr1.amount - tr2.amount
-              : tr1.id - tr2.id);
-    },
-    [sortKey, asc]
-  );
+  }, [searchValue, sortKey, asc, opts, props.transactions, sort, srch]);
 
   return (
     <Paper

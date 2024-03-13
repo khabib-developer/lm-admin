@@ -8,7 +8,7 @@ export const useHeaderHook = () => {
   const { pathname } = useLocation();
   const { notifications } = useAppStore();
   const logout = useCallback(async () => {
-    await fetchData(`/auth/logout`, "GET");
+    await fetchData(`/auth/user/logout`, "DELETE");
     navigate(AUTH_URL, { replace: true });
   }, []);
 
