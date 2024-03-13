@@ -9,8 +9,10 @@ export const useHeaderHook = () => {
   const { notifications } = useAppStore();
   const logout = useCallback(async () => {
     await fetchData(`/auth/user/logout`, "DELETE");
-    navigate(AUTH_URL, { replace: true });
-  }, []);
+    // eslint-disable-next-line no-restricted-globals
+    location.assign(AUTH_URL);
+    // navigate(AUTH_URL, { replace: true });
+  }, [fetchData, navigate]);
 
   const currentLocation = useCallback(
     (url: string) => {

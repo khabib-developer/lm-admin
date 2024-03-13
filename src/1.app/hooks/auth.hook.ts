@@ -1,11 +1,9 @@
 import { useCallback } from "react";
 import { AUTH_URL, useAppStore, useAxios } from "../../6.shared";
-import { useNavigate } from "react-router-dom";
 import { useNotificationHook } from "../../3.widgets";
 
 export const useAuthHook = () => {
   const { fetchData } = useAxios();
-  const navigate = useNavigate();
   const { setCookie, setUser } = useAppStore();
 
   const { connect } = useNotificationHook();
@@ -20,7 +18,8 @@ export const useAuthHook = () => {
         false
       );
 
-      if (!user) return navigate(AUTH_URL, { replace: true });
+      // eslint-disable-next-line no-restricted-globals
+      if (!user) return location.assign(AUTH_URL);
 
       setUser(user);
 
@@ -39,12 +38,6 @@ export const useAuthHook = () => {
       }
     } catch (error) {}
   }, []);
-  const login = useCallback(async () => {
-    const user = await fetchData(`/auth/user/`, "POST", {
-      username: "admin",
-      password: 12,
-    });
-    return user;
-  }, []);
-  return { check, login };
+
+  return { check };
 };

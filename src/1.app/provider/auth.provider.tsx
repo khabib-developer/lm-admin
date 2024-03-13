@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }: TComponent) => {
   const chat = useChatHook();
   useEffect(() => {
     (async function () {
-      await auth.login();
       setPermission(await auth.check());
       await chat.getUsersList();
     })();
