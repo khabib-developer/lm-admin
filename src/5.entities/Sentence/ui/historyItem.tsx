@@ -11,7 +11,8 @@ type THistoryItem = {
 export const HistoryItem = (props: THistoryItem) => {
   const { VisualizeErrors } = useSentenceHook();
   const { setUserId } = useUsersStore();
-  const handleClick = () => setUserId(props.history.user.id);
+  const handleClick = () =>
+    props.history.user.id && setUserId(props.history.user.id);
   return (
     <Box>
       <Grid container gap={4}>

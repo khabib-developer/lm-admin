@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
-import { IHistory } from "../types";
+import { useEffect, useMemo, useState } from "react";
+import { IHistory, ISentence } from "../types";
 import { useSentenceHook } from "../hooks/sentence.hook";
 import { HistoryItem } from "./historyItem";
 import { Box } from "@mui/material";
 import { LoadingHistory } from "../../../6.shared";
 
 type THistoryList = {
-  sentenceId: number;
+  sentence: ISentence;
 };
 
 export const HistoryList = (props: THistoryList) => {
@@ -17,14 +17,28 @@ export const HistoryList = (props: THistoryList) => {
 
   const { getSentenceHistory } = useSentenceHook();
 
+  const genesis = useMemo(
+    () => ({
+      sentence: props.sentence.id,
+      id: 0,
+      user: {
+        id: 0,
+        username: "first version",
+      },
+      user_text: props.sentence.old_value,
+      created_at: props.sentence.created_at,
+    }),
+    [props.sentence]
+  );
+
   useEffect(() => {
     (async function (id: number) {
       setLoading(true);
       const history = await getSentenceHistory(id);
-      if (history) setHistory(history);
+      if (history) setHistory([...history, genesis]);
       setLoading(false);
-    })(props.sentenceId);
-  }, [props.sentenceId]);
+    })(props.sentence.id);
+  }, [props.sentence.id]);
 
   return (
     <Box px={10} pt={5} height="calc(100vh - 338px)" sx={{ overflowY: "auto" }}>
@@ -37,7 +51,7 @@ export const HistoryList = (props: THistoryList) => {
           <HistoryItem
             key={version.id}
             history={version}
-            index={history.length - i}
+            index={history.length - i - 1}
           />
         ))}
     </Box>
