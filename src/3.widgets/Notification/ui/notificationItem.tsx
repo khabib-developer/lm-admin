@@ -41,7 +41,10 @@ export const NotificationItem = (props: IProps) => {
       setUserId(notification.value.sender);
     } else if (props.notification.type === MessageTypes.transaction) {
       navigate(PaymentRoutes.main.replace(":offset", "1"));
-    } else if (props.notification.type === MessageTypes.proper_nouns) {
+    } else if (
+      props.notification.type === MessageTypes.proper_nouns ||
+      props.notification.type === MessageTypes.rejected_sentence
+    ) {
       navigate(
         `${SentenceRoutes.has_proper_noun.replace(":offset", "1")}?${
           props.notification.value.id

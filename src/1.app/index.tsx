@@ -4,11 +4,11 @@ import { AuthProvider } from "./provider/auth.provider";
 
 function App() {
   return (
-    <UiProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <UiProvider>
         <Pages />
-      </AuthProvider>
-    </UiProvider>
+      </UiProvider>
+    </AuthProvider>
   );
 }
 
