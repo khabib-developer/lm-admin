@@ -9,7 +9,7 @@ import {
   Zoom,
 } from "@mui/material";
 import { IUserItem } from "../types";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   formatCardNumber,
   formatPhoneNumber,
@@ -64,6 +64,16 @@ export const UserInfo = ({ user }: TComponent) => {
     if (event.code === "Enter" || event.code === "NumpadEnter")
       updateScores(user.score.id, verified, penalty, +mock, +publicCount);
   };
+
+  useEffect(() => {
+    if (user) {
+      setVerified(user.score.verified);
+      setPenalty(user.score.penalty);
+      setMock(String(user.score.mock_cheating));
+      setPublic(String(user.score.public_cheating));
+      setBlocked(!user.is_active);
+    }
+  }, [user]);
 
   const handleClick = () =>
     updateScores(user.score.id, verified, penalty, +mock, +publicCount);

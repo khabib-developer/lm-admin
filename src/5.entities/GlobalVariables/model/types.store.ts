@@ -24,7 +24,7 @@ export interface IGlobalVariables {
 export const globalVariablesKeys = {
   gift: "Gift (sum)",
   finally_number: "Final number",
-  done_verified_time: "Verified time (h)",
+  done_verified_time: "Verified time (m)",
   mock_cheating_max: "Mock cheating max",
   mock_test_count_max: "Mock count max",
   mock_test_count_min: "Mock count min",
