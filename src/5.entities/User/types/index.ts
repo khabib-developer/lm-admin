@@ -31,6 +31,7 @@ interface IScore {
   collected: number;
   created_at: Date;
   id: number;
+  is_active: boolean;
   mock_cheating: number;
   paid: number;
   penalty: number;

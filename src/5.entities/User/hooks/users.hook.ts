@@ -42,12 +42,15 @@ export const useUsersHook = () => {
     }
   }, [userId]);
 
-  const changeUserAccess = useCallback(async (id: number, blocked: boolean) => {
-    const response = await fetchData(`/score/score/${id}/`, "PATCH", {
-      blocked,
-    });
-    response && setInfo("Changes successfully updated");
-  }, []);
+  const changeUserAccess = useCallback(
+    async (id: number, is_active: boolean) => {
+      const response = await fetchData(`/score/score/${id}/`, "PATCH", {
+        is_active,
+      });
+      response && setInfo("Changes successfully updated");
+    },
+    []
+  );
 
   const updateScores = useCallback(
     async (

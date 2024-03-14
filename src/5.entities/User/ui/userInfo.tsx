@@ -40,7 +40,7 @@ export const UserInfo = ({ user }: TComponent) => {
 
   const { updateScores, changeUserAccess } = useUsersHook();
 
-  const [blocked, setBlocked] = useState(user.score.blocked);
+  const [isActive, setIsActive] = useState(user.score.blocked);
 
   const cardNumber = useMemo(
     () =>
@@ -71,7 +71,7 @@ export const UserInfo = ({ user }: TComponent) => {
       setPenalty(user.score.penalty);
       setMock(String(user.score.mock_cheating));
       setPublic(String(user.score.public_cheating));
-      setBlocked(user.score.blocked);
+      setIsActive(user.score.is_active);
     }
   }, [user]);
 
@@ -88,8 +88,8 @@ export const UserInfo = ({ user }: TComponent) => {
   };
 
   const handleBlock = () => {
-    changeUserAccess(user.id, !blocked);
-    setBlocked((prev) => !prev);
+    changeUserAccess(user.id, !isActive);
+    setIsActive((prev) => !prev);
   };
 
   return (
@@ -131,7 +131,11 @@ export const UserInfo = ({ user }: TComponent) => {
             justifyContent="center"
             gap={1}
           >
-            <Typography>
+            <Typography
+              sx={{
+                textDecoration: user.score.blocked ? "" : "line-through",
+              }}
+            >
               {user.first_name} {user.last_name}
             </Typography>
             <Typography>{user.username}</Typography>
@@ -337,7 +341,7 @@ export const UserInfo = ({ user }: TComponent) => {
               }}
               onClick={handleBlock}
             >
-              {blocked ? "Unblock" : "Block"}
+              {!isActive ? "Unblock" : "Block"}
             </Button>
           </Grid>
         </Grid>
