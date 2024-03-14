@@ -40,7 +40,7 @@ export const UserInfo = ({ user }: TComponent) => {
 
   const { updateScores, changeUserAccess } = useUsersHook();
 
-  const [blocked, setBlocked] = useState(!user.is_active);
+  const [blocked, setBlocked] = useState(user.score.blocked);
 
   const cardNumber = useMemo(
     () =>
@@ -71,7 +71,7 @@ export const UserInfo = ({ user }: TComponent) => {
       setPenalty(user.score.penalty);
       setMock(String(user.score.mock_cheating));
       setPublic(String(user.score.public_cheating));
-      setBlocked(!user.is_active);
+      setBlocked(user.score.blocked);
     }
   }, [user]);
 
