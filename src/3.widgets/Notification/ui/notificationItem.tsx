@@ -5,6 +5,8 @@ import {
   MessageTypes,
   PaymentRoutes,
   SentenceRoutes,
+  useAppStore,
+  useAxios,
 } from "../../../6.shared";
 import dateformat from "dateformat";
 import { Dispatch, SetStateAction, useMemo } from "react";
@@ -20,6 +22,10 @@ export const NotificationItem = (props: IProps) => {
   const navigate = useNavigate();
 
   const { setUserId } = useChatStore();
+
+  const { deletNotifications } = useAppStore();
+
+  const { fetchData } = useAxios();
 
   const datetime = useMemo(() => {
     const date = new Date();
@@ -41,16 +47,21 @@ export const NotificationItem = (props: IProps) => {
       setUserId(notification.value.sender);
     } else if (props.notification.type === MessageTypes.transaction) {
       navigate(PaymentRoutes.main.replace(":offset", "1"));
-    } else if (
-      props.notification.type === MessageTypes.proper_nouns ||
-      props.notification.type === MessageTypes.rejected_sentence
-    ) {
+    } else if (props.notification.type === MessageTypes.proper_nouns) {
       navigate(
         `${SentenceRoutes.has_proper_noun.replace(":offset", "1")}?${
           props.notification.value.id
         }`
       );
+    } else if (props.notification.type === MessageTypes.rejected_sentence) {
+      navigate(
+        `${SentenceRoutes.has_proper_noun.replace(":offset", "1")}?${
+          props.notification.value.id
+        }`
+      );
+      deletNotifications([props.notification.value.id], fetchData);
     }
+
     props.setOpen(false);
   };
 
