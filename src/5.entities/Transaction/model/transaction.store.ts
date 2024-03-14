@@ -21,4 +21,8 @@ export const useTransactionStore = create<ITrasactionStore>((set) => ({
     transactionId: null | number = null,
     transactionStatus: updateTransactionStatus | null = null
   ) => set({ transactionId, transactionStatus }),
+  searchValue: "",
+  setSearchValue(searchValue) {
+    set({ searchValue });
+  },
 }));

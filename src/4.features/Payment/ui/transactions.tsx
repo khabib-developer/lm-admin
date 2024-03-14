@@ -24,8 +24,6 @@ import { LIMIT_ITEMS } from "../../../6.shared";
 import DownloadIcon from "@mui/icons-material/Download";
 
 export const Transactions = () => {
-  const [searchValue, setSearchValue] = useState("");
-
   const [status, setStatus] = useState<string>(transactionStatus.pending);
 
   const [sortKey, setSortKey] = useState<typeOfSortKeys>(sortKeys.created_at);
@@ -33,7 +31,7 @@ export const Transactions = () => {
 
   const { getTransactions, downloadPaidTransactions } = usePaymentHook();
 
-  const { transactions } = useTransactionStore();
+  const { transactions, searchValue, setSearchValue } = useTransactionStore();
 
   const handleChange = (event: SelectChangeEvent) => {
     setStatus(event.target.value);

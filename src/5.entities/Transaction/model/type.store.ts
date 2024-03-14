@@ -11,4 +11,6 @@ export interface ITrasactionStore {
     transactionId?: number | null,
     transactionStatu?: updateTransactionStatus | null
   ) => void;
+  searchValue: string;
+  setSearchValue: (searchValue: string) => void;
 }

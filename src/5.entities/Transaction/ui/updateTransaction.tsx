@@ -33,7 +33,7 @@ export const UpdateTransaction = () => {
 
   const fileRef = useRef<null | HTMLInputElement>(null);
 
-  const { setError, error } = useAppStore();
+  const { setError } = useAppStore();
 
   const { updateTransaction } = useTransactionHook();
 

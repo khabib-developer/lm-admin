@@ -1,9 +1,9 @@
 import { TextField } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 
 interface ITransactionSearch {
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue: (value: string) => void;
 }
 
 export const TransactionSearch = (props: ITransactionSearch) => {
