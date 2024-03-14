@@ -30,13 +30,14 @@ export const PropserNounsSection = (props: IProps) => {
   const { getWordWithoutTags, handleProperNoun } = useSentenceHook();
 
   const handleChange = (newValue: string, index: number) => {
+    if (newValue.trim() === "") return;
     setAccept(false);
     setEdit(true);
     props.setText((prev) => {
       return prev
         .split(" ")
         .map((word, i) => {
-          if (i === index) return `<u>${newValue}</u>`;
+          if (i === index) return `<u>${newValue.trim()}</u>`;
           return word;
         })
         .join(" ");
