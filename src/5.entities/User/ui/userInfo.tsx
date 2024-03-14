@@ -80,13 +80,10 @@ export const UserInfo = ({ user }: TComponent) => {
 
   const handleChangeScores = (verified: boolean, value: string) => {
     if (Number.isNaN(value)) return;
-    const secondScore = +user.score.collected - +value;
-    if (verified && secondScore > 0) {
+    if (verified) {
       setVerified(+value);
-      setPenalty(secondScore);
-    } else if (!verified && secondScore > 0) {
+    } else if (!verified) {
       setPenalty(+value);
-      setVerified(secondScore);
     }
   };
 
