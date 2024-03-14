@@ -111,7 +111,10 @@ export const useSentenceHook = () => {
         { sentence_id, old_value, new_value, actual_number }
       );
 
-      if (result) updateSentence(result);
+      if (result) {
+        updateSentence(result);
+        appStore.setInfo("Sentence updated");
+      }
     },
     []
   );

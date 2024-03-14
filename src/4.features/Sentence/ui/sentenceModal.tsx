@@ -25,7 +25,6 @@ import {
   ISentence,
   WrongSentenceSection,
 } from "../../../5.entities";
-import { useAppStore } from "../../../6.shared";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -40,8 +39,6 @@ export const SentenceModal = () => {
   const { sentenceId, setSentenceId, sentences, setDeleteSentenceId } =
     useSentenceStore();
 
-  const { setInfo } = useAppStore();
-
   const sentence: ISentence | undefined = useMemo(
     () => sentences.find((sentence) => sentence.id === sentenceId),
     [sentenceId]
@@ -55,6 +52,8 @@ export const SentenceModal = () => {
     }
   }, [sentence]);
 
+  const { getStatusFromURl, updateSentenceItem } = useSentenceHook();
+
   const [text, setText] = useState("");
   const [old_value, setOldValue] = useState("");
 
@@ -66,26 +65,22 @@ export const SentenceModal = () => {
     setActualNumber(Number(value));
   };
 
-  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyUp = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if ((event.code === "NumpadEnter" || event.code === "Enter") && sentence) {
-      updateSentenceItem(
+      await updateSentenceItem(
         sentence.id,
         old_value,
         sentence.new_value,
         actual_number
       );
-      setInfo("Sentence updated");
     }
   };
 
-  const { getStatusFromURl, updateSentenceItem } = useSentenceHook();
-
   const handleClose = () => setSentenceId(null);
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     if (sentence) {
-      updateSentenceItem(sentence.id, old_value, text);
-      setInfo("Sentence updated");
+      await updateSentenceItem(sentence.id, old_value, text);
     }
   };
 
