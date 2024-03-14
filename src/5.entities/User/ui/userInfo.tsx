@@ -84,7 +84,7 @@ export const UserInfo = ({ user, setUser }: TComponent) => {
       +mock,
       +publicCount
     );
-    if (score) setUser((prev) => prev && { ...prev, score });
+    if (score) setUser({ ...user, score });
   };
 
   const handleChangeScores = (verified: boolean, value: string) => {
