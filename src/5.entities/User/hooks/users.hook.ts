@@ -47,7 +47,9 @@ export const useUsersHook = () => {
       const response = await fetchData(`/score/score/${id}/`, "PATCH", {
         is_active,
       });
-      response && setInfo("Changes successfully updated");
+      if (response) {
+        setInfo("Changes successfully updated");
+      }
     },
     []
   );
@@ -67,6 +69,7 @@ export const useUsersHook = () => {
         public_cheating,
       });
       response && setInfo("Changes successfully updated");
+      return response;
     },
     []
   );

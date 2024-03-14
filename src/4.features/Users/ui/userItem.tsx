@@ -78,7 +78,7 @@ export const UserModalItem = () => {
           <Container sx={{ position: "relative", px: 0 }}>
             {user && (
               <>
-                <UserInfo user={user} />
+                <UserInfo user={user} setUser={setUser} />
                 <TransactionHistory transactions={user.transaction} />
               </>
             )}

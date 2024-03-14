@@ -24,6 +24,7 @@ import { useUsersHook } from "../hooks/users.hook";
 
 type TComponent = {
   user: IUserItem;
+  setUser: React.Dispatch<React.SetStateAction<IUserItem | null>>;
 };
 
 const paperStyles = {
@@ -35,7 +36,7 @@ const paperStyles = {
   overflow: "hidden",
 };
 
-export const UserInfo = ({ user }: TComponent) => {
+export const UserInfo = ({ user, setUser }: TComponent) => {
   const { setInfo } = useAppStore();
 
   const { updateScores, changeUserAccess } = useUsersHook();
@@ -75,8 +76,16 @@ export const UserInfo = ({ user }: TComponent) => {
     }
   }, [user]);
 
-  const handleClick = () =>
-    updateScores(user.score.id, verified, penalty, +mock, +publicCount);
+  const handleClick = async () => {
+    const score = await updateScores(
+      user.score.id,
+      verified,
+      penalty,
+      +mock,
+      +publicCount
+    );
+    if (score) setUser((prev) => prev && { ...prev, score });
+  };
 
   const handleChangeScores = (verified: boolean, value: string) => {
     if (Number.isNaN(value)) return;
