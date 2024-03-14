@@ -30,6 +30,7 @@ export const PropserNounsSection = (props: IProps) => {
   const { getWordWithoutTags, handleProperNoun } = useSentenceHook();
 
   const handleChange = (newValue: string, index: number) => {
+    console.log(newValue.trim());
     if (newValue.trim() === "") return;
     setAccept(false);
     setEdit(true);
@@ -61,7 +62,7 @@ export const PropserNounsSection = (props: IProps) => {
             key={item.word}
             variant="standard"
             autoFocus={true}
-            defaultValue={getWordWithoutTags(item.word)}
+            value={getWordWithoutTags(item.word)}
             onChange={(e) => handleChange(e.target.value, item.index)}
           />
         ))}

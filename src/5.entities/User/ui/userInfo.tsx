@@ -61,9 +61,17 @@ export const UserInfo = ({ user, setUser }: TComponent) => {
   const [mock, setMock] = useState(String(user.score.mock_cheating));
   const [publicCount, setPublic] = useState(String(user.score.public_cheating));
 
-  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.code === "Enter" || event.code === "NumpadEnter")
-      updateScores(user.score.id, verified, penalty, +mock, +publicCount);
+  const handleKeyUp = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.code === "Enter" || event.code === "NumpadEnter") {
+      const score = await updateScores(
+        user.score.id,
+        verified,
+        penalty,
+        +mock,
+        +publicCount
+      );
+      if (score) setUser({ ...user, score });
+    }
   };
 
   useEffect(() => {
