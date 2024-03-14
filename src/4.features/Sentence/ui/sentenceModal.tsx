@@ -50,11 +50,13 @@ export const SentenceModal = () => {
   useEffect(() => {
     if (sentence) {
       setText(sentence.new_value);
+      setOldValue(sentence.old_value);
       setActualNumber(sentence.actual_number);
     }
   }, [sentence]);
 
   const [text, setText] = useState("");
+  const [old_value, setOldValue] = useState("");
 
   const [actual_number, setActualNumber] = useState(0);
 
@@ -135,8 +137,8 @@ export const SentenceModal = () => {
               ></textarea>
               {sentence?.is_mock && (
                 <textarea
-                  readOnly
-                  defaultValue={sentence.old_value}
+                  value={old_value}
+                  onChange={(e) => setOldValue(e.target.value)}
                   className="new__text"
                   style={{ height: "50px" }}
                 ></textarea>
@@ -302,7 +304,7 @@ export const SentenceModal = () => {
                 </Button>
               )}
               {(sentence?.status === sentenceStatus.done ||
-                sentence?.status === sentenceStatus.waiting) && (
+                sentence?.is_mock) && (
                 <Button
                   onClick={handleDelete}
                   color="error"

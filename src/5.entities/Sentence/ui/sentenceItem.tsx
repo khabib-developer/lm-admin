@@ -95,7 +95,7 @@ export const SentenceItem = (props: IComponent) => {
           <PreviewIcon color="info" />
         </IconButton>
         {(getStatusFromURl === sentenceStatus.done ||
-          getStatusFromURl === sentenceStatus.waiting) && (
+          getStatusFromURl === sentenceStatus.mock) && (
           <IconButton onClick={handleDelete}>
             <DeleteIcon color="error" />
           </IconButton>
