@@ -297,7 +297,7 @@ export const SentenceModal = () => {
           ) : sentence && sentence.status === sentenceStatus.wrong ? (
             <WrongSentenceSection id={sentence.id} />
           ) : (
-            <Box display="flex" justifyContent="end" px={2} pt={2}>
+            <Box display="flex" justifyContent="end" px={2} gap={2} pt={2}>
               {sentence?.status === sentenceStatus.new && (
                 <Button onClick={handleUpdate} variant="contained">
                   Update
@@ -310,7 +310,7 @@ export const SentenceModal = () => {
                   color="error"
                   variant="contained"
                 >
-                  DELETE
+                  Delete
                 </Button>
               )}
             </Box>
