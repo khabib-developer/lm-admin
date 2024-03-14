@@ -131,11 +131,7 @@ export const UserInfo = ({ user }: TComponent) => {
             justifyContent="center"
             gap={1}
           >
-            <Typography
-              sx={{
-                textDecoration: user.score.blocked ? "" : "line-through",
-              }}
-            >
+            <Typography color={user.score.blocked ? "error" : "inherit"}>
               {user.first_name} {user.last_name}
             </Typography>
             <Typography>{user.username}</Typography>
