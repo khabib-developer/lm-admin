@@ -70,7 +70,7 @@ export const SentenceModal = () => {
     if ((event.code === "NumpadEnter" || event.code === "Enter") && sentence) {
       updateSentenceItem(
         sentence.id,
-        sentence.old_value,
+        old_value,
         sentence.new_value,
         actual_number
       );
@@ -84,7 +84,7 @@ export const SentenceModal = () => {
 
   const handleUpdate = () => {
     if (sentence) {
-      updateSentenceItem(sentence.id, sentence.old_value, text);
+      updateSentenceItem(sentence.id, old_value, text);
       setInfo("Sentence updated");
     }
   };
