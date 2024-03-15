@@ -12,8 +12,8 @@ export enum sortSentence {
   "Created" = "created_at",
   "actual" = "actual_number",
   "wrong" = "wrong_number",
-  "Mock" = "cheater_mock_count",
-  "Public" = "cheater_public_count",
+  // "Mock" = "cheater_mock_count",
+  // "Public" = "cheater_public_count",
 }
 
 export type typeOfSortSentence =
