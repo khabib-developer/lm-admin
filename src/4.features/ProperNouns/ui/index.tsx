@@ -16,7 +16,7 @@ export const ProperNouns = () => {
   const { count, getProperNouns, handleExport } = useProperNounHook();
   useEffect(() => {
     (async function () {
-      await getProperNouns(Number(offset) || 0);
+      await getProperNouns(Number(offset) - 1 || 0);
     })();
   }, [offset]);
   const handlePaginate = (offset: number) =>
