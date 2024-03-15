@@ -151,7 +151,7 @@ export const UserInfo = ({ user, setUser }: TComponent) => {
             <Typography color={user.score.blocked ? "error" : "inherit"}>
               {user.first_name} {user.last_name}
             </Typography>
-            <Typography>{user.username}</Typography>
+            <Typography>@{user.username}</Typography>
           </Grid>
         </Grid>
 

@@ -80,7 +80,11 @@ export const SentenceModal = () => {
 
   const handleUpdate = async () => {
     if (sentence) {
-      await updateSentenceItem(sentence.id, old_value, text);
+      await updateSentenceItem(
+        sentence.id,
+        sentence.status === sentenceStatus.new ? text : old_value,
+        text
+      );
     }
   };
 
