@@ -19,7 +19,7 @@ export const useAuthHook = () => {
       );
 
       // eslint-disable-next-line no-restricted-globals
-      if (!user) return location.assign(AUTH_URL);
+      if (!user || !user.is_staff) return location.assign(AUTH_URL);
 
       setUser(user);
 
