@@ -337,7 +337,7 @@ export const UserInfo = ({ user, setUser }: TComponent) => {
                 Joined:
               </Typography>
               <Typography fontSize="small" color="ghostwhite" variant="body2">
-                {dateFormat(user.score.public_cheating, "mm.dd.yy")}
+                {dateFormat(user.score.created_at, "mm.dd.yy")}
               </Typography>
             </Paper>
           </Grid>

@@ -173,7 +173,7 @@ export const SentenceModal = () => {
                   id="standard-adornment-amount"
                   sx={{ color: "red", flex: 1 }}
                   onChange={() => {}}
-                  defaultValue={sentence?.actual_number}
+                  defaultValue={sentence?.wrong_number}
                   readOnly
                   startAdornment={
                     <InputAdornment

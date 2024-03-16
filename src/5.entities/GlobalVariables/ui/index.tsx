@@ -1,20 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, Input, InputAdornment } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useVariablesStore } from "../model/variables.store";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useVariablesHook } from "../hook/variables.hook";
 import { IGlobalVariables, globalVariablesKeys } from "../model/types.store";
 
 export const GlobalVariablesComponent = () => {
-  const { globalVariable, updateGlobalVariable } = useVariablesStore();
+  const { globalVariable } = useVariablesStore();
   const { getVariables, changeGlobalVariables } = useVariablesHook();
+  const [gbvariables, setGbVariables] = useState<null | IGlobalVariables>(null);
   useEffect(() => {
     getVariables();
   }, []);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (globalVariable) {
+      console.log(globalVariable);
+      setGbVariables(globalVariable);
+    }
+  }, [globalVariable]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    if (!gbvariables) return;
     event.preventDefault();
-    changeGlobalVariables();
+    const result = await changeGlobalVariables(gbvariables);
+    if (!result) setGbVariables(globalVariable);
+  };
+
+  const handleChange = (key: keyof IGlobalVariables, value: number) => {
+    setGbVariables({
+      ...gbvariables!,
+      [key]: value,
+    });
   };
 
   return (
@@ -26,28 +43,25 @@ export const GlobalVariablesComponent = () => {
       gap={2}
       flexDirection="column"
     >
-      <Box width="840px" display="flex" flexWrap="wrap">
-        {globalVariable &&
+      <Box width="840px" display="flex" flexDirection="column" gap={1}>
+        {gbvariables &&
           Object.keys(globalVariablesKeys).map((key) => (
-            <Input
-              key={key}
-              id="standard-adornment-amount"
-              value={globalVariable[key as keyof typeof globalVariable]}
-              onChange={(event) =>
-                updateGlobalVariable(
-                  key as keyof IGlobalVariables,
-                  Number(event.target.value)
-                )
-              }
-              type="number"
-              sx={{ width: "33%" }}
-              startAdornment={
-                <InputAdornment position="start" sx={{ fontStyle: "italic" }}>
-                  {globalVariablesKeys[key as keyof typeof globalVariablesKeys]}
-                  :
-                </InputAdornment>
-              }
-            />
+            <Box width="100%" display="flex">
+              <Typography sx={{ width: "50%" }}>
+                {globalVariablesKeys[key as keyof typeof globalVariablesKeys]}:
+              </Typography>
+              <TextField
+                sx={{ width: "50%" }}
+                type="number"
+                value={gbvariables[key as keyof typeof globalVariable]}
+                onChange={(event) =>
+                  handleChange(
+                    key as keyof IGlobalVariables,
+                    Number(event.target.value)
+                  )
+                }
+              />
+            </Box>
           ))}
       </Box>
       <Box display="flex" justifyContent="start">

@@ -19,7 +19,12 @@ export const SnackbarInfo = () => {
         autoHideDuration={3000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="info" sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleClose}
+          onClick={handleClose}
+          severity="info"
+          sx={{ width: "100%", cursor: "pointer" }}
+        >
           {info}
         </Alert>
       </Snackbar>
@@ -45,7 +50,12 @@ export const SnackbarError = () => {
         autoHideDuration={4000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleClose}
+          onClick={handleClose}
+          severity="error"
+          sx={{ width: "100%", cursor: "pointer" }}
+        >
           {error}
         </Alert>
       </Snackbar>

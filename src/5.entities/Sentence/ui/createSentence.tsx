@@ -93,11 +93,11 @@ export const CreateSentence = () => {
           </Box>
         </DialogContent>
         <DialogActions sx={{ px: 2, bgcolor: "background.default" }}>
-          <Button onClick={handleSubmit} color="info">
-            Create
-          </Button>
           <Button onClick={handleClose} color="info">
             Close
+          </Button>
+          <Button onClick={handleSubmit} color="info">
+            Create
           </Button>
         </DialogActions>
       </Dialog>
