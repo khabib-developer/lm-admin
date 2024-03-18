@@ -50,7 +50,7 @@ export const useAppealHook = (props: IProps) => {
           props.appeal.appeal?.verify_score_sentence.collected_this_sentence,
         verify_score: verified,
         penalty,
-        appeal_answer_message: `Answer for appeal Id: ${props.appeal.appeal?.id} <br><br>${typedMessage}`,
+        appeal_answer_message: `Id: ${props.appeal.appeal?.id} uchun shikoyat xati<br><br>${typedMessage}`,
       },
       "appeal_answer"
     );

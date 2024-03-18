@@ -41,7 +41,7 @@ export const SentenceModal = () => {
 
   const sentence: ISentence | undefined = useMemo(
     () => sentences.find((sentence) => sentence.id === sentenceId),
-    [sentenceId]
+    [sentenceId, sentences]
   );
 
   useEffect(() => {

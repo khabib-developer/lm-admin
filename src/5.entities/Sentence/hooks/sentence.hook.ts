@@ -112,12 +112,11 @@ export const useSentenceHook = () => {
       );
 
       if (result) {
-        console.log(getStatusFromURl, result.status);
-
         if (
           getStatusFromURl === sentenceStatus.processing &&
           result.status === sentenceStatus.waiting
         ) {
+          setDeleteSentenceId(sentence_id);
           deleteSentence(getStatusFromURl as keyof IQuantity);
           setQuantity({
             ...quantity,
@@ -125,9 +124,8 @@ export const useSentenceHook = () => {
               quantity[sentenceStatus.processing] - 1,
             [sentenceStatus.waiting]: quantity[sentenceStatus.waiting] + 1,
           });
-        }
+        } else updateSentence(result);
 
-        updateSentence(result);
         appStore.setInfo("Sentence updated");
       }
     },

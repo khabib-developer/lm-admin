@@ -15,7 +15,6 @@ export const GlobalVariablesComponent = () => {
 
   useEffect(() => {
     if (globalVariable) {
-      console.log(globalVariable);
       setGbVariables(globalVariable);
     }
   }, [globalVariable]);
@@ -46,7 +45,7 @@ export const GlobalVariablesComponent = () => {
       <Box width="840px" display="flex" flexDirection="column" gap={1}>
         {gbvariables &&
           Object.keys(globalVariablesKeys).map((key) => (
-            <Box width="100%" display="flex">
+            <Box width="100%" display="flex" key={key}>
               <Typography sx={{ width: "50%" }}>
                 {globalVariablesKeys[key as keyof typeof globalVariablesKeys]}:
               </Typography>

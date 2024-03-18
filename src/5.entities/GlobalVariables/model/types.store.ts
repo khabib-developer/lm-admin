@@ -32,5 +32,5 @@ export const globalVariablesKeys = {
   sentence_blocked_time_minutes: "Sentence block time (m)",
   similar_ratio: "Similar",
   similar_distance: "Distance",
-  balance: "Balance (sum):",
+  balance: "Balance (sum)",
 };
