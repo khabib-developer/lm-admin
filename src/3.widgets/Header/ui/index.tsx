@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { navItems } from "../model";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useHeaderHook } from "../hooks/header.hook";
 import { Notification } from "../../Notification";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -15,13 +15,15 @@ import { useAppStore } from "../../../6.shared";
 export const Header = () => {
   const headerHooks = useHeaderHook();
   const { notifications } = useAppStore();
+  const navigate = useNavigate()
   return (
     <AppBar position="relative" sx={{ background: "background.paper" }}>
       <Toolbar>
         <Typography
           variant="h6"
           component="div"
-          sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+          sx={{ flexGrow: 1, display: { xs: "none", sm: "block" }, cursor:'pointer' }}
+          onClick={() => navigate('/')}
         >
           Admin Panel
         </Typography>

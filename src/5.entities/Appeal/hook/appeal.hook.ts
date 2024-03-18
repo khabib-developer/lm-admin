@@ -26,14 +26,21 @@ export const useAppealHook = (props: IProps) => {
 
   const handleClick = (isIncrement: boolean) => {
     if (isIncrement) {
+      if(props.appeal.appeal?.verify_score_sentence.collected_this_sentence === 0) return
       if (penalty > 0) {
         setVerified((prev) => prev + 1);
         setPenalty((prev) => prev - 1);
       }
     } else {
-      if (verified > 0) {
-        setPenalty((prev) => prev + 1);
-        setVerified((prev) => prev - 1);
+      if (verified >= 0) {
+        let penaltyFn = (prev: number) => prev + 1
+        let verifyFn = (prev: number) => prev - 1
+        if(props.appeal.appeal?.verify_score_sentence.collected_this_sentence === 0) {
+          penaltyFn = (prev: number) => Number(!Boolean(prev))
+          verifyFn = (prev: number) => prev
+        }
+        setPenalty(penaltyFn);
+        setVerified(verifyFn);
       }
     }
   };
