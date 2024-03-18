@@ -105,18 +105,33 @@ export const useSentenceHook = () => {
       new_value: string,
       actual_number: number = 0
     ) => {
-      const result = await axios.fetchData(
+      const result: ISentence = await axios.fetchData(
         `/sentence/admin/update_new_processing_status/`,
         "POST",
         { sentence_id, old_value, new_value, actual_number }
       );
 
       if (result) {
+        console.log(getStatusFromURl, result.status);
+
+        if (
+          getStatusFromURl === sentenceStatus.processing &&
+          result.status === sentenceStatus.waiting
+        ) {
+          deleteSentence(getStatusFromURl as keyof IQuantity);
+          setQuantity({
+            ...quantity,
+            [sentenceStatus.processing]:
+              quantity[sentenceStatus.processing] - 1,
+            [sentenceStatus.waiting]: quantity[sentenceStatus.waiting] + 1,
+          });
+        }
+
         updateSentence(result);
         appStore.setInfo("Sentence updated");
       }
     },
-    []
+    [quantity]
   );
 
   const deleteSentenceItem = useCallback(async () => {

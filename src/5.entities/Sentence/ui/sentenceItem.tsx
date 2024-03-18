@@ -33,7 +33,7 @@ export const SentenceItem = (props: IComponent) => {
     }
   }, [props.sentence]);
 
-  const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyUp = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.code === "NumpadEnter" || event.code === "Enter") {
       updateSentenceItem(
         props.sentence.id,
