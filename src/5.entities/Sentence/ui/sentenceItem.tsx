@@ -1,4 +1,4 @@
-import { Box, IconButton, Paper, TextField, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Paper, TextField, Typography } from "@mui/material";
 import { ISentence, sentenceStatus } from "../types";
 import { useSentenceHook } from "../hooks/sentence.hook";
 import PreviewIcon from "@mui/icons-material/Preview";
@@ -49,58 +49,69 @@ export const SentenceItem = (props: IComponent) => {
     <Paper
       sx={{
         bgcolor: "background.default",
-        p: 3,
+        py: 3,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
       }}
-    >
-      <div
-        dangerouslySetInnerHTML={{
-          __html: VisualizeErrors(props.sentence.new_value),
-        }}
-      />
-      <Box display="flex" alignItems="center" gap={3}>
-        <Box display="flex" gap={1} alignItems="center">
-          Public:{" "}
-          <Typography color="secondary">
-            {props.sentence.cheater_public_count}
-          </Typography>
-        </Box>
-        <Box display="flex" gap={1} alignItems="center">
-          Mock:{" "}
-          <Typography color="secondary">
-            {props.sentence.cheater_mock_count}
-          </Typography>
-        </Box>
-        <Box display="flex" gap={1} alignItems="center">
-          Wrong number:{" "}
-          <Typography color="red">{props.sentence.wrong_number}</Typography>
-        </Box>
-        <Box display="flex" gap={1} alignItems="center">
-          <Typography fontStyle="italic" color="whitesmoke">
-            Actual number:
-          </Typography>
-          <TextField
-            value={actual}
-            variant="standard"
-            sx={{ width: "20px" }}
-            disabled={props.sentence.status !== sentenceStatus.processing}
-            onKeyUp={handleKeyUp}
-            onChange={handleChange}
+    > 
+      <Grid container >
+        <Grid item xs={4} display='flex' alignItems='center' px={3}>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: VisualizeErrors(props.sentence.new_value),
+            }}
           />
-        </Box>
+        </Grid>
 
-        <IconButton onClick={handleClick}>
-          <PreviewIcon color="info" />
-        </IconButton>
-        {(getStatusFromURl === sentenceStatus.done ||
-          getStatusFromURl === sentenceStatus.mock) && (
-          <IconButton onClick={handleDelete}>
-            <DeleteIcon color="error" />
-          </IconButton>
-        )}
-      </Box>
+        <Grid item xs={8} display="flex" alignItems="center" gap={3} justifyContent='end'>
+          <Box flex={1}></Box>
+          <Box flex={1}></Box>
+          <Box display="flex" gap={1} alignItems="center" justifyContent='center' flex={1}>
+            <Typography>
+              Public:{" "}
+            </Typography>
+            <Typography color="secondary">
+              {props.sentence.cheater_public_count}
+            </Typography>
+          </Box>
+          <Box display="flex" gap={1} alignItems="center" justifyContent='center' flex={1}>
+            Mock:{" "}
+            <Typography color="secondary">
+              {props.sentence.cheater_mock_count}
+            </Typography>
+          </Box>
+          <Box display="flex" gap={1} alignItems="center" justifyContent='center' flex={1}>
+            Wrong :{" "}
+            <Typography color="red">{props.sentence.wrong_number}</Typography>
+          </Box>
+          <Box display="flex" gap={1} alignItems="center" justifyContent='center' flex={1}>
+            <Typography fontStyle="italic" color="whitesmoke">
+              Actual :
+            </Typography>
+            <TextField
+              value={actual}
+              variant="standard"
+              sx={{ width: "20px" }}
+              disabled={props.sentence.status !== sentenceStatus.processing}
+              onKeyUp={handleKeyUp}
+              onChange={handleChange}
+            />
+          </Box>
+          <Box flex={1} display='flex' justifyContent='center'>
+              <IconButton onClick={handleClick}>
+              <PreviewIcon color="info" />
+            </IconButton>
+            {(getStatusFromURl === sentenceStatus.done ||
+              getStatusFromURl === sentenceStatus.mock) && (
+              <IconButton onClick={handleDelete}>
+                <DeleteIcon color="error" />
+              </IconButton>
+            )}
+          </Box>
+          
+        </Grid>
+      </Grid>
     </Paper>
   );
 };

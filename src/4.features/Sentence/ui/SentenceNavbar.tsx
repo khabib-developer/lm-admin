@@ -10,7 +10,7 @@ import {
 export const SentenceNavbar = () => {
   return (
     <Grid container>
-      <Grid container xs={3} item gap={3}>
+      <Grid container xs={4} item gap={3}>
         <Grid item>
           <UploadSentence />
         </Grid>
@@ -20,17 +20,16 @@ export const SentenceNavbar = () => {
       </Grid>
       <Grid
         container
-        xs={9}
+        xs={8}
         item
-        gap={3}
         justifyContent={"end"}
         alignItems={"end"}
+        display='flex'
+        gap={3}
       >
-        <Grid display="flex" gap={3}>
           <SearchSentence />
           <SortSentences />
           <ExportSentenses />
-        </Grid>
       </Grid>
     </Grid>
   );

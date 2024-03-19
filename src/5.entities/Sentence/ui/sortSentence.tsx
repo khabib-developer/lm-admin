@@ -11,14 +11,15 @@ export const SortSentences = () => {
     setSort(text, sort);
   };
   return (
-    <Box display="flex" gap={3}>
+    <>
       {Object.keys(sortSentence).map((item) => {
         const current =
           sortBy === sortSentence[item as keyof typeof sortSentence];
         return (
           <Button
             key={item}
-            sx={{ color: "white", gap: 1 }}
+            size='small'
+            sx={{ color: "white", gap: 1, flex:1 }}
             variant={current ? "contained" : "outlined"}
             onClick={() =>
               handleClick(sortSentence[item as keyof typeof sortSentence])
@@ -39,6 +40,6 @@ export const SortSentences = () => {
           </Button>
         );
       })}
-    </Box>
+    </>
   );
 };

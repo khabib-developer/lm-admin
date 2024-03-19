@@ -31,6 +31,7 @@ export const SearchSentence = () => {
 
   return (
     <TextField
+    sx={{flex:1}}
       value={value}
       onChange={handleChange}
       variant="standard"
