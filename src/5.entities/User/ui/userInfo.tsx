@@ -123,7 +123,8 @@ export const UserInfo = ({ user, setUser }: TComponent) => {
             width="15px"
             sx={{ background: teal[700], borderRadius: 3 }}
           ></Box>
-          <Typography variant="h6">User information</Typography>
+          <Typography variant="h6">User information:</Typography>
+          <a href={`malto:${user.email}`}>{user.email}</a>
         </Box>
 
         <Button
