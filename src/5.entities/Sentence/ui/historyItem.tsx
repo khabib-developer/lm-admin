@@ -3,6 +3,8 @@ import { IHistory } from "../types";
 import { useSentenceHook } from "../hooks/sentence.hook";
 import dateFormat from "dateformat";
 import { useUsersStore } from "../../User";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
 type THistoryItem = {
   history: IHistory;
   index: number;
@@ -43,7 +45,7 @@ export const HistoryItem = (props: THistoryItem) => {
             sx={{ mx: "15px", height: 60, my: "5px" }}
           />
         </Grid>
-        <Grid item xs={6} display="flex" flexDirection="column">
+        <Grid item xs={7} display="flex" flexDirection="column">
           <Box
             height="30px"
             display="flex"
@@ -76,6 +78,7 @@ export const HistoryItem = (props: THistoryItem) => {
             <Typography variant="overline">
               {dateFormat(props.history.created_at, "mmmm dS, yyyy, hh:MM")}
             </Typography>
+            {props.history.wrong && <ErrorOutlineIcon color="error" />}
           </Paper>
         </Grid>
       </Grid>

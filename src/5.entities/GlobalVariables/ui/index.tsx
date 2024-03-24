@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useVariablesStore } from "../model/variables.store";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useVariablesHook } from "../hook/variables.hook";
 import { IGlobalVariables, globalVariablesKeys } from "../model/types.store";
+import { useAppStore } from "../../../6.shared";
 
 export const GlobalVariablesComponent = () => {
+  const { errorMessages } = useAppStore();
   const { globalVariable } = useVariablesStore();
   const { getVariables, changeGlobalVariables } = useVariablesHook();
   const [gbvariables, setGbVariables] = useState<null | IGlobalVariables>(null);
@@ -26,12 +28,21 @@ export const GlobalVariablesComponent = () => {
     if (!result) setGbVariables(globalVariable);
   };
 
-  const handleChange = (key: keyof IGlobalVariables, value: number) => {
+  const handleChange = (key: keyof IGlobalVariables, value: string) => {
     setGbVariables({
       ...gbvariables!,
       [key]: value,
     });
   };
+
+  const handleError = useCallback(
+    (key: string) => {
+      if (errorMessages && typeof errorMessages === "object") {
+        return errorMessages[key];
+      }
+    },
+    [errorMessages]
+  );
 
   return (
     <Box
@@ -41,6 +52,8 @@ export const GlobalVariablesComponent = () => {
       display="flex"
       gap={2}
       flexDirection="column"
+      height="calc(100vh - 145px)"
+      overflow="auto"
     >
       <Box width="840px" display="flex" flexDirection="column" gap={1}>
         {gbvariables &&
@@ -51,12 +64,13 @@ export const GlobalVariablesComponent = () => {
               </Typography>
               <TextField
                 sx={{ width: "50%" }}
-                type="number"
                 value={gbvariables[key as keyof typeof globalVariable]}
+                helperText={handleError(key)}
+                error={Boolean(handleError(key))}
                 onChange={(event) =>
                   handleChange(
                     key as keyof IGlobalVariables,
-                    Number(event.target.value)
+                    event.target.value
                   )
                 }
               />

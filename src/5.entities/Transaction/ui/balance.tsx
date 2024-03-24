@@ -18,7 +18,7 @@ export const Balance = (props: IProps) => {
       <Box display="flex" gap={1}>
         <Typography variant="h5">Balance: </Typography>
         <Typography variant="h5">
-          {formattedNumber(props.balance - props.spent)} sum;
+          {formattedNumber(props.balance - props.spent)} sum
         </Typography>
       </Box>
       <Box display="flex" gap={1}>

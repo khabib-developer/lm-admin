@@ -7,7 +7,6 @@ import {
   sortKeys,
   TransactionSearch,
   typeOfSortKeys,
-  typeofTransactionStatus,
   TransactionList,
 } from "../../../5.entities";
 import { useCallback, useEffect, useState } from "react";
@@ -20,7 +19,7 @@ export const TransactionHistory = (props: IComponent) => {
   const [searchValue, setSearchValue] = useState("");
   const [sortKey, setSortKey] = useState<typeOfSortKeys>(sortKeys.created_at);
   const [asc, setAsc] = useState(true);
-  const [opts, setOpts] = useState<typeofTransactionStatus[]>([]);
+  const [status, setStatus] = useState<string>("all");
 
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
 
@@ -46,13 +45,12 @@ export const TransactionHistory = (props: IComponent) => {
     const tx = props.transactions
       .filter(
         (tr) =>
-          !!opts.find((option) => option === tr.status) &&
-          srch(tr.id, searchValue)
+          (status === "all" || status === tr.status) && srch(tr.id, searchValue)
       )
       .sort(sort);
 
     setTransactions(tx);
-  }, [searchValue, sortKey, asc, opts, props.transactions, sort, srch]);
+  }, [searchValue, sortKey, asc, status, props.transactions, sort, srch]);
 
   return (
     <Paper
@@ -98,7 +96,7 @@ export const TransactionHistory = (props: IComponent) => {
             />
           </Grid>
           <Grid item xs={3} display="flex" justifyContent="end">
-            <TransactionFilter setOptios={setOpts} />
+            <TransactionFilter status={status} setStatus={setStatus} />
           </Grid>
         </Grid>
       </Grid>

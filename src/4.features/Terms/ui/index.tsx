@@ -1,28 +1,33 @@
-import MDEditor from "@uiw/react-md-editor";
-// No import is required in the WebPack.
-import "@uiw/react-md-editor/markdown-editor.css";
-// No import is required in the WebPack.
-import "@uiw/react-markdown-preview/markdown.css";
 import { useTermsStore } from "../model/terms.store";
-import { Button, Stack } from "@mui/material";
-import { useTermsHook } from "../hooks/terms.hook";
+import { Box, Button } from "@mui/material";
+import { TermItem } from "./termsItem";
+import { useState } from "react";
+import { TextAreaModal } from "./textareaModal";
+import { DeleteTermItem } from "./deleteTerm";
 
 export const TermsCRUD = () => {
   const termsStore = useTermsStore();
-  const { updateTerms } = useTermsHook();
+
+  const [id, setId] = useState<number | null>(null);
 
   return (
-    <div data-color-mode="dark">
-      <MDEditor
-        height={"calc(100vh - 164.5px)"}
-        value={termsStore.terms}
-        onChange={(event) => termsStore.setTerms(event as string)}
-      />
-      <Stack direction="row" pt={1} width="100%" justifyContent="end">
-        <Button onClick={updateTerms} variant="contained">
-          Update
-        </Button>
-      </Stack>
-    </div>
+    <Box>
+      <Button
+        variant="contained"
+        sx={{ mb: 2, mx: 1 }}
+        onClick={() => setId(-1)}
+      >
+        Create
+      </Button>
+      <Box height="calc(100vh - 165px)" overflow="auto">
+        <Box display="flex" flexWrap="wrap">
+          {termsStore.terms.map((term) => (
+            <TermItem term={term} key={term.id} setId={setId} />
+          ))}
+        </Box>
+      </Box>
+      <TextAreaModal id={id} setId={setId} />
+      <DeleteTermItem />
+    </Box>
   );
 };

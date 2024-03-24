@@ -1,66 +1,33 @@
-import { useEffect, useState } from "react";
 import { transactionStatus } from "../types";
-import {
-  Box,
-  Checkbox,
-  ListItemText,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 0;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-      background: "black",
-    },
-  },
-};
-
-type typeOfValue = Array<keyof typeof transactionStatus>;
-
-const options: typeOfValue = Object.keys(transactionStatus) as typeOfValue;
+import { Box, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 interface IComponent {
-  setOptios: React.Dispatch<React.SetStateAction<typeOfValue>>;
+  status: string;
+  setStatus: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const TransactionFilter = (props: IComponent) => {
-  const [selectedOpts, setSelectedOpts] = useState<typeOfValue>(options);
-
-  const handleChange = (event: SelectChangeEvent<typeof selectedOpts>) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedOpts(value as typeOfValue);
-    props.setOptios(value as typeOfValue);
+  const handleChange = (event: SelectChangeEvent) => {
+    props.setStatus(event.target.value);
   };
-
-  useEffect(() => {
-    props.setOptios(options);
-  }, []);
 
   return (
     <Box width={120} height={36.5}>
       <Select
-        labelId="demo-multiple-checkbox-label"
-        id="demo-multiple-checkbox"
-        multiple
-        value={selectedOpts}
+        labelId="demo-simple-select-standard-label"
+        id="demo-simple-select-standard"
+        value={props.status}
         onChange={handleChange}
-        renderValue={(selected) => selected.join(", ")}
-        sx={{ width: 120, height: 36.5 }}
-        MenuProps={MenuProps}
+        label="Status"
+        variant="standard"
+        sx={{ width: "120px", px: 1 }}
       >
-        {options.map((opt: keyof typeof transactionStatus) => (
-          <MenuItem key={opt} value={opt}>
-            <Checkbox checked={selectedOpts.indexOf(opt) > -1} />
-            <ListItemText primary={opt} />
+        <MenuItem value="all">
+          <em>All</em>
+        </MenuItem>
+        {Object.keys(transactionStatus).map((s) => (
+          <MenuItem key={s} value={s}>
+            {s}
           </MenuItem>
         ))}
       </Select>

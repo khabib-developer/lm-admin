@@ -5,7 +5,6 @@ import { useSentenceHook } from "../hooks/sentence.hook";
 import { HistoryItem } from "./historyItem";
 import { Box } from "@mui/material";
 import { LoadingHistory } from "../../../6.shared";
-
 type THistoryList = {
   sentence: ISentence;
 };
@@ -26,6 +25,7 @@ export const HistoryList = (props: THistoryList) => {
         username: "first version",
       },
       user_text: props.sentence.old_value,
+      wrong: false,
       created_at: props.sentence.created_at,
     }),
     [props.sentence]

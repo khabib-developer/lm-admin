@@ -21,4 +21,6 @@ export interface IAppStore {
     fetchData: requestFunctionType
   ) => void;
   addNotification: (notification: INotification) => void;
+  errorMessages: any;
+  setErrorMessages: (errorMessages: any) => void;
 }

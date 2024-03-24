@@ -17,7 +17,10 @@ export const useVariablesHook = () => {
         const result = await fetchData(
           `/auth/admin-global/${globalVariable.id}/`,
           "PUT",
-          data
+          data,
+          {},
+          true,
+          false
         );
         if (result) setGlobalVariable(result);
         return result;

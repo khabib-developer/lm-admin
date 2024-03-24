@@ -6,21 +6,16 @@ import {
   Paper,
   Tooltip,
   Typography,
-  Zoom,
 } from "@mui/material";
 import { IUserItem } from "../types";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  formatCardNumber,
-  formatPhoneNumber,
-  formattedNumber,
-  useAppStore,
-} from "../../../6.shared";
+import { useEffect, useState } from "react";
+import { formatPhoneNumber, formattedNumber } from "../../../6.shared";
 import PersonIcon from "@mui/icons-material/Person";
 import BlockIcon from "@mui/icons-material/Block";
 import dateFormat from "dateformat";
 import { teal } from "@mui/material/colors";
 import { useUsersHook } from "../hooks/users.hook";
+import { CardNumber } from "./cardNumber";
 
 type TComponent = {
   user: IUserItem;
@@ -37,24 +32,9 @@ const paperStyles = {
 };
 
 export const UserInfo = ({ user, setUser }: TComponent) => {
-  const { setInfo } = useAppStore();
-
   const { updateScores, changeUserAccess } = useUsersHook();
 
   const [isActive, setIsActive] = useState(user.score.blocked);
-
-  const cardNumber = useMemo(
-    () =>
-      user && user.score.card
-        ? formatCardNumber(user.score.card)
-        : "0000 0000 0000 0000",
-    [user]
-  );
-
-  const copy = useCallback(() => {
-    navigator.clipboard.writeText(cardNumber);
-    setInfo("Copied to clipboard");
-  }, [cardNumber, setInfo]);
 
   const [verified, setVerified] = useState(user.score.verified);
   const [penalty, setPenalty] = useState(user.score.penalty);
@@ -185,27 +165,8 @@ export const UserInfo = ({ user, setUser }: TComponent) => {
           <Typography color="GrayText" px={1} variant="body2">
             Card number
           </Typography>
-          <Tooltip
-            TransitionComponent={Zoom}
-            title="Click to copy"
-            followCursor
-            leaveDelay={200}
-            placement="top"
-          >
-            <Box
-              sx={{
-                bgcolor: "background.default",
-                p: 1,
-                borderRadius: 2,
-                color: "#788a82",
-                cursor: "pointer",
-                width: "fit-content",
-              }}
-              onClick={copy}
-            >
-              {cardNumber}
-            </Box>
-          </Tooltip>
+
+          <CardNumber card={user.score.card} />
         </Grid>
 
         <Grid

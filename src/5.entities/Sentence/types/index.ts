@@ -61,6 +61,7 @@ export interface IHistory {
     id: number;
     username: string;
   };
+  wrong: boolean;
   user_text: string;
   created_at: string;
 }

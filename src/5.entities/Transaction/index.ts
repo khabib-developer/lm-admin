@@ -7,3 +7,4 @@ export * from "./types/index";
 export * from "./ui/balance";
 export * from "./model/transaction.store";
 export * from "./ui/updateTransaction";
+export * from "./types";

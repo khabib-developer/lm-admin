@@ -72,4 +72,6 @@ export const useAppStore = create<IAppStore>((set) => ({
       };
     });
   },
+  errorMessages: null,
+  setErrorMessages: (errorMessages: any) => set({ errorMessages }),
 }));

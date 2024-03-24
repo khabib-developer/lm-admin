@@ -68,8 +68,8 @@ export const useSentenceHook = () => {
   const VisualizeErrors = useCallback((text: string) => {
     let array = text.split(" ");
 
-    const errRegex = /<r>[A-z'\d]+<\/r>/;
-    const warningRegex = /<y>[A-z'\d]+<\/y>/;
+    const errRegex = /<r>[\w\d’']+<\/r>/;
+    const warningRegex = /<y>[\w\d’']+<\/y>/g;
 
     array = array.map((word) => {
       const color =
