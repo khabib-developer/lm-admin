@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Paper, Typography } from "@mui/material";
+import { Box, Chip, Divider, Grid, Paper, Typography } from "@mui/material";
 import { IHistory } from "../types";
 import { useSentenceHook } from "../hooks/sentence.hook";
 import dateFormat from "dateformat";
@@ -75,10 +75,12 @@ export const HistoryItem = (props: THistoryItem) => {
                 __html: VisualizeErrors(props.history.user_text),
               }}
             />
-            <Typography variant="overline">
-              {dateFormat(props.history.created_at, "mmmm dS, yyyy, hh:MM")}
-            </Typography>
-            {props.history.wrong && <ErrorOutlineIcon color="error" />}
+            <Box display="flex" gap={1}>
+              <Typography variant="overline">
+                {dateFormat(props.history.created_at, "mmmm dS, yyyy, hh:MM")}
+              </Typography>
+              {props.history.wrong && <Chip label="wrong" />}
+            </Box>
           </Paper>
         </Grid>
       </Grid>
