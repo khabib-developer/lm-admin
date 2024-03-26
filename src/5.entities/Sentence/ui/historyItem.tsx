@@ -3,7 +3,6 @@ import { IHistory } from "../types";
 import { useSentenceHook } from "../hooks/sentence.hook";
 import dateFormat from "dateformat";
 import { useUsersStore } from "../../User";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 type THistoryItem = {
   history: IHistory;

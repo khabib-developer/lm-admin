@@ -56,7 +56,7 @@ export const NotificationItem = (props: IProps) => {
     } else if (props.notification.type === MessageTypes.rejected_sentence) {
       navigate(
         `${SentenceRoutes.has_proper_noun.replace(":offset", "1")}?${
-          props.notification.value.id
+          props.notification.id
         }`
       );
       deletNotifications([props.notification.value.id], fetchData);
