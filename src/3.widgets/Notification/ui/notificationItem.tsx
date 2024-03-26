@@ -56,10 +56,10 @@ export const NotificationItem = (props: IProps) => {
     } else if (props.notification.type === MessageTypes.rejected_sentence) {
       navigate(
         `${SentenceRoutes.has_proper_noun.replace(":offset", "1")}?${
-          props.notification.id
+          props.notification.value.id
         }`
       );
-      deletNotifications([props.notification.value.id], fetchData);
+      deletNotifications([props.notification.id], fetchData);
     }
 
     props.setOpen(false);
