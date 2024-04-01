@@ -16,8 +16,15 @@ export const AppealItem = (props: IProps) => {
   const { user } = useAppStore();
   const { VisualizeErrors } = useSentenceHook();
 
-  const { handleReset, verified, penalty, handleClick, handleSubmit } =
-    useAppealHook(props);
+  const {
+    handleReset,
+    verified,
+    penalty,
+    handleClick,
+    handleSubmit,
+    handlePublic,
+    publicCheat,
+  } = useAppealHook(props);
 
   useEffect(() => {
     handleReset();
@@ -34,7 +41,7 @@ export const AppealItem = (props: IProps) => {
         sx={{
           bgcolor: "background.default",
           px: 2,
-          maxWidth: "50%",
+          maxWidth: "60%",
           py: 1,
           borderRadius: 3,
           display: "flex",
@@ -58,7 +65,7 @@ export const AppealItem = (props: IProps) => {
         </Typography>
       </Paper>
       {props.appeal.appeal && (
-        <Box pt={1} display="flex" width="50%" gap={1} px={2}>
+        <Box pt={1} display="flex" width="60%" gap={1} px={2}>
           <Button
             sx={{ flex: 1 }}
             onClick={() => handleClick(false)}
@@ -76,6 +83,15 @@ export const AppealItem = (props: IProps) => {
             disabled={!props.appeal.appeal.active}
           >
             Verified: {verified}
+          </Button>
+          <Button
+            sx={{ flex: 1 }}
+            onClick={handlePublic}
+            variant="contained"
+            color="info"
+            disabled={!props.appeal.appeal.active}
+          >
+            Public: {publicCheat}
           </Button>
           <Button
             onClick={handleSubmit}

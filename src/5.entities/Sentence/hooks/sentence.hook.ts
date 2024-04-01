@@ -68,6 +68,8 @@ export const useSentenceHook = () => {
   const VisualizeErrors = useCallback((text: string) => {
     let array = text.split(" ");
 
+    const empty = "0null";
+
     const errRegex = /<r>[\w\d’']+<\/r>/;
     const warningRegex = /<y>[\w\d’']+<\/y>/g;
 
@@ -81,7 +83,7 @@ export const useSentenceHook = () => {
       return `<span style="color:${color}">${word}</span>`;
     });
 
-    return array.join(" ");
+    return array.join(" ").replaceAll(empty, "");
   }, []);
 
   const getSentenceHistory = useCallback(async (sentenceId: number) => {

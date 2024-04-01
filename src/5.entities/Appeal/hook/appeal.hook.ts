@@ -16,33 +16,53 @@ export const useAppealHook = (props: IProps) => {
 
   const [verified, setVerified] = useState(0);
   const [penalty, setPenalty] = useState(0);
+  const [publicCheat, setPublic] = useState(0);
 
   const handleReset = useCallback(() => {
     if (props.appeal.appeal) {
+      const publicValue =
+        props.appeal.appeal.verify_score_sentence.penalty +
+        props.appeal.appeal.verify_score_sentence.verify_score -
+        props.appeal.appeal.verify_score_sentence.collected_this_sentence;
       setVerified(props.appeal.appeal.verify_score_sentence.verify_score);
-      setPenalty(props.appeal.appeal.verify_score_sentence.penalty);
+      setPenalty(
+        props.appeal.appeal.verify_score_sentence.penalty > 0
+          ? props.appeal.appeal.verify_score_sentence.penalty - 1
+          : 0
+      );
+      setPublic(publicValue);
     }
   }, [props.appeal]);
 
   const handleClick = (isIncrement: boolean) => {
     if (isIncrement) {
-      if(props.appeal.appeal?.verify_score_sentence.collected_this_sentence === 0) return
+      if (
+        props.appeal.appeal?.verify_score_sentence.collected_this_sentence === 0
+      )
+        return;
       if (penalty > 0) {
         setVerified((prev) => prev + 1);
         setPenalty((prev) => prev - 1);
       }
     } else {
       if (verified >= 0) {
-        let penaltyFn = (prev: number) => prev + 1
-        let verifyFn = (prev: number) => prev - 1
-        if(props.appeal.appeal?.verify_score_sentence.collected_this_sentence === 0) {
-          penaltyFn = (prev: number) => Number(!Boolean(prev))
-          verifyFn = (prev: number) => prev
-        }
+        let penaltyFn = (prev: number) => prev + 1;
+        let verifyFn = (prev: number) => prev - 1;
+        // if (
+        //   props.appeal.appeal?.verify_score_sentence.collected_this_sentence ===
+        //   0
+        // ) {
+        //   penaltyFn = (prev: number) => Number(!Boolean(prev));
+        //   verifyFn = (prev: number) => prev;
+        // }
         setPenalty(penaltyFn);
         setVerified(verifyFn);
       }
     }
+  };
+
+  const handlePublic = () => {
+    setPublic((prev) => Number(!prev));
   };
 
   const handleSubmit = useCallback(() => {
@@ -56,7 +76,7 @@ export const useAppealHook = (props: IProps) => {
         collected_this_sentence:
           props.appeal.appeal?.verify_score_sentence.collected_this_sentence,
         verify_score: verified,
-        penalty,
+        penalty: penalty + publicCheat,
         appeal_answer_message: `Id: ${props.appeal.appeal?.id} uchun shikoyat xati<br><br>${typedMessage}`,
       },
       "appeal_answer"
@@ -83,10 +103,12 @@ export const useAppealHook = (props: IProps) => {
   ]);
 
   return {
+    publicCheat,
     verified,
     penalty,
     handleClick,
     handleReset,
     handleSubmit,
+    handlePublic,
   };
 };

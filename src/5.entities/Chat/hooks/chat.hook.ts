@@ -28,6 +28,7 @@ export const useChatHook = () => {
       };
       socket.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
+
         if (
           data.type === MessageTypes.chat ||
           data.type === MessageTypes.appeal_answer ||
