@@ -70,8 +70,8 @@ export const useSentenceHook = () => {
 
     const empty = "0null";
 
-    const errRegex = /<r>[\w\d’']+<\/r>/;
-    const warningRegex = /<y>[\w\d’']+<\/y>/g;
+    const errRegex = /<r>[\w\d’'.,?]+<\/r>/;
+    const warningRegex = /<y>[\w\d’'.,?]+<\/y>/g;
 
     array = array.map((word) => {
       const color =
