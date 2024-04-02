@@ -61,9 +61,15 @@ export interface IHistory {
     id: number;
     username: string;
   };
-  wrong: boolean;
+  status: keyof typeof statusOFHistoryItem;
   user_text: string;
   created_at: string;
+}
+
+export enum statusOFHistoryItem {
+  change = "change",
+  wrong = "wrong",
+  next = "next",
 }
 
 export enum properNounsStatus {

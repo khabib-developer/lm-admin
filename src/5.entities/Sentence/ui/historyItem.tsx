@@ -1,8 +1,9 @@
 import { Box, Chip, Divider, Grid, Paper, Typography } from "@mui/material";
-import { IHistory } from "../types";
+import { IHistory, statusOFHistoryItem } from "../types";
 import { useSentenceHook } from "../hooks/sentence.hook";
 import dateFormat from "dateformat";
 import { useUsersStore } from "../../User";
+import { useMemo } from "react";
 
 type THistoryItem = {
   history: IHistory;
@@ -14,6 +15,16 @@ export const HistoryItem = (props: THistoryItem) => {
   const { setUserId } = useUsersStore();
   const handleClick = () =>
     props.history.user.id && setUserId(props.history.user.id);
+
+  const color = useMemo(
+    () =>
+      props.history.status === statusOFHistoryItem.next
+        ? "info"
+        : props.history.status === statusOFHistoryItem.change
+        ? "success"
+        : "wrong",
+    [props.history]
+  );
   return (
     <Box>
       <Grid container gap={4}>
@@ -74,11 +85,13 @@ export const HistoryItem = (props: THistoryItem) => {
                 __html: VisualizeErrors(props.history.user_text),
               }}
             />
-            <Box display="flex" gap={1}>
+            <Box display="flex" gap={2} alignItems="center !important">
               <Typography variant="overline">
                 {dateFormat(props.history.created_at, "mmmm dS, yyyy, hh:MM")}
               </Typography>
-              {props.history.wrong && <Chip label="wrong" />}
+              {props.history.id !== 0 && (
+                <Chip size="small" color="info" label={props.history.status} />
+              )}
             </Box>
           </Paper>
         </Grid>

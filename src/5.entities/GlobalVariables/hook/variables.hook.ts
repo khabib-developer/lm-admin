@@ -8,6 +8,8 @@ export const useVariablesHook = () => {
   const { fetchData } = useAxios();
   const getVariables = useCallback(async () => {
     const result = await fetchData("/auth/admin-global/", "GET");
+    console.log(result);
+
     setGlobalVariable(result);
   }, []);
 

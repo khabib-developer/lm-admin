@@ -16,6 +16,7 @@ export interface IGlobalVariables {
   public_cheating_max: number;
   sentence_blocked_time_minutes: number;
   similar_ratio: number;
+  phone_number: string;
   similar_distance: number;
   created_at: Date;
   updated_at: Date;
@@ -33,4 +34,5 @@ export const globalVariablesKeys = {
   similar_ratio: "Similar",
   similar_distance: "Distance",
   balance: "Balance (sum)",
+  phone_number: "Contact phone",
 };
