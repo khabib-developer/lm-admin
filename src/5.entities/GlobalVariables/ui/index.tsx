@@ -93,6 +93,7 @@ export const GlobalVariablesComponent = () => {
       } else
         setErrorMessages({
           ...errorMessages,
+          [key]: undefined,
           mock_test_count_max: undefined,
           mock_test_count_min: undefined,
         });
