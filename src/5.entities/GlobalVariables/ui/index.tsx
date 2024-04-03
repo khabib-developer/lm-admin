@@ -49,7 +49,6 @@ export const GlobalVariablesComponent = () => {
         ? +value === 0
         : false;
     const includesPlus = key !== "phone_number" ? value.includes("+") : false;
-
     if (key === "phone_number") {
       value = value
         .replaceAll("(", "")
@@ -105,7 +104,12 @@ export const GlobalVariablesComponent = () => {
         similar_ratio: "Similar ratio should be between 0 and 1",
       });
     }
-
+    if (
+      key !== "phone_number" &&
+      !Number.isNaN(Number(value)) &&
+      Number(value) !== 0
+    )
+      value = String(Number(value));
     setGbVariables({
       ...gbvariables!,
       [key]: value,
