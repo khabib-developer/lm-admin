@@ -56,10 +56,8 @@ export const GlobalVariablesComponent = () => {
         .replaceAll(")", "")
         .replaceAll(" ", "")
         .replace("-", "");
-
       if (value.length < 5) value = "+998";
     }
-
     if (
       stringValidation ||
       value.trim() === "" ||
@@ -76,32 +74,34 @@ export const GlobalVariablesComponent = () => {
       });
     } else {
       setErrorMessages({ ...errorMessages, [key]: undefined });
+      if (
+        key === "mock_test_count_max" &&
+        Number(gbvariables.mock_test_count_min) >= Number(value)
+      ) {
+        setErrorMessages({
+          ...errorMessages,
+          [key]: "Mock count max cannot be higher than Mock count min",
+        });
+      } else if (
+        key === "mock_test_count_min" &&
+        Number(gbvariables.mock_test_count_max) <= Number(value)
+      ) {
+        setErrorMessages({
+          ...errorMessages,
+          [key]: "Mock count max cannot be higher than Mock count min",
+        });
+      } else
+        setErrorMessages({
+          ...errorMessages,
+          mock_test_count_max: undefined,
+          mock_test_count_min: undefined,
+        });
     }
 
     if (key === "similar_ratio" && (Number(value) < 0 || Number(value) > 1)) {
       setErrorMessages({
         ...errorMessages,
         similar_ratio: "Similar ratio should be between 0 and 1",
-      });
-    }
-
-    if (
-      key === "mock_test_count_max" &&
-      Number(gbvariables.mock_test_count_min) > Number(value)
-    ) {
-      setErrorMessages({
-        ...errorMessages,
-        [key]: "Mock count max cannot be higher than Mock count min",
-      });
-    }
-
-    if (
-      key === "mock_test_count_min" &&
-      Number(gbvariables.mock_test_count_max) < Number(value)
-    ) {
-      setErrorMessages({
-        ...errorMessages,
-        [key]: "Mock count max cannot be higher than Mock count min",
       });
     }
 

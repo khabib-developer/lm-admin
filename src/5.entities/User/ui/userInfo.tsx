@@ -85,7 +85,7 @@ export const UserInfo = ({ user, setUser }: TComponent) => {
   };
 
   const handleBlock = () => {
-    changeUserAccess(user.id, !isActive);
+    changeUserAccess(user.score.id, !isActive);
     setIsActive((prev) => !prev);
   };
 
