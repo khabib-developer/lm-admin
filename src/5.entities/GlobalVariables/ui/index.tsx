@@ -38,8 +38,6 @@ export const GlobalVariablesComponent = () => {
   };
 
   const handleChange = (key: keyof IGlobalVariables, value: string) => {
-    console.log(key, value);
-    console.log(Number(value) < 0);
     if (!gbvariables) return;
     const stringValidation =
       key !== "phone_number" ? Number.isNaN(Number(value)) : false;
@@ -51,6 +49,17 @@ export const GlobalVariablesComponent = () => {
         ? +value === 0
         : false;
     const includesPlus = key !== "phone_number" ? value.includes("+") : false;
+
+    if (key === "phone_number") {
+      value = value
+        .replaceAll("(", "")
+        .replaceAll(")", "")
+        .replaceAll(" ", "")
+        .replace("-", "");
+
+      if (value.length < 5) value = "+998";
+    }
+
     if (
       stringValidation ||
       value.trim() === "" ||
@@ -180,7 +189,7 @@ const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
     return (
       <IMaskInput
         {...other}
-        mask="(+998) 000-0000"
+        mask="+998 (00) 000-0000"
         definitions={{
           "#": /[1-9]/,
         }}
