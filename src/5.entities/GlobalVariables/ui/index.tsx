@@ -88,7 +88,7 @@ export const GlobalVariablesComponent = () => {
       ) {
         setErrorMessages({
           ...errorMessages,
-          [key]: "Mock count max cannot be higher than Mock count min",
+          [key]: "Mock count max cannot be upper than Mock count min",
         });
       } else
         setErrorMessages({
