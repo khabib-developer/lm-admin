@@ -30,7 +30,7 @@ export const PropserNounsSection = (props: IProps) => {
   const { getWordWithoutTags, handleProperNoun } = useSentenceHook();
 
   const handleChange = (newValue: string, index: number) => {
-    console.log(newValue.trim());
+    if (newValue.includes(" ")) return;
     if (newValue.trim() === "") return;
     setAccept(false);
     setEdit(true);

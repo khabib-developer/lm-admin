@@ -113,10 +113,21 @@ export const useSentenceHook = () => {
         { sentence_id, old_value, new_value, actual_number }
       );
 
+      console.log(result);
+
+      console.log(
+        (getStatusFromURl === sentenceStatus.processing &&
+          result.status === sentenceStatus.waiting) ||
+          (getStatusFromURl === sentenceStatus.processing &&
+            result.has_proper_noun)
+      );
+
       if (result) {
         if (
-          getStatusFromURl === sentenceStatus.processing &&
-          result.status === sentenceStatus.waiting
+          (getStatusFromURl === sentenceStatus.processing &&
+            result.status === sentenceStatus.waiting) ||
+          (getStatusFromURl === sentenceStatus.processing &&
+            result.has_proper_noun)
         ) {
           setDeleteSentenceId(sentence_id);
           deleteSentence(getStatusFromURl as keyof IQuantity);
