@@ -22,7 +22,7 @@ export const HistoryItem = (props: THistoryItem) => {
         ? "info"
         : props.history.status === statusOFHistoryItem.change
         ? "success"
-        : "wrong",
+        : "warning",
     [props.history]
   );
   return (
@@ -55,7 +55,7 @@ export const HistoryItem = (props: THistoryItem) => {
             sx={{ mx: "15px", height: 60, my: "5px" }}
           />
         </Grid>
-        <Grid item xs={7} display="flex" flexDirection="column">
+        <Grid item xs={8} display="flex" flexDirection="column">
           <Box
             height="30px"
             display="flex"
@@ -90,7 +90,14 @@ export const HistoryItem = (props: THistoryItem) => {
                 {dateFormat(props.history.created_at, "mmmm dS, yyyy, hh:MM")}
               </Typography>
               {props.history.id !== 0 && (
-                <Chip size="small" color="info" label={props.history.status} />
+                <Chip size="small" color={color} label={props.history.status} />
+              )}
+              {props.history.has_proper_noun && (
+                <Chip
+                  className="proper__noun__mark"
+                  size="small"
+                  label="proper"
+                />
               )}
             </Box>
           </Paper>

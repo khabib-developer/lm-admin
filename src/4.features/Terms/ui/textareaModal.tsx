@@ -21,15 +21,18 @@ export const TextAreaModal = (props: IProps) => {
   const handleClose = () => props.setId(null);
   const { updateTerms } = useTermsHook();
   const update = useMemo(() => props.id && props.id > 0, [props.id]);
+  const term = useMemo(
+    () => terms.find((term) => term.id === props.id)?.text || "",
+    [props.id, terms]
+  );
   const handleSubmit = () => {
-    if (props.id) {
-      updateTerms(props.id, text);
-      handleClose();
-    }
+    if (!props.id) return;
+    updateTerms(props.id, text);
+    handleClose();
   };
   useEffect(() => {
     if (props.id && props.id > 0) {
-      setText(terms.find((term) => term.id === props.id)?.text || "");
+      setText(term);
     } else setText("");
   }, [props.id, terms]);
   return (
@@ -56,7 +59,11 @@ export const TextAreaModal = (props: IProps) => {
         <Button onClick={handleClose} color="info">
           Close
         </Button>
-        <Button onClick={handleSubmit} color="info">
+        <Button
+          disabled={term.trim() === text.trim() || text.trim() === ""}
+          onClick={handleSubmit}
+          color="info"
+        >
           {!update ? "Create" : "Update"}
         </Button>
       </DialogActions>

@@ -62,6 +62,7 @@ export interface IHistory {
     username: string;
   };
   status: keyof typeof statusOFHistoryItem;
+  has_proper_noun: boolean;
   user_text: string;
   created_at: string;
 }
