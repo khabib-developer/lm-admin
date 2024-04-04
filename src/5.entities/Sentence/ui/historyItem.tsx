@@ -99,6 +99,9 @@ export const HistoryItem = (props: THistoryItem) => {
                   label="proper"
                 />
               )}
+              {props.history.user_text.includes("0null") && (
+                <Chip size="small" label="Delete" color="error" />
+              )}
             </Box>
           </Paper>
         </Grid>
