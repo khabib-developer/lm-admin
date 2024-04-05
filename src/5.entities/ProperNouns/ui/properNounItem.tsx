@@ -11,6 +11,7 @@ export const ProperNoun = (props: IComponent) => {
         p: 2,
         borderRadius: 5,
         height: "fit-content",
+        width: "12%",
       }}
       elevation={1}
     >

@@ -75,8 +75,10 @@ export enum statusOFHistoryItem {
 
 export enum properNounClass {
   PLACE = "PLACE",
-  NAME = "NAME",
-  "NULL" = "NULL",
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  NULL = "NULL",
+  OTHER = "OTHER",
 }
 export enum properNounStatus {
   accept = "accept",

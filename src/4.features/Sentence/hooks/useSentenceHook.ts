@@ -52,16 +52,16 @@ export const useSentenceFeatureHook = () => {
         false
       );
 
-      if (quantity)
-        setQuantity({
-          [sentenceStatus.new]: quantity.new_count,
-          [sentenceStatus.mock]: quantity.mock_count,
-          [sentenceStatus.has_proper_noun]: quantity.has_proper_noun_count,
-          [sentenceStatus.processing]: quantity.processing_count,
-          [sentenceStatus.wrong]: quantity.wrong_count,
-          [sentenceStatus.done]: quantity.done_count,
-          [sentenceStatus.waiting]: quantity.done_waiting_count,
-        });
+      if (quantity) console.log(quantity);
+      setQuantity({
+        [sentenceStatus.new]: quantity.new_count,
+        [sentenceStatus.mock]: quantity.mock_count,
+        [sentenceStatus.has_proper_noun]: quantity.has_proper_noun_count,
+        [sentenceStatus.processing]: quantity.processing_count,
+        [sentenceStatus.wrong]: quantity.wrong_count,
+        [sentenceStatus.done]: quantity.done_count,
+        [sentenceStatus.waiting]: quantity.done_waiting_count,
+      });
 
       if (result) {
         const data = search.trim() === "" ? result.results : result;
