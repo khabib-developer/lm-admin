@@ -41,7 +41,12 @@ export const HistoryList = (props: THistoryList) => {
   }, [props.sentence.id]);
 
   return (
-    <Box px={10} pt={5} height="calc(100vh - 338px)" sx={{ overflowY: "auto" }}>
+    <Box
+      px={10}
+      pt={5}
+      //  height="calc(100vh - 338px)"
+      //  sx={{ overflowY: "auto" }}
+    >
       <Box position="relative">
         <LoadingHistory loading={loading} wrapperheight="calc(100vh - 338px)" />
       </Box>

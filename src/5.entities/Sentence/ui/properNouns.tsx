@@ -1,13 +1,21 @@
 import { Box, Button, TextField } from "@mui/material";
-import { ISentence, properNounsStatus } from "../types";
+import {
+  IProperNoun,
+  ISentence,
+  properNounClass,
+  properNounStatus,
+} from "../types";
 import {
   Dispatch,
   SetStateAction,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
 import { useSentenceHook } from "../hooks/sentence.hook";
+import { useSentenceStore } from "../model/sentence.store";
+import { ProperNounItem } from "./properNounItem";
 const properNounRegex = /<u>[A-z'\d]+<\/u>/;
 interface IProps {
   sentence: ISentence;
@@ -16,82 +24,99 @@ interface IProps {
 }
 
 export const PropserNounsSection = (props: IProps) => {
-  const [accept, setAccept] = useState(true);
-  const [edit, setEdit] = useState(false);
-  const properNouns = useMemo(
-    () =>
-      props.text
-        .split(" ")
-        .map((word, i) => ({ word, index: i }))
-        .filter((word) => word.word.match(properNounRegex)),
-    [props.text]
-  );
-
+  const { setProperNouns, properNouns } = useSentenceStore();
   const { getWordWithoutTags, handleProperNoun } = useSentenceHook();
 
-  const handleChange = (newValue: string, index: number) => {
-    if (newValue.includes(" ")) return;
-    if (newValue.trim() === "") return;
-    setAccept(false);
-    setEdit(true);
-    props.setText((prev) => {
-      return prev
+  const pprNouns: IProperNoun[] = useMemo(
+    () =>
+      props.sentence.new_value
         .split(" ")
-        .map((word, i) => {
-          if (i === index) return `<u>${newValue.trim()}</u>`;
-          return word;
-        })
-        .join(" ");
-    });
-  };
+        .map((word, i) => ({ word, index: i }))
+        .filter((item) => item.word.match(properNounRegex))
+        .map((item, index) => ({
+          id: index,
+          base: "",
+          class: properNounClass.NULL,
+          value: getWordWithoutTags(item.word),
+          status: properNounStatus.delete,
+          index: item.index,
+        })),
+    [props.sentence.id]
+  );
+
+  useEffect(() => {
+    setProperNouns(pprNouns);
+  }, [pprNouns]);
 
   const handleReset = useCallback(() => {
-    setAccept(true);
-    setEdit(false);
     props.setText(props.sentence.new_value);
-  }, [props]);
+    setProperNouns(pprNouns);
+  }, [props.sentence]);
 
-  const handleClick = (status: keyof typeof properNounsStatus) =>
-    handleProperNoun(props.sentence.id, props.text, status);
+  const handleClick = (status: keyof typeof properNounStatus) =>
+    handleProperNoun(props.sentence.id, props.text, status, properNouns);
+
+  const checkForActiveButton = useMemo(() => {
+    const err = properNouns.find((item) => item.errorBase || item.errorValue);
+    return {
+      [properNounStatus.accept]:
+        properNouns.filter((item) => item.status === properNounStatus.accept)
+          .length === properNouns.length && !err,
+      [properNounStatus.edit]:
+        properNouns.filter((item) => item.status === properNounStatus.edit)
+          .length &&
+        !properNouns.find((item) => item.status === properNounStatus.delete) &&
+        !err,
+      [properNounStatus.delete]: !!properNouns.find(
+        (item) => item.status === properNounStatus.delete && !err
+      ),
+    };
+  }, [properNouns]);
+
+  // useEffect(() => {
+  //   console.log(properNouns);
+  // }, [properNouns]);
 
   return (
-    <Box display="flex" px={2} pt={2} gap={2} flexWrap="wrap">
-      <Box display="flex" px={2} gap={2}>
+    <Box px={6} pt={2}>
+      <Box display="flex" flexDirection="column" gap={2}>
         {properNouns.map((item) => (
-          <TextField
-            key={item.word}
-            variant="standard"
-            autoFocus={true}
-            value={getWordWithoutTags(item.word)}
-            onChange={(e) => handleChange(e.target.value, item.index)}
+          <ProperNounItem
+            originalData={pprNouns}
+            key={item.id}
+            properNoun={item}
+            setText={props.setText}
           />
         ))}
       </Box>
-      <Button onClick={handleReset} variant="contained" color="inherit">
-        Reset
-      </Button>
-      <Button
-        onClick={() => handleClick(properNounsStatus.except)}
-        variant="contained"
-        disabled={!accept}
-      >
-        Accept
-      </Button>
-      <Button
-        onClick={() => handleClick(properNounsStatus.edit)}
-        variant="contained"
-        color="warning"
-        disabled={!edit}
-      >
-        Edit
-      </Button>
-      <Button
-        onClick={() => handleClick(properNounsStatus.delete)}
-        variant="contained"
-        color="error"
-      >
-        Delete
-      </Button>
+      <Box display="flex" pt={2} gap={2}>
+        <Button onClick={handleReset} variant="contained" color="success">
+          Reset
+        </Button>
+        <Button
+          onClick={() => handleClick(properNounStatus.accept)}
+          variant="contained"
+          disabled={!checkForActiveButton[properNounStatus.accept]}
+        >
+          Accept
+        </Button>
+        <Button
+          onClick={() => handleClick(properNounStatus.edit)}
+          variant="contained"
+          color="warning"
+          disabled={!checkForActiveButton[properNounStatus.edit]}
+        >
+          Edit
+        </Button>
+        <Button
+          onClick={() => handleClick(properNounStatus.delete)}
+          variant="contained"
+          color="error"
+          disabled={!checkForActiveButton[properNounStatus.delete]}
+        >
+          Delete
+        </Button>
+      </Box>
     </Box>
   );
 };

@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { ISentenceStore } from "./type.store";
+import { ChangeProperNounValueType, ISentenceStore } from "./type.store";
 import {
+  IProperNoun,
   IQuantity,
   ISentence,
   sentenceStatus,
@@ -56,4 +57,16 @@ export const useSentenceStore = create<ISentenceStore>((set) => ({
   deleteSentenceId: null,
   setDeleteSentenceId: (deleteSentenceId: null | number) =>
     set({ deleteSentenceId }),
+  properNouns: [],
+  setProperNouns: (properNouns: IProperNoun[]) => set({ properNouns }),
+  changeProperNoun: <T extends keyof IProperNoun>(
+    id: IProperNoun["id"],
+    key: T,
+    value: ChangeProperNounValueType<T>
+  ) =>
+    set((state) => ({
+      properNouns: state.properNouns.map((item) =>
+        item.id === id ? { ...item, [key]: value } : item
+      ),
+    })),
 }));

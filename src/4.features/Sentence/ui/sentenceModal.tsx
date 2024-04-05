@@ -25,6 +25,7 @@ import {
   ISentence,
   WrongSentenceSection,
 } from "../../../5.entities";
+import { useLocation } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -43,6 +44,8 @@ export const SentenceModal = () => {
     () => sentences.find((sentence) => sentence.id === sentenceId),
     [sentenceId, sentences]
   );
+
+  const pathname = useLocation();
 
   useEffect(() => {
     if (sentence) {
@@ -90,6 +93,10 @@ export const SentenceModal = () => {
 
   const handleDelete = () => sentence && setDeleteSentenceId(sentence.id);
 
+  useEffect(() => {
+    handleClose();
+  }, [pathname]);
+
   return (
     <React.Fragment>
       <Dialog
@@ -97,6 +104,8 @@ export const SentenceModal = () => {
         open={Boolean(sentenceId)}
         onClose={handleClose}
         TransitionComponent={Transition}
+        scroll="paper"
+        PaperProps={{ sx: { bgcolor: "#343434" }, elevation: 1 }}
       >
         <AppBar sx={{ position: "relative", bgcolor: "background.default" }}>
           <Toolbar>
@@ -114,10 +123,10 @@ export const SentenceModal = () => {
           </Toolbar>
         </AppBar>
         <Box
-          sx={{
-            bgcolor: "background.default",
-            height: "-webkit-fill-available",
-          }}
+          // sx={{
+          //   bgcolor: "background.default",
+          //   height: "-webkit-fill-available",
+          // }}
           p={3}
         >
           <Grid container>
@@ -159,7 +168,10 @@ export const SentenceModal = () => {
                   onChange={handleChange}
                   onKeyUp={handleKeyUp}
                   sx={{ flex: 1 }}
-                  readOnly={sentence?.status !== sentenceStatus.processing}
+                  readOnly={
+                    sentence?.status !== sentenceStatus.processing ||
+                    sentence.has_proper_noun
+                  }
                   startAdornment={
                     <InputAdornment
                       position="start"
@@ -292,6 +304,7 @@ export const SentenceModal = () => {
               text={text}
               sentence={sentence}
               setText={setText}
+              key={sentence.id}
             />
           ) : sentence && sentence.status === sentenceStatus.wrong ? (
             <WrongSentenceSection id={sentence.id} />

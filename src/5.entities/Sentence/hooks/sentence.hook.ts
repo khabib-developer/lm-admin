@@ -9,9 +9,10 @@ import {
 } from "../../../6.shared";
 import {
   ICreateDataset,
+  IProperNoun,
   IQuantity,
   ISentence,
-  properNounsStatus,
+  properNounStatus,
   sentenceStatus,
   sortSentence,
 } from "../types";
@@ -32,6 +33,7 @@ export const useSentenceHook = () => {
     setQuantity,
     quantity,
   } = useSentenceStore();
+
   const create = useCallback(async (data: ICreateDataset) => {
     const sentence = await axios.fetchData("/sentence/admin/", "POST", data);
     if (sentence) {
@@ -162,8 +164,23 @@ export const useSentenceHook = () => {
     async (
       id: number,
       sentence_value: string,
-      status: keyof typeof properNounsStatus
+      status: keyof typeof properNounStatus,
+      properNouns: IProperNoun[]
     ) => {
+      await axios.fetchData(
+        "sentence/admin_proper_noun/",
+        "POST",
+        {
+          proper_nouns: properNouns.map((item) => ({
+            status: item.status,
+            value: item.value,
+            base_value: item.base,
+            proper_class: item.class,
+          })),
+        },
+        {},
+        false
+      );
       const result = await axios.fetchData(
         `/sentence/admin/${id}/proper_nouns_except_or/`,
         "POST",
@@ -172,14 +189,15 @@ export const useSentenceHook = () => {
           sentence_value,
         }
       );
+
       if (result) {
         const notification = appStore.notifications.find(
           (n) => n.value.id === id
         );
         const key =
-          status === properNounsStatus.delete
+          status === properNounStatus.delete
             ? sentenceStatus.new
-            : status === properNounsStatus.edit
+            : status === properNounStatus.edit
             ? sentenceStatus.processing
             : sentenceStatus.waiting;
         setDeleteSentenceId(id);

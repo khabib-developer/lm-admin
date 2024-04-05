@@ -73,8 +73,24 @@ export enum statusOFHistoryItem {
   next = "next",
 }
 
-export enum properNounsStatus {
+export enum properNounClass {
+  PLACE = "PLACE",
+  NAME = "NAME",
+  "NULL" = "NULL",
+}
+export enum properNounStatus {
+  accept = "accept",
   edit = "edit",
   delete = "delete",
-  except = "except",
+}
+
+export interface IProperNoun {
+  id: number;
+  value: string;
+  base: string;
+  class: keyof typeof properNounClass;
+  status: keyof typeof properNounStatus;
+  index: number;
+  errorValue?: boolean;
+  errorBase?: boolean;
 }
