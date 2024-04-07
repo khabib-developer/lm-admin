@@ -56,7 +56,7 @@ export const SentenceSideBar = () => {
             >
               <Grid container>
                 <Grid item xs={4} display="flex" justifyContent="start">
-                  {properNoun ? "noun" : route}
+                  {properNoun ? "exception" : route}
                 </Grid>
                 <Grid item xs={4} display="flex" justifyContent="end">
                   -

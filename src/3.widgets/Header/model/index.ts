@@ -17,7 +17,7 @@ export const navItems = [
   },
   {
     url: ProperNounsRoute.replace(":offset", "1"),
-    name: "Proper Nouns",
+    name: "Correct word",
   },
   {
     url: UsersRoutes.main.replace(":offset", "1"),
