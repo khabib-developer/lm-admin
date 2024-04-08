@@ -1,6 +1,5 @@
 import { Pagination, Stack } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { LIMIT_ITEMS } from "../../constants";
 
 interface IComponent {
   count: number;
@@ -12,7 +11,7 @@ export const PaginationComponent = (props: IComponent) => {
     props.fn(value);
 
   return (
-    <Stack spacing={2} pb={2}>
+    <Stack spacing={2} alignItems="center">
       <Pagination
         count={props.count}
         onChange={handleChange}
