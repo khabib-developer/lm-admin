@@ -18,7 +18,8 @@ interface IComponent {
 }
 
 export const SentenceItem = (props: IComponent) => {
-  const { getStatusFromURl, updateSentenceItem } = useSentenceHook();
+  const { VisualizeErrors, getStatusFromURl, updateSentenceItem } =
+    useSentenceHook();
   const { setSentenceId, setDeleteSentenceId } = useSentenceStore();
   const handleClick = () => setSentenceId(props.sentence.id);
   const handleDelete = () => setDeleteSentenceId(props.sentence.id);
@@ -63,12 +64,11 @@ export const SentenceItem = (props: IComponent) => {
     >
       <Grid container>
         <Grid item xs={4} display="flex" alignItems="center" px={3}>
-          {/* <div
+          <div
             dangerouslySetInnerHTML={{
               __html: VisualizeErrors(props.sentence.new_value),
             }}
-          /> */}
-          {props.sentence.new_value}
+          />
         </Grid>
 
         <Grid
