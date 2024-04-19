@@ -233,7 +233,7 @@ export const useSentenceHook = () => {
     create,
     createBulk,
     getStatusFromURl,
-    // VisualizeErrors,
+    VisualizeErrors,
     getSentenceHistory,
     updateSentenceItem,
     deleteSentenceItem,

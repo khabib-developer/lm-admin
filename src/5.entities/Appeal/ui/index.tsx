@@ -14,7 +14,7 @@ export interface IProps {
 
 export const AppealItem = (props: IProps) => {
   const { user } = useAppStore();
-  // const { VisualizeErrors } = useSentenceHook();
+  const { VisualizeErrors } = useSentenceHook();
 
   const {
     handleReset,
@@ -49,14 +49,7 @@ export const AppealItem = (props: IProps) => {
           gap: 2,
         }}
       >
-        <Box>
-          $
-          {props.appeal.appeal
-            ? `Appeal Id: ${props.appeal.appeal.id}  <br><br>`
-            : ""}
-          ${props.appeal.message}`
-        </Box>
-        {/* <div
+        <div
           dangerouslySetInnerHTML={{
             __html: VisualizeErrors(
               `${
@@ -66,7 +59,7 @@ export const AppealItem = (props: IProps) => {
               }${props.appeal.message}`
             ),
           }}
-        /> */}
+        />
         <Typography variant="caption" fontSize="8px" color="GrayText">
           {dateformat(props.appeal.timestamp, "hh:mm")}
         </Typography>
