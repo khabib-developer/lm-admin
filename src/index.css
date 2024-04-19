@@ -61,6 +61,14 @@ textarea.new__text {
   height: 100vh;
 }
 
+r {
+  color: red;
+}
+
+y {
+  color: yellow;
+}
+
 @keyframes textShine {
   0% {
     background-position: 0% 50%;

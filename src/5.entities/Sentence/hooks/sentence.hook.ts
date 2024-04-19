@@ -68,27 +68,7 @@ export const useSentenceHook = () => {
   }, []);
 
   const VisualizeErrors = useCallback((text: string) => {
-    let array = text.split(" ");
-
-    const empty = "0null";
-
-    const errRegex = /<r>[^<>]+<\/r>/;
-    const warningRegex = /<y>[^<>]+<\/y>/g;
-
-    array = array.map((word) => {
-      const err = word.match(errRegex);
-      const warning = word.match(warningRegex);
-      if (err !== null) {
-        return word.replace(err[0], `<span style="color:red">${err[0]}</span>`);
-      } else if (warning !== null)
-        return word.replace(
-          warning[0],
-          `<span style="color:red">${warning[0]}</span>`
-        );
-      return word;
-    });
-
-    return array.join(" ").replaceAll(empty, "");
+    return text;
   }, []);
 
   const getSentenceHistory = useCallback(async (sentenceId: number) => {
