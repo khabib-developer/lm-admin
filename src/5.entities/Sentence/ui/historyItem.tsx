@@ -11,7 +11,7 @@ type THistoryItem = {
 };
 
 export const HistoryItem = (props: THistoryItem) => {
-  const { VisualizeErrors } = useSentenceHook();
+  // const { VisualizeErrors } = useSentenceHook();
   const { setUserId } = useUsersStore();
   const handleClick = () =>
     props.history.user.id && setUserId(props.history.user.id);
@@ -80,11 +80,12 @@ export const HistoryItem = (props: THistoryItem) => {
             }}
             elevation={3}
           >
-            <div
+            <Box>props.history.user_text</Box>
+            {/* <div
               dangerouslySetInnerHTML={{
                 __html: VisualizeErrors(props.history.user_text),
               }}
-            />
+            /> */}
             <Box display="flex" gap={2} alignItems="center !important">
               <Typography variant="overline">
                 {dateFormat(props.history.created_at, "mmmm dS, yyyy, hh:MM")}
