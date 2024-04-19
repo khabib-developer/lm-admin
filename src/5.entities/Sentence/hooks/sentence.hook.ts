@@ -76,6 +76,16 @@ export const useSentenceHook = () => {
     const warningRegex = /<y>[^<>]+<\/y>/g;
 
     array = array.map((word) => {
+      const err = word.match(errRegex);
+      const warning = word.match(warningRegex);
+      if (err !== null) {
+        return word.replace(err[0], `<span style="color:red">${err[0]}</span>`);
+      } else if (warning !== null)
+        return word.replace(
+          warning[0],
+          `<span style="color:red">${warning[0]}</span>`
+        );
+      return word;
       const color =
         word.match(errRegex) === null
           ? word.match(warningRegex) === null
