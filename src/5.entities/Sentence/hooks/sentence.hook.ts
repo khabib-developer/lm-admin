@@ -35,14 +35,13 @@ export const useSentenceHook = () => {
   } = useSentenceStore();
 
   const create = useCallback(async (data: ICreateDataset) => {
-    const sentence = await axios.fetchData("/sentence/admin/", "POST", data);
+    const sentence: ISentence = await axios.fetchData("/sentence/admin/", "POST", data);
     if (sentence) {
       appStore.setInfo("Sentence successfully created");
       setSort(sortSentence.Created, sortType.desc);
-
       const url = sentence.is_mock
         ? SentenceRoutes.mock.replace(":offset", String(1))
-        : SentenceRoutes.new.replace(":offset", String(1));
+        : sentence.status === sentenceStatus.other ? SentenceRoutes.other.replace(":offset", String(1)) : SentenceRoutes.new.replace(":offset", String(1));
 
       navigate(url);
     }
@@ -120,7 +119,26 @@ export const useSentenceHook = () => {
               quantity[sentenceStatus.processing] - 1,
             [sentenceStatus.waiting]: quantity[sentenceStatus.waiting] + 1,
           });
-        } else updateSentence(result);
+        } else if(result.status === sentenceStatus.other && getStatusFromURl === sentenceStatus.new) {
+          setDeleteSentenceId(sentence_id);
+          deleteSentence(getStatusFromURl as keyof IQuantity);
+          setQuantity({
+            ...quantity,
+            [sentenceStatus.new]:
+              quantity[sentenceStatus.new] - 1,
+            [sentenceStatus.other]: quantity[sentenceStatus.other] + 1,
+          });
+        } else if(result.status === sentenceStatus.new && getStatusFromURl === sentenceStatus.other) {
+          setDeleteSentenceId(sentence_id);
+          deleteSentence(getStatusFromURl as keyof IQuantity);
+          setQuantity({
+            ...quantity,
+            [sentenceStatus.other]:
+              quantity[sentenceStatus.other] - 1,
+            [sentenceStatus.new]: quantity[sentenceStatus.new] + 1,
+          });
+        } 
+        else updateSentence(result);
 
         appStore.setInfo("Sentence updated");
       }
