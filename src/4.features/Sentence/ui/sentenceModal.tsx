@@ -133,8 +133,8 @@ export const SentenceModal = () => {
             <Grid item xs={6} px={3}>
               <textarea
                 readOnly={
-                  sentence?.status !== sentenceStatus.new ||
-                  sentence.has_proper_noun
+                  (sentence?.status !== sentenceStatus.new ||
+                  sentence.has_proper_noun) && sentence?.status !== sentenceStatus.other
                 }
                 value={text}
                 onChange={(e) => setText(e.target.value)}
@@ -310,13 +310,13 @@ export const SentenceModal = () => {
             <WrongSentenceSection id={sentence.id} />
           ) : (
             <Box display="flex" justifyContent="end" px={2} gap={2} pt={2}>
-              {(sentence?.status === sentenceStatus.new || sentence?.status === sentenceStatus.others) && (
+              {(sentence?.status === sentenceStatus.new || sentence?.status === sentenceStatus.other) && (
                 <Button onClick={handleUpdate} variant="contained">
                   Update
                 </Button>
               )}
               {(sentence?.status === sentenceStatus.done ||
-              sentence?.status === sentenceStatus.others ||
+              sentence?.status === sentenceStatus.other ||
                 sentence?.is_mock) && (
                 <Button
                   onClick={handleDelete}

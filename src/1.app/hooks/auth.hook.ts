@@ -9,7 +9,11 @@ export const useAuthHook = () => {
   const { connect } = useNotificationHook();
   const check = useCallback(async () => {
     try {
-     
+      // const a = await fetchData("/auth/user/", "POST", {
+      //   username: "admin",
+      //   password: 12,
+      // });
+
       const user = await fetchData(
         `/auth/user/`,
         "GET",

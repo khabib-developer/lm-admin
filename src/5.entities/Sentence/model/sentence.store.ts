@@ -11,7 +11,7 @@ import {
 import { sortType, sortTypeValues } from "../../../6.shared";
 const initialQauntity = {
   [sentenceStatus.new]: 0,
-  [sentenceStatus.others]: 0,
+  [sentenceStatus.other]: 0,
   [sentenceStatus.has_proper_noun]: 0,
   [sentenceStatus.processing]: 0,
   [sentenceStatus.waiting]: 0,

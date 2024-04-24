@@ -30,8 +30,8 @@ export const SentenceSideBar = () => {
   );
 
   const redLabel = useCallback((properNoun: boolean, others: boolean) => {
-      return ((properNoun && properNounQty !== 0) || (sentenceStore.quantity[sentenceStatus.others] !== 0 &&others ) )
-  }, [properNounQty, sentenceStore.quantity[sentenceStatus.others]])
+      return ((properNoun && properNounQty !== 0) || (sentenceStore.quantity[sentenceStatus.other] !== 0 &&others ) )
+  }, [properNounQty, sentenceStore.quantity[sentenceStatus.other]])
   
   return (
     <Box
@@ -51,7 +51,7 @@ export const SentenceSideBar = () => {
             ];
 
           const properNoun = route === sentenceStatus.has_proper_noun;
-          const others = route == sentenceStatus.others
+          const others = route == sentenceStatus.other
           return (
             <ListItemButton
               key={route}

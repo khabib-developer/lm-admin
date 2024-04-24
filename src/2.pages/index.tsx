@@ -21,7 +21,7 @@ export const Pages = () => {
   return (
     <Routes>
       <Route path={SentenceRoutes.main} element={<Sentence />}>
-        <Route path={SentenceRoutes.others} element={<SentenceTable />} />
+        <Route path={SentenceRoutes.other} element={<SentenceTable />} />
         <Route path={SentenceRoutes.new} element={<SentenceTable />} />
         <Route
           path={SentenceRoutes.has_proper_noun}
