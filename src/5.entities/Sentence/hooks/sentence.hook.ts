@@ -98,8 +98,6 @@ export const useSentenceHook = () => {
         { sentence_id, old_value, new_value, actual_number }
       );
 
-      console.log(result);
-
       console.log(
         (getStatusFromURl === sentenceStatus.processing &&
           result.status === sentenceStatus.waiting) ||

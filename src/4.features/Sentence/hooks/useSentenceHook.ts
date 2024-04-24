@@ -54,6 +54,7 @@ export const useSentenceFeatureHook = () => {
 
       if (quantity)
         setQuantity({
+          [sentenceStatus.others]: quantity.others || 0,
           [sentenceStatus.new]: quantity.new_count,
           [sentenceStatus.mock]: quantity.mock_count,
           [sentenceStatus.has_proper_noun]: quantity.has_proper_noun_count,

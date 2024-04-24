@@ -310,12 +310,13 @@ export const SentenceModal = () => {
             <WrongSentenceSection id={sentence.id} />
           ) : (
             <Box display="flex" justifyContent="end" px={2} gap={2} pt={2}>
-              {sentence?.status === sentenceStatus.new && (
+              {(sentence?.status === sentenceStatus.new || sentence?.status === sentenceStatus.others) && (
                 <Button onClick={handleUpdate} variant="contained">
                   Update
                 </Button>
               )}
               {(sentence?.status === sentenceStatus.done ||
+              sentence?.status === sentenceStatus.others ||
                 sentence?.is_mock) && (
                 <Button
                   onClick={handleDelete}

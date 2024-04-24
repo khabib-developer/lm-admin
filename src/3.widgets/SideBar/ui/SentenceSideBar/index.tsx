@@ -7,12 +7,13 @@ import {
   useAppStore,
 } from "../../../../6.shared";
 import { useNavigate } from "react-router-dom";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import {
   IQuantity,
   sentenceStatus,
   useSentenceStore,
 } from "../../../../5.entities";
+
 export const SentenceSideBar = () => {
   const { activeSection } = useSideBarHook();
   const sentenceStore = useSentenceStore();
@@ -27,6 +28,11 @@ export const SentenceSideBar = () => {
       notifications.filter((n) => n.type === MessageTypes.proper_nouns).length,
     [notifications]
   );
+
+  const redLabel = useCallback((properNoun: boolean, others: boolean) => {
+      return ((properNoun && properNounQty !== 0) || (sentenceStore.quantity[sentenceStatus.others] !== 0 &&others ) )
+  }, [properNounQty, sentenceStore.quantity[sentenceStatus.others]])
+  
   return (
     <Box
       width={240}
@@ -45,6 +51,7 @@ export const SentenceSideBar = () => {
             ];
 
           const properNoun = route === sentenceStatus.has_proper_noun;
+          const others = route == sentenceStatus.others
           return (
             <ListItemButton
               key={route}
@@ -64,8 +71,7 @@ export const SentenceSideBar = () => {
                 <Grid item xs={4} display="flex" justifyContent="end">
                   <Box
                     sx={{
-                      background:
-                        properNoun && properNounQty !== 0
+                      background:redLabel(properNoun, others)
                           ? "red"
                           : "transparent",
                       width: "19px",

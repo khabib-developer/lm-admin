@@ -1,5 +1,6 @@
 export enum sentenceStatus {
   new = "new",
+  others = "others",
   processing = "processing",
   has_proper_noun = "has_proper_noun",
   waiting = "done_waiting",
@@ -45,6 +46,7 @@ export interface ICreateDataset {
 }
 
 export interface IQuantity {
+  [sentenceStatus.others]: number;
   [sentenceStatus.new]: number;
   [sentenceStatus.has_proper_noun]: number;
   [sentenceStatus.processing]: number;
