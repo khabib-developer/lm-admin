@@ -134,9 +134,9 @@ export const SentenceModal = () => {
               <textarea
                 readOnly={
                   (sentence?.status !== sentenceStatus.new ||
-                  sentence.has_proper_noun) && sentence?.status !== sentenceStatus.other
+                  sentence.has_proper_noun) 
                 }
-                value={text}
+                value={text.replaceAll('<r>', '').replaceAll('</r>', '').replaceAll('<x>', '').replaceAll('</x>', '')}
                 onChange={(e) => setText(e.target.value)}
                 className="new__text"
                 style={{
