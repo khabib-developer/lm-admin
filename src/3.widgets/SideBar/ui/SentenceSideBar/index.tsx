@@ -74,8 +74,8 @@ export const SentenceSideBar = () => {
                       background:redLabel(properNoun, others)
                           ? "red"
                           : "transparent",
-                      width: "30px",
-                      height:"30px",
+                      width: "25px",
+                      height:"25px",
                       display:"flex",
                       alignItems:"center",
                       justifyContent:"center",
@@ -84,7 +84,7 @@ export const SentenceSideBar = () => {
                       overflow:'hidden',
                       textOverflow:"ellipsis",
                       whiteSpace:"nowrap",
-                      fontSize:"10px"
+                      fontSize:"11px"
 
                     }}
                   >
