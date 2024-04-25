@@ -39,7 +39,7 @@ export const HistoryList = (props: THistoryList) => {
       if (history) setHistory([...history, genesis]);
       setLoading(false);
     })(props.sentence.id);
-  }, [props.sentence.id]);
+  }, [props.sentence.id, props.text]);
 
   return (
     <Box
