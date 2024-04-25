@@ -85,7 +85,7 @@ export const SentenceModal = () => {
     if (sentence) {
       await updateSentenceItem(
         sentence.id,
-        sentence.status === sentenceStatus.new ? text : old_value,
+        sentence.status === sentenceStatus.new  || sentence.status === sentenceStatus.other ? text : old_value,
         text
       );
     }

@@ -9,6 +9,7 @@ export const useAuthHook = () => {
   const { connect } = useNotificationHook();
   const check = useCallback(async () => {
     try {
+      
 
       const user = await fetchData(
         `/auth/user/`,
