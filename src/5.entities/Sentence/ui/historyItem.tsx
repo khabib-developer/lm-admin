@@ -1,5 +1,5 @@
 import { Box, Chip, Divider, Grid, Paper, Typography } from "@mui/material";
-import { IHistory, statusOFHistoryItem } from "../types";
+import { IHistory, sentenceStatus, statusOFHistoryItem } from "../types";
 import { useSentenceHook } from "../hooks/sentence.hook";
 import dateFormat from "dateformat";
 import { useUsersStore } from "../../User";
@@ -11,7 +11,7 @@ type THistoryItem = {
 };
 
 export const HistoryItem = (props: THistoryItem) => {
-  const { VisualizeErrors } = useSentenceHook();
+  const { VisualizeErrors, getStatusFromURl } = useSentenceHook();
   const { setUserId } = useUsersStore();
   const handleClick = () =>
     props.history.user.id && setUserId(props.history.user.id);
@@ -82,7 +82,7 @@ export const HistoryItem = (props: THistoryItem) => {
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: VisualizeErrors(props.history.user_text),
+                __html: VisualizeErrors(props.history.user_text, getStatusFromURl === sentenceStatus.other),
               }}
             />
             <Box display="flex" gap={2} alignItems="center !important">

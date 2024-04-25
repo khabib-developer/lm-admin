@@ -66,7 +66,7 @@ export const SentenceItem = (props: IComponent) => {
         <Grid item xs={4} display="flex" alignItems="center" px={3}>
           <div
             dangerouslySetInnerHTML={{
-              __html: VisualizeErrors(props.sentence.new_value),
+              __html: VisualizeErrors(props.sentence.new_value, props.sentence.status === sentenceStatus.other),
             }}
           />
         </Grid>

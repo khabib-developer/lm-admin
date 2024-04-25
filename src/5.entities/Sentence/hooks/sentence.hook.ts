@@ -66,7 +66,8 @@ export const useSentenceHook = () => {
     }
   }, []);
 
-  const VisualizeErrors = useCallback((text: string) => {
+  const VisualizeErrors = useCallback((text: string, other?: boolean|undefined) => {
+    if(other) return text.replaceAll('<r>', '').replaceAll('</r>', '').replaceAll('<x>', '').replaceAll('</x>', '')
     return text;
   }, []);
 
