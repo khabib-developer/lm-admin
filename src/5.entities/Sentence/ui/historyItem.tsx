@@ -55,7 +55,7 @@ export const HistoryItem = (props: THistoryItem) => {
             sx={{ mx: "15px", height: 60, my: "5px" }}
           />
         </Grid>
-        <Grid item xs={11} display="flex" flexDirection="column">
+        <Grid item xs={8} display="flex" flexDirection="column">
           <Box
             height="30px"
             display="flex"
