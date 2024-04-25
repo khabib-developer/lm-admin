@@ -4,6 +4,7 @@ import { useSideBarHook } from "../../hooks/sideBar.hook";
 import {
   MessageTypes,
   SentenceRoutes,
+  roundBigNumbers,
   useAppStore,
 } from "../../../../6.shared";
 import { useNavigate } from "react-router-dom";
@@ -32,7 +33,6 @@ export const SentenceSideBar = () => {
   const redLabel = useCallback((properNoun: boolean, others: boolean) => {
       return ((properNoun && properNounQty !== 0) || (sentenceStore.quantity[sentenceStatus.other] !== 0 &&others ) )
   }, [properNounQty, sentenceStore.quantity[sentenceStatus.other]])
-  
   return (
     <Box
       width={240}
@@ -62,10 +62,10 @@ export const SentenceSideBar = () => {
               }}
             >
               <Grid container>
-                <Grid item xs={4} display="flex" justifyContent="start">
+                <Grid item xs={4} display="flex" justifyContent="start" alignItems='center'>
                   {properNoun ? "exceptions" : route}
                 </Grid>
-                <Grid item xs={4} display="flex" justifyContent="end">
+                <Grid item xs={4} display="flex" justifyContent="end" alignItems='center'>
                   -
                 </Grid>
                 <Grid item xs={4} display="flex" justifyContent="end">
@@ -74,12 +74,20 @@ export const SentenceSideBar = () => {
                       background:redLabel(properNoun, others)
                           ? "red"
                           : "transparent",
-                      width: "19px",
+                      width: "30px",
+                      height:"30px",
+                      display:"flex",
+                      alignItems:"center",
+                      justifyContent:"center",
                       textAlign: "center",
                       borderRadius: "50%",
+                      overflow:'hidden',
+                      textOverflow:"ellipsis",
+                      whiteSpace:"nowrap"
+
                     }}
                   >
-                    {properNoun ? properNounQty : qty}
+                    {roundBigNumbers(properNoun ? properNounQty : qty)}
                   </Box>
                 </Grid>
               </Grid>

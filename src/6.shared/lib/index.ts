@@ -28,3 +28,12 @@ export function downloadFile(url: string): void {
   anchor.click();
   document.body.removeChild(anchor);
 }
+
+
+export function roundBigNumbers(number: number) {
+  if(number > 999 && number < 999999) return String(Math.ceil(number / 100) / 10) + 'k'
+  else if(number > 999999 && number < 999999999) return String(Math.ceil(number / 100000) / 10) + 'm'
+  else if(number > 999999999) return String(Math.ceil(number / 100000000) / 10) + 'b'
+  else if(number <= 999) return number
+  else return "∞" 
+}
