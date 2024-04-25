@@ -329,7 +329,7 @@ export const SentenceModal = () => {
             </Box>
           )}
 
-          {sentence && <HistoryList sentence={sentence} />}
+          {sentence && <HistoryList sentence={sentence} text={text} />}
         </Box>
       </Dialog>
     </React.Fragment>
