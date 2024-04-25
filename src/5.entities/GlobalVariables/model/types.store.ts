@@ -32,7 +32,7 @@ export const globalVariablesKeys = {
   public_cheating_max: "Public cheating",
   sentence_blocked_time_minutes: "Sentence block time (m)",
   similar_ratio: "Similar",
-  similar_distance: "Distance",
+  // similar_distance: "Distance",
   balance: "Balance (sum)",
   phone_number: "Contact phone",
 };
