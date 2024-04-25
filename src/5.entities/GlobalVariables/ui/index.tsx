@@ -140,7 +140,7 @@ export const GlobalVariablesComponent = () => {
         {gbvariables &&
           Object.keys(globalVariablesKeys).map((key) => (
             <Box width="100%" display="flex" key={key}>
-              <Typography sx={{ width: "50%" }}>
+              <Typography sx={{ width: "50%", display:"flex", alignItems:"center" }}>
                 {globalVariablesKeys[key as keyof typeof globalVariablesKeys]}:
               </Typography>
               {key === "phone_number" ? (

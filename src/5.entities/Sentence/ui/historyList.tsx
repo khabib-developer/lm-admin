@@ -7,6 +7,7 @@ import { Box } from "@mui/material";
 import { LoadingHistory } from "../../../6.shared";
 type THistoryList = {
   sentence: ISentence;
+  text: string
 };
 
 export const HistoryList = (props: THistoryList) => {
@@ -24,11 +25,11 @@ export const HistoryList = (props: THistoryList) => {
         id: 0,
         username: "first version",
       },
-      user_text: props.sentence.old_value,
+      user_text: props.text,
       wrong: false,
       created_at: props.sentence.created_at,
     }),
-    [props.sentence]
+    [props.sentence, props.text]
   );
 
   useEffect(() => {
