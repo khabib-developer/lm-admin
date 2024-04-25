@@ -83,7 +83,8 @@ export const SentenceSideBar = () => {
                       borderRadius: "50%",
                       overflow:'hidden',
                       textOverflow:"ellipsis",
-                      whiteSpace:"nowrap"
+                      whiteSpace:"nowrap",
+                      fontSize:"10px"
 
                     }}
                   >
