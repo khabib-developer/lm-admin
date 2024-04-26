@@ -63,8 +63,8 @@ export interface IHistory {
     id: number;
     username: string;
   };
-  status: keyof typeof statusOFHistoryItem;
-  has_proper_noun: boolean;
+  status?: keyof typeof statusOFHistoryItem;
+  has_proper_noun?: boolean;
   user_text: string;
   created_at: string;
 }
@@ -99,4 +99,9 @@ export interface IProperNoun {
   index: number;
   errorValue?: boolean;
   errorBase?: boolean;
+}
+
+export interface IOtherWord {
+  id: number;
+  word: string;
 }

@@ -1,30 +1,22 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import {
   IProperNoun,
   ISentence,
   properNounClass,
   properNounStatus,
 } from "../types";
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useSentenceHook } from "../hooks/sentence.hook";
 import { useSentenceStore } from "../model/sentence.store";
 import { ProperNounItem } from "./properNounItem";
 const properNounRegex = /<u>[A-z'\d]+<\/u>/;
 interface IProps {
   sentence: ISentence;
-  text: string;
-  setText: Dispatch<SetStateAction<string>>;
 }
 
 export const PropserNounsSection = (props: IProps) => {
-  const { setProperNouns, properNouns } = useSentenceStore();
+  const { setProperNouns, properNouns, sentenceText, setSentenceText } =
+    useSentenceStore();
   const { getWordWithoutTags, handleProperNoun } = useSentenceHook();
 
   const pprNouns: IProperNoun[] = useMemo(
@@ -49,12 +41,12 @@ export const PropserNounsSection = (props: IProps) => {
   }, [pprNouns]);
 
   const handleReset = useCallback(() => {
-    props.setText(props.sentence.new_value);
+    setSentenceText(props.sentence.new_value);
     setProperNouns(pprNouns);
   }, [props.sentence]);
 
   const handleClick = (status: keyof typeof properNounStatus) =>
-    handleProperNoun(props.sentence.id, props.text, status, properNouns);
+    handleProperNoun(props.sentence.id, sentenceText, status, properNouns);
 
   const checkForActiveButton = useMemo(() => {
     const err = properNouns.find((item) => item.errorBase || item.errorValue);
@@ -73,10 +65,6 @@ export const PropserNounsSection = (props: IProps) => {
     };
   }, [properNouns]);
 
-  // useEffect(() => {
-  //   console.log(properNouns);
-  // }, [properNouns]);
-
   return (
     <Box px={6} pt={2}>
       <Box display="flex" flexDirection="column" gap={2}>
@@ -85,7 +73,6 @@ export const PropserNounsSection = (props: IProps) => {
             originalData={pprNouns}
             key={item.id}
             properNoun={item}
-            setText={props.setText}
           />
         ))}
       </Box>

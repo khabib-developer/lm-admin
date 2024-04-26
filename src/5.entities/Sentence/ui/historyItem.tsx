@@ -55,7 +55,7 @@ export const HistoryItem = (props: THistoryItem) => {
             sx={{ mx: "15px", height: 60, my: "5px" }}
           />
         </Grid>
-        <Grid item xs={8} display="flex" flexDirection="column">
+        <Grid item xs={10} display="flex" flexDirection="column">
           <Box
             height="30px"
             display="flex"
@@ -73,6 +73,7 @@ export const HistoryItem = (props: THistoryItem) => {
               bgcolor: "background.default",
               my: 1,
               px: 3,
+              py: 1,
               flex: 1,
               display: "flex",
               justifyContent: "space-between",
@@ -82,10 +83,20 @@ export const HistoryItem = (props: THistoryItem) => {
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: VisualizeErrors(props.history.user_text, getStatusFromURl === sentenceStatus.other),
+                __html: VisualizeErrors(
+                  props.history.user_text,
+                  getStatusFromURl === sentenceStatus.other
+                ),
               }}
+              className="history__item__text"
             />
-            <Box display="flex" gap={2} alignItems="center !important">
+            <Box
+              flex={1}
+              display="flex"
+              gap={2}
+              alignItems="center !important"
+              justifyContent="end"
+            >
               <Typography variant="overline">
                 {dateFormat(props.history.created_at, "mmmm dS, yyyy, hh:MM")}
               </Typography>

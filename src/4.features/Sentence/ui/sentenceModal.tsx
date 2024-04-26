@@ -24,6 +24,7 @@ import {
   PropserNounsSection,
   ISentence,
   WrongSentenceSection,
+  OtherWords,
 } from "../../../5.entities";
 import { useLocation } from "react-router-dom";
 
@@ -37,8 +38,14 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export const SentenceModal = () => {
-  const { sentenceId, setSentenceId, sentences, setDeleteSentenceId } =
-    useSentenceStore();
+  const {
+    sentenceId,
+    setSentenceId,
+    sentences,
+    setDeleteSentenceId,
+    sentenceText,
+    setSentenceText,
+  } = useSentenceStore();
 
   const sentence: ISentence | undefined = useMemo(
     () => sentences.find((sentence) => sentence.id === sentenceId),
@@ -49,7 +56,6 @@ export const SentenceModal = () => {
 
   useEffect(() => {
     if (sentence) {
-      setText(sentence.new_value);
       setOldValue(sentence.old_value);
       setActualNumber(sentence.actual_number);
     }
@@ -57,7 +63,6 @@ export const SentenceModal = () => {
 
   const { getStatusFromURl, updateSentenceItem } = useSentenceHook();
 
-  const [text, setText] = useState("");
   const [old_value, setOldValue] = useState("");
 
   const [actual_number, setActualNumber] = useState(0);
@@ -85,8 +90,11 @@ export const SentenceModal = () => {
     if (sentence) {
       await updateSentenceItem(
         sentence.id,
-        sentence.status === sentenceStatus.new  || sentence.status === sentenceStatus.other ? text : old_value,
-        text
+        sentence.status === sentenceStatus.new ||
+          sentence.status === sentenceStatus.other
+          ? sentenceText
+          : old_value,
+        sentenceText
       );
     }
   };
@@ -122,22 +130,16 @@ export const SentenceModal = () => {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Box
-          // sx={{
-          //   bgcolor: "background.default",
-          //   height: "-webkit-fill-available",
-          // }}
-          p={3}
-        >
+        <Box p={3}>
           <Grid container>
             <Grid item xs={6} px={3}>
               <textarea
                 readOnly={
-                  (sentence?.status !== sentenceStatus.new ||
-                  sentence.has_proper_noun) && sentence?.status !== sentenceStatus.other
+                  sentence?.status !== sentenceStatus.new ||
+                  sentence.has_proper_noun
                 }
-                value={text}
-                onChange={(e) => setText(e.target.value)}
+                value={sentenceText}
+                onChange={(e) => setSentenceText(e.target.value)}
                 className="new__text"
                 style={{
                   height: sentence?.is_mock ? "50px" : "",
@@ -300,23 +302,19 @@ export const SentenceModal = () => {
             </Grid>
           </Grid>
           {sentence && sentence?.has_proper_noun ? (
-            <PropserNounsSection
-              text={text}
-              sentence={sentence}
-              setText={setText}
-              key={sentence.id}
-            />
+            <PropserNounsSection sentence={sentence} key={sentence.id} />
           ) : sentence && sentence.status === sentenceStatus.wrong ? (
             <WrongSentenceSection id={sentence.id} />
           ) : (
             <Box display="flex" justifyContent="end" px={2} gap={2} pt={2}>
-              {(sentence?.status === sentenceStatus.new || sentence?.status === sentenceStatus.other) && (
+              {(sentence?.status === sentenceStatus.new ||
+                sentence?.status === sentenceStatus.other) && (
                 <Button onClick={handleUpdate} variant="contained">
                   Update
                 </Button>
               )}
               {(sentence?.status === sentenceStatus.done ||
-              sentence?.status === sentenceStatus.other ||
+                sentence?.status === sentenceStatus.other ||
                 sentence?.is_mock) && (
                 <Button
                   onClick={handleDelete}
@@ -328,8 +326,9 @@ export const SentenceModal = () => {
               )}
             </Box>
           )}
+          {sentence?.status === sentenceStatus.other && <OtherWords />}
 
-          {sentence && <HistoryList sentence={sentence} text={text} />}
+          {sentence && <HistoryList sentence={sentence} />}
         </Box>
       </Dialog>
     </React.Fragment>

@@ -66,11 +66,11 @@ r {
 }
 
 o {
-  color: rgb(255, 0, 0)
+  color: rgb(255, 0, 0);
 }
 
 x {
-  color: rgb(197, 197, 197)
+  color: rgb(197, 197, 197);
 }
 
 y {
@@ -95,6 +95,10 @@ y {
   100% {
     background-position: 0% 50%;
   }
+}
+
+.history__item__text {
+  width: 60%;
 }
 
 .MuiBadge-anchorOriginTopRight {

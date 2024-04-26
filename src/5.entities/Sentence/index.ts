@@ -10,3 +10,4 @@ export * from "./ui/deleteSentence";
 export * from "./ui/SearchSentence";
 export * from "./ui/properNouns";
 export * from "./ui/wrongSentenceSection";
+export * from "./ui/otherWords";

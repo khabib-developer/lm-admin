@@ -1,5 +1,6 @@
 import { sortTypeValues } from "../../../6.shared";
 import {
+  IOtherWord,
   IProperNoun,
   IQuantity,
   ISentence,
@@ -30,4 +31,8 @@ export interface ISentenceStore {
     key: T,
     value: ChangeProperNounValueType<T>
   ) => void;
+  otherWords: IOtherWord[];
+  changeOtherWords: (id: number, newValue: string) => void;
+  sentenceText: string;
+  setSentenceText: (sentenceText: string) => void;
 }

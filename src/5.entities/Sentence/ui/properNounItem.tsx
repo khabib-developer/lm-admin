@@ -8,22 +8,16 @@ import {
   TextField,
 } from "@mui/material";
 import { IProperNoun, properNounClass, properNounStatus } from "../types";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import { ChangeEvent, useCallback, useMemo } from "react";
 import { useSentenceStore } from "../model/sentence.store";
 interface IProps {
   properNoun: IProperNoun;
   originalData: IProperNoun[];
-  setText: Dispatch<SetStateAction<string>>;
+  // setText: Dispatch<SetStateAction<string>>;
 }
 export const ProperNounItem = (props: IProps) => {
-  const { changeProperNoun } = useSentenceStore();
+  const { changeProperNoun, setSentenceText, sentenceText } =
+    useSentenceStore();
 
   const handleChangeClass = (event: SelectChangeEvent) => {
     const key = "class";
@@ -64,8 +58,13 @@ export const ProperNounItem = (props: IProps) => {
     if (inputValue.includes(" ")) return;
 
     const sanitizedValue = inputValue
-      .replace(/^(.)/, (match) => match.toUpperCase())
-      .replace(/[^A-Za-z']/g, "");
+      // .replace(/[^A-Za-z'\d]/g, "")
+      .replace(/'{2,}/g, "'")
+      .replace(/,{2,}/g, ",")
+      .replace(/\.{2,}/g, ".")
+      .replace(/!{2,}/g, "!")
+      .replace(/\?{2,}/g, "?");
+    // .replace(/"{2,}/g, "'");
 
     const bool =
       key === value
@@ -76,8 +75,8 @@ export const ProperNounItem = (props: IProps) => {
     changeProperNoun<typeof errorValue>(props.properNoun.id, errorValue, !bool);
 
     if (key === value) {
-      props.setText((prev) =>
-        prev
+      setSentenceText(
+        sentenceText
           .split(" ")
           .map((word, index) =>
             index === props.properNoun.index ? `<u>${sanitizedValue}</u>` : word
