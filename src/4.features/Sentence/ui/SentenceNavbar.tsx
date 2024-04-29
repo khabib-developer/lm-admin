@@ -24,12 +24,12 @@ export const SentenceNavbar = () => {
         item
         justifyContent={"end"}
         alignItems={"end"}
-        display='flex'
+        display="flex"
         gap={3}
       >
-          <SearchSentence />
-          <SortSentences />
-          <ExportSentenses />
+        <SearchSentence />
+        <SortSentences />
+        <ExportSentenses />
       </Grid>
     </Grid>
   );

@@ -99,6 +99,7 @@ y {
 
 .history__item__text {
   width: 60%;
+  overflow-x: auto;
 }
 
 .MuiBadge-anchorOriginTopRight {

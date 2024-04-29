@@ -1,8 +1,8 @@
 import { TextField } from "@mui/material";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-export const SearchSentence = () => {
+export const SearchSentence = memo(() => {
   const location = useLocation();
 
   const [value, setValue] = useState("");
@@ -31,11 +31,11 @@ export const SearchSentence = () => {
 
   return (
     <TextField
-    sx={{flex:1}}
+      sx={{ flex: 1 }}
       value={value}
       onChange={handleChange}
       variant="standard"
       placeholder="Search sentence"
     />
   );
-};
+});
