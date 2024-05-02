@@ -15,20 +15,24 @@ import { useAppStore } from "../../../6.shared";
 export const Header = () => {
   const headerHooks = useHeaderHook();
   const { notifications } = useAppStore();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <AppBar position="relative" sx={{ background: "background.paper" }}>
       <Toolbar>
         <Typography
           variant="h6"
           component="div"
-          sx={{ flexGrow: 1, display: { xs: "none", sm: "block" }, cursor:'pointer' }}
-          onClick={() => navigate('/')}
+          sx={{
+            flexGrow: 1,
+            display: { xs: "none", sm: "block" },
+            cursor: "pointer",
+          }}
+          onClick={() => navigate("/")}
         >
           Admin Panel
         </Typography>
         <Box display="flex" gap={3} alignItems="center">
-          {navItems.map((item) => (
+          {navItems.map((item, i) => (
             <Link
               key={item.url}
               to={item.url}

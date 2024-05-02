@@ -11,6 +11,7 @@ import {
 import React, { useState } from "react";
 import { useSentenceHook } from "../hooks/sentence.hook";
 import { ICreateDataset } from "../types";
+import { useAppStore } from "../../../6.shared";
 
 export const CreateSentence = () => {
   const [open, setOpen] = useState(false);
@@ -20,6 +21,8 @@ export const CreateSentence = () => {
   const [text, setText] = useState("");
 
   const [correct, setCorrect] = useState("");
+
+  const { loading } = useAppStore();
 
   const hooks: ReturnType<typeof useSentenceHook> = useSentenceHook();
 
@@ -93,10 +96,10 @@ export const CreateSentence = () => {
           </Box>
         </DialogContent>
         <DialogActions sx={{ px: 2, bgcolor: "background.default" }}>
-          <Button onClick={handleClose} color="info">
+          <Button disabled={loading} onClick={handleClose} color="info">
             Close
           </Button>
-          <Button onClick={handleSubmit} color="info">
+          <Button disabled={loading} onClick={handleSubmit} color="info">
             Create
           </Button>
         </DialogActions>
